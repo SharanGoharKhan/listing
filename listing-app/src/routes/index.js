@@ -74,6 +74,9 @@ function AccountTabs() {
                 BackButton({ iconColor: colors.headerText, icon: 'leftArrow' }),
         }}>
             <HomeStack.Screen name='MainAccount' component={AccountScreens.MainAccount} options={{ title: 'My Account' }} />
+            <HomeStack.Screen name='Help' component={AccountScreens.Help} options={{ title: 'Help and Support' }} />
+            <HomeStack.Screen name='Packages' component={AccountScreens.Packages} options={{ title: 'Buy Packages & My Orders' }} />
+            <HomeStack.Screen name='Settings' component={AccountScreens.Settings} />
         </HomeStack.Navigator>
     )
 }
