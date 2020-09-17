@@ -2,6 +2,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { HomeScreens, AccountScreens, AddScreens, SellScreens, ChatScreens } from '../screens'
 import { alignment, colors, scale, textStyles } from '../utilities';
 import { StyleSheet, Text, View } from 'react-native';
@@ -16,6 +17,28 @@ const AccountStack = createStackNavigator()
 const ChatStack = createStackNavigator()
 const AddStack = createStackNavigator()
 const SellStack = createStackNavigator()
+const TOP = createMaterialTopTabNavigator()
+
+function NetworkTabs() {
+    return (
+        <TOP.Navigator initialRouteName='Followers'
+            tabBarOptions={{
+                activeTintColor: colors.fontMainColor,
+                inactiveTintColor: colors.fontSecondColor,
+                style: {
+                    backgroundColor: colors.headerbackground
+                },
+                indicatorStyle: {
+                    backgroundColor: colors.buttonbackground,
+                    height: scale(2)
+                }
+            }}
+        >
+            <TOP.Screen name='Followers' component={AccountScreens.Followers} />
+            <TOP.Screen name='Following' component={AccountScreens.Following} />
+        </TOP.Navigator>
+    )
+}
 
 function HomeTabs() {
     return (
@@ -77,6 +100,11 @@ function AccountTabs() {
             <HomeStack.Screen name='Help' component={AccountScreens.Help} options={{ title: 'Help and Support' }} />
             <HomeStack.Screen name='Packages' component={AccountScreens.Packages} options={{ title: 'Buy Packages & My Orders' }} />
             <HomeStack.Screen name='Settings' component={AccountScreens.Settings} />
+            <HomeStack.Screen name='Network' component={NetworkTabs} options={{
+                headerStyle: {
+                    backgroundColor: colors.headerbackground,
+                },
+            }} />
         </HomeStack.Navigator>
     )
 }
