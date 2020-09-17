@@ -30,7 +30,7 @@ function MainAccount() {
                     </TouchableOpacity>
                 </View>
             </View>
-            <TouchableOpacity style={styles.smallContainer}>
+            <TouchableOpacity style={styles.smallContainer} onPress={() => navigation.navigate('Network')}>
                 <FontAwesome5 name="users" size={scale(20)} color={colors.buttonbackground} />
                 <View style={[styles.flex]}>
                     <TextDefault bold H5 style={alignment.PLlarge}>
@@ -42,7 +42,7 @@ function MainAccount() {
                 </View>
                 <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer} onPress={()=>navigation.navigate('Packages')}>
+            <TouchableOpacity style={styles.smallContainer} onPress={() => navigation.navigate('Packages')}>
                 <AntDesign name="creditcard" size={scale(22)} color={colors.buttonbackground} />
                 <View style={[styles.flex]}>
                     <TextDefault bold H5 style={alignment.PLlarge}>
