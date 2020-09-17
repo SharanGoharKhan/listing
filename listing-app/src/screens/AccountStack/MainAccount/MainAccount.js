@@ -1,4 +1,5 @@
 import { AntDesign, Entypo, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import { TextDefault } from '../../../components';
@@ -6,7 +7,7 @@ import { alignment, colors, scale } from '../../../utilities';
 import styles from './styles';
 
 function MainAccount() {
-
+    const navigation = useNavigation()
     return (
         <View style={[styles.flex, styles.container]}>
             <View style={styles.profileContainer}>
@@ -41,7 +42,7 @@ function MainAccount() {
                 </View>
                 <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer}>
+            <TouchableOpacity style={styles.smallContainer} onPress={()=>navigation.navigate('Packages')}>
                 <AntDesign name="creditcard" size={scale(22)} color={colors.buttonbackground} />
                 <View style={[styles.flex]}>
                     <TextDefault bold H5 style={alignment.PLlarge}>
@@ -53,7 +54,7 @@ function MainAccount() {
                 </View>
                 <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer}>
+            <TouchableOpacity style={styles.smallContainer} onPress={() => navigation.navigate('Settings')}>
                 <AntDesign name="setting" size={scale(22)} color={colors.buttonbackground} />
                 <View style={[styles.flex]}>
                     <TextDefault bold H5 style={alignment.PLlarge}>
@@ -65,7 +66,7 @@ function MainAccount() {
                 </View>
                 <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer}>
+            <TouchableOpacity style={styles.smallContainer} onPress={() => navigation.navigate('Help')}>
                 <Ionicons name="ios-help-circle-outline" size={scale(22)} color={colors.buttonbackground} />
                 <View style={[styles.flex]}>
                     <TextDefault bold H5 style={alignment.PLlarge}>
