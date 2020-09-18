@@ -17,11 +17,13 @@ const AccountStack = createStackNavigator()
 const ChatStack = createStackNavigator()
 const AddStack = createStackNavigator()
 const SellStack = createStackNavigator()
-const TOP = createMaterialTopTabNavigator()
+const AccountTOP = createMaterialTopTabNavigator()
+const ChatTOP = createMaterialTopTabNavigator()
+const AdsTOP = createMaterialTopTabNavigator()
 
 function NetworkTabs() {
     return (
-        <TOP.Navigator initialRouteName='Followers'
+        <AccountTOP.Navigator initialRouteName='Followers'
             tabBarOptions={{
                 activeTintColor: colors.fontMainColor,
                 inactiveTintColor: colors.fontSecondColor,
@@ -34,9 +36,52 @@ function NetworkTabs() {
                 }
             }}
         >
-            <TOP.Screen name='Followers' component={AccountScreens.Followers} />
-            <TOP.Screen name='Following' component={AccountScreens.Following} />
-        </TOP.Navigator>
+            <AccountTOP.Screen name='Followers' component={AccountScreens.Followers} />
+            <AccountTOP.Screen name='Following' component={AccountScreens.Following} />
+        </AccountTOP.Navigator>
+    )
+}
+
+function AdsTabs() {
+    return (
+        <AdsTOP.Navigator initialRouteName='Ads'
+            tabBarOptions={{
+                activeTintColor: colors.fontMainColor,
+                inactiveTintColor: colors.fontSecondColor,
+                style: {
+                    backgroundColor: colors.headerbackground
+                },
+                indicatorStyle: {
+                    backgroundColor: colors.buttonbackground,
+                    height: scale(2)
+                }
+            }}
+        >
+            <AdsTOP.Screen name='Ads' component={AddScreens.Ads} />
+            <AdsTOP.Screen name='Favourite' component={AddScreens.Favourite} />
+        </AdsTOP.Navigator>
+    )
+}
+
+function InboxTabs() {
+    return (
+        <ChatTOP.Navigator initialRouteName='All'
+            tabBarOptions={{
+                activeTintColor: colors.fontMainColor,
+                inactiveTintColor: colors.fontSecondColor,
+                style: {
+                    backgroundColor: colors.headerbackground
+                },
+                indicatorStyle: {
+                    backgroundColor: colors.buttonbackground,
+                    height: scale(2)
+                }
+            }}
+        >
+            <ChatTOP.Screen name='All' component={ChatScreens.All} />
+            <ChatTOP.Screen name='Buying' component={ChatScreens.Buying} />
+            <ChatTOP.Screen name='Selling' component={ChatScreens.Selling} />
+        </ChatTOP.Navigator>
     )
 }
 
@@ -56,22 +101,73 @@ function HomeTabs() {
 }
 function ChatTabs() {
     return (
-        <HomeStack.Navigator initialRouteName='Home'>
-            <HomeStack.Screen name='Home' component={ChatScreens.MainChat} />
+        <HomeStack.Navigator initialRouteName='MainChat'>
+            <HomeStack.Screen name='MainChat' component={InboxTabs} options={{
+                title: 'Inbox',
+                headerStyle: {
+                    backgroundColor: colors.headerbackground,
+                },
+            }} />
         </HomeStack.Navigator>
     )
 }
 function SellTabs() {
     return (
-        <HomeStack.Navigator initialRouteName='Home'>
+        <HomeStack.Navigator initialRouteName='Home' screenOptions={{
+            headerTitleAlign: 'center',
+            headerBackTitleVisible: false,
+            headerStyle: {
+                backgroundColor: colors.headerbackground,
+                borderBottomColor: colors.horizontalLine,
+                borderBottomWidth: StyleSheet.hairlineWidth,
+            },
+            headerTitleContainerStyle: {
+                // backgroundColor: "blue",
+                marginLeft: scale(45)
+            },
+            headerTitleStyle: {
+                color: colors.headerText,
+                ...textStyles.H3,
+                ...textStyles.Bold
+            },
+            headerBackImage: () =>
+                BackButton({ iconColor: colors.headerText, icon: 'leftArrow' }),
+        }}>
             <HomeStack.Screen name='Home' component={SellScreens.MainSell} />
+            <HomeStack.Screen name='Categories' component={SellScreens.Categories} options={{ title: 'Choose a category' }} />
+            <HomeStack.Screen name='SubCategories' component={SellScreens.SubCategories} />
+            <HomeStack.Screen name='SellingForm' component={SellScreens.SellingFrom} options={{title:'Include some details'}}/>
         </HomeStack.Navigator>
     )
 }
 function AddTabs() {
     return (
-        <HomeStack.Navigator initialRouteName='Home'>
-            <HomeStack.Screen name='Home' component={AddScreens.MainAdd} />
+        <HomeStack.Navigator initialRouteName='MainAds' screenOptions={{
+            headerTitleAlign: 'center',
+            headerBackTitleVisible: false,
+            headerStyle: {
+                backgroundColor: colors.headerbackground,
+                borderBottomColor: colors.horizontalLine,
+                borderBottomWidth: StyleSheet.hairlineWidth,
+            },
+            headerTitleContainerStyle: {
+                // backgroundColor: "blue",
+                marginLeft: scale(45)
+            },
+            headerTitleStyle: {
+                color: colors.headerText,
+                ...textStyles.H3,
+                ...textStyles.Bold
+            },
+            headerBackImage: () =>
+                BackButton({ iconColor: colors.headerText, icon: 'leftArrow' }),
+        }}>
+            <HomeStack.Screen name='MainAds' component={AdsTabs} options={{
+                title: 'MY ADS',
+                headerStyle: {
+                    backgroundColor: colors.headerbackground,
+                },
+            }} />
         </HomeStack.Navigator>
     )
 }
@@ -87,6 +183,7 @@ function AccountTabs() {
             },
             headerTitleContainerStyle: {
                 // backgroundColor: "blue",
+                marginLeft: scale(45)
             },
             headerTitleStyle: {
                 color: colors.headerText,
@@ -117,7 +214,7 @@ function BottomTabs() {
             <Tabs.Screen name='Home' component={HomeTabs} />
             <Tabs.Screen name='Chat' component={ChatTabs} />
             <Tabs.Screen name='Sell' component={SellTabs} />
-            <Tabs.Screen name='Add' component={AddTabs} options={{ title: 'My Adds' }} />
+            <Tabs.Screen name='Add' component={AddTabs} />
             <Tabs.Screen name='Account' component={AccountTabs} />
         </Tabs.Navigator >
     )

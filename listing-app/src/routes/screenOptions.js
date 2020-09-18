@@ -16,6 +16,7 @@ function HomeStackOptions() {
         },
         headerTitleContainerStyle: {
             // backgroundColor: "blue",
+            marginLeft: scale(45)
         },
         headerTitleStyle: {
             color: colors.headerText,
@@ -31,7 +32,7 @@ function tabOptions() {
     return ({
         activeTintColor: colors.buttonbackground,
         inactiveTintColor: colors.fontSecondColor,
-        keyboardHidesTabBar: false,
+        keyboardHidesTabBar: true,
         tabStyle: {
             backgroundColor: colors.bottomTabColor,
             justifyContent: "center",
