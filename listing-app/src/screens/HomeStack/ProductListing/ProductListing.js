@@ -78,6 +78,7 @@ function ProductListing() {
                 contentContainerStyle={{ flexGrow: 1 }}
                 ListHeaderComponent={headerView}
                 ItemSeparatorComponent={() => <View style={styles.spacer} />}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <ProductCard {...item} />
                 )}
