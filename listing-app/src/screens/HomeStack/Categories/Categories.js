@@ -6,6 +6,7 @@ import { TextDefault } from '../../../components';
 import { alignment, colors, scale } from '../../../utilities';
 import styles from './styles';
 
+const COLORS = ['#ffd54d', '#6df8f3', '#ff7a7a', '#d5b09f', '#eccbcb']
 
 const category = [
     { id: '0', title: 'Mobiles', image: require('../../../assets/icons/categoryIcon/mobile.png') },
@@ -16,7 +17,6 @@ const category = [
     { id: '5', title: 'Electronics', image: require('../../../assets/icons/categoryIcon/monitor.png') },
     { id: '6', title: 'Bikes', image: require('../../../assets/icons/categoryIcon/motorcycle.png') },
     { id: '7', title: 'Jobs', image: require('../../../assets/icons/categoryIcon/work.png') },
-
 ]
 
 function Categories() {
@@ -45,13 +45,13 @@ function Categories() {
                 ListEmptyComponent={emptyView}
                 showsHorizontalScrollIndicator={false}
                 ItemSeparatorComponent={() => <View style={styles.spacer} />}
-                renderItem={({ item }) => (
+                renderItem={({ item, index }) => (
                     <TouchableOpacity
                         activeOpacity={0.5}
                         style={styles.categoryRow}
                         onPress={() => navigation.navigate('SubCategories', { headerTitle: item.title })}>
                         <View style={styles.rowContainer}>
-                            <View style={styles.image}>
+                            <View style={[styles.image, { backgroundColor: COLORS[index % 5] }]}>
                                 <Image
                                     style={styles.imgResponsive}
                                     source={item.image}

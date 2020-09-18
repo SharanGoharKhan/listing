@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
     image: {
         width: scale(36),
         height: scale(36),
-        backgroundColor: colors.containerBox,
         borderRadius: scale(18),
         padding: scale(7)
     },
