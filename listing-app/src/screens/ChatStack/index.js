@@ -1,3 +1,5 @@
-import MainChat from './MainChat/MainChat'
+import All from './MainChat/All/All'
+import Buying from './MainChat/Buying/Buying';
+import Selling from "./MainChat/Selling/Selling";
 
-export { MainChat }
+export { All, Buying, Selling }
