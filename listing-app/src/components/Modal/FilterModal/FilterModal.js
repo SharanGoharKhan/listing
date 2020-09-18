@@ -48,6 +48,7 @@ const SORT = [
 ]
 
 function FilterModal(props) {
+    const inset = useSafeAreaInsets()
     const [priceSliderValue, setPriceSliderValue] = useState([0, 50000])
     const [condition, setCondition] = useState(CONDITIONS[0].value)
     const [sort, setSort] = useState(SORT[0].value)
@@ -62,7 +63,10 @@ function FilterModal(props) {
             transparent={true}
             visible={props.visible}
         >
-            <View style={[styles.safeAreaViewStyles, styles.flex]}>
+            <View style={[
+                styles.safeAreaViewStyles,
+                styles.flex,
+                { paddingTop: inset.top, paddingBottom: inset.bottom }]}>
                 <View style={[styles.flex, styles.mainContainer]}>
                     <ModalHeader closeModal={props.onModalToggle} title={'Filter'} />
                     <View style={styles.headerContents}>

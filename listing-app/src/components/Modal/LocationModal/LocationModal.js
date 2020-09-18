@@ -10,6 +10,7 @@ import styles from './styles';
 const STATE = ['All in Pakistan', 'Azad Kashmir', 'Balochistan', 'Islamabad Capital territory', 'Khybar Pakhtunkha', 'Northen Area', 'Punjab', 'Sindh']
 
 function LocationModal(props) {
+    const inset = useSafeAreaInsets()
     const loading = false
     return (
         <Modal
@@ -17,7 +18,10 @@ function LocationModal(props) {
             transparent={true}
             visible={props.visible}
         >
-            <View style={[styles.safeAreaViewStyles, styles.flex]}>
+            <View style={[
+                styles.safeAreaViewStyles,
+                styles.flex,
+                { paddingTop: inset.top, paddingBottom: inset.bottom }]}>
                 <View style={[styles.flex, styles.mainContainer]}>
                     <ModalHeader closeModal={props.onModalToggle} title={'Location'} />
                     <View style={styles.body}>

@@ -10,6 +10,7 @@ import styles from './styles';
 const CATEGORY = ['Mobile', 'Vehicle', 'Property for sale']
 
 function SearchModal(props) {
+    const inset = useSafeAreaInsets()
     const navigation = useNavigation()
 
     function navigate() {
@@ -77,7 +78,10 @@ function SearchModal(props) {
             transparent={true}
             visible={props.visible}
         >
-            <View style={[styles.safeAreaViewStyles, styles.flex]}>
+            <View style={[
+                styles.safeAreaViewStyles,
+                styles.flex,
+                { paddingTop: inset.top, paddingBottom: inset.bottom }]}>
                 <View style={[styles.flex, styles.mainContainer]}>
                     {header()}
                     <View style={styles.body}>
