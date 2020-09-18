@@ -1,3 +1,4 @@
-import MainAdd from './MainAdd/Mainadd'
+import Ads from "./MainAdd/Ads/Ads";
+import Favourite from './MainAdd/Favourite/Favourite';
 
-export { MainAdd }
+export { Ads, Favourite }
