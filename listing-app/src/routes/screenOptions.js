@@ -5,7 +5,7 @@ import { BackButton } from '../components'
 import { StyleSheet } from 'react-native'
 
 
-function HomeStackOptions() {
+function StackOptions() {
     return ({
         headerTitleAlign: 'center',
         headerBackTitleVisible: false,
@@ -15,7 +15,6 @@ function HomeStackOptions() {
             borderBottomWidth: StyleSheet.hairlineWidth,
         },
         headerTitleContainerStyle: {
-            // backgroundColor: "blue",
             marginLeft: scale(45)
         },
         headerTitleStyle: {
@@ -25,6 +24,20 @@ function HomeStackOptions() {
         },
         headerBackImage: () =>
             BackButton({ iconColor: colors.headerText, icon: 'leftArrow' }),
+    })
+}
+
+function TopBarOptions() {
+    return ({
+        activeTintColor: colors.fontMainColor,
+        inactiveTintColor: colors.fontSecondColor,
+        style: {
+            backgroundColor: colors.headerbackground
+        },
+        indicatorStyle: {
+            backgroundColor: colors.buttonbackground,
+            height: scale(2)
+        }
     })
 }
 
@@ -40,7 +53,6 @@ function tabOptions() {
         },
         labelStyle: {
             ...textStyles.Bold,
-            // ...textStyles.Small,
             ...textStyles.UpperCase,
             justifyContent: "center",
 
@@ -76,4 +88,4 @@ function tabIcon(route) {
     })
 }
 
-export { tabOptions, tabIcon, HomeStackOptions }
+export { tabOptions, tabIcon, TopBarOptions, StackOptions }

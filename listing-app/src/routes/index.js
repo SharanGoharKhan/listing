@@ -7,7 +7,7 @@ import { HomeScreens, AccountScreens, AddScreens, SellScreens, ChatScreens } fro
 import { alignment, colors, scale, textStyles } from '../utilities';
 import { StyleSheet, Text, View } from 'react-native';
 import { SimpleLineIcons, Fontisto, MaterialCommunityIcons, Ionicons, FontAwesome5, AntDesign } from '@expo/vector-icons'
-import { HomeStackOptions, tabIcon, tabOptions } from './screenOptions';
+import { StackOptions, tabIcon, tabOptions, TopBarOptions } from './screenOptions';
 import { BackButton } from '../components';
 
 const Tabs = createBottomTabNavigator()
@@ -23,19 +23,7 @@ const AdsTOP = createMaterialTopTabNavigator()
 
 function NetworkTabs() {
     return (
-        <AccountTOP.Navigator initialRouteName='Followers'
-            tabBarOptions={{
-                activeTintColor: colors.fontMainColor,
-                inactiveTintColor: colors.fontSecondColor,
-                style: {
-                    backgroundColor: colors.headerbackground
-                },
-                indicatorStyle: {
-                    backgroundColor: colors.buttonbackground,
-                    height: scale(2)
-                }
-            }}
-        >
+        <AccountTOP.Navigator initialRouteName='Followers' tabBarOptions={TopBarOptions()}>
             <AccountTOP.Screen name='Followers' component={AccountScreens.Followers} />
             <AccountTOP.Screen name='Following' component={AccountScreens.Following} />
         </AccountTOP.Navigator>
@@ -44,19 +32,7 @@ function NetworkTabs() {
 
 function AdsTabs() {
     return (
-        <AdsTOP.Navigator initialRouteName='Ads'
-            tabBarOptions={{
-                activeTintColor: colors.fontMainColor,
-                inactiveTintColor: colors.fontSecondColor,
-                style: {
-                    backgroundColor: colors.headerbackground
-                },
-                indicatorStyle: {
-                    backgroundColor: colors.buttonbackground,
-                    height: scale(2)
-                }
-            }}
-        >
+        <AdsTOP.Navigator initialRouteName='Ads' tabBarOptions={TopBarOptions()}>
             <AdsTOP.Screen name='Ads' component={AddScreens.Ads} />
             <AdsTOP.Screen name='Favourite' component={AddScreens.Favourite} />
         </AdsTOP.Navigator>
@@ -66,17 +42,7 @@ function AdsTabs() {
 function InboxTabs() {
     return (
         <ChatTOP.Navigator initialRouteName='All'
-            tabBarOptions={{
-                activeTintColor: colors.fontMainColor,
-                inactiveTintColor: colors.fontSecondColor,
-                style: {
-                    backgroundColor: colors.headerbackground
-                },
-                indicatorStyle: {
-                    backgroundColor: colors.buttonbackground,
-                    height: scale(2)
-                }
-            }}
+            tabBarOptions={TopBarOptions()}
         >
             <ChatTOP.Screen name='All' component={ChatScreens.All} />
             <ChatTOP.Screen name='Buying' component={ChatScreens.Buying} />
@@ -87,8 +53,7 @@ function InboxTabs() {
 
 function HomeTabs() {
     return (
-        <HomeStack.Navigator initialRouteName='Main' headerMode='screen'
-            screenOptions={HomeStackOptions()}>
+        <HomeStack.Navigator initialRouteName='Main' headerMode='screen' screenOptions={StackOptions()}>
             {/* Home Screen */}
             <HomeStack.Screen name='Main' component={HomeScreens.MainHome} />
             <HomeStack.Screen name='Categories' component={HomeScreens.Categories} />
@@ -101,108 +66,51 @@ function HomeTabs() {
 }
 function ChatTabs() {
     return (
-        <HomeStack.Navigator initialRouteName='MainChat'>
-            <HomeStack.Screen name='MainChat' component={InboxTabs} options={{
+        <ChatStack.Navigator initialRouteName='MainChat'>
+            <ChatStack.Screen name='MainChat' component={InboxTabs} options={{
                 title: 'Inbox',
                 headerStyle: {
                     backgroundColor: colors.headerbackground,
                 },
             }} />
-        </HomeStack.Navigator>
+        </ChatStack.Navigator>
     )
 }
 function SellTabs() {
     return (
-        <HomeStack.Navigator initialRouteName='Home' screenOptions={{
-            headerTitleAlign: 'center',
-            headerBackTitleVisible: false,
-            headerStyle: {
-                backgroundColor: colors.headerbackground,
-                borderBottomColor: colors.horizontalLine,
-                borderBottomWidth: StyleSheet.hairlineWidth,
-            },
-            headerTitleContainerStyle: {
-                // backgroundColor: "blue",
-                marginLeft: scale(45)
-            },
-            headerTitleStyle: {
-                color: colors.headerText,
-                ...textStyles.H3,
-                ...textStyles.Bold
-            },
-            headerBackImage: () =>
-                BackButton({ iconColor: colors.headerText, icon: 'leftArrow' }),
-        }}>
-            <HomeStack.Screen name='Home' component={SellScreens.MainSell} />
-            <HomeStack.Screen name='Categories' component={SellScreens.Categories} options={{ title: 'Choose a category' }} />
-            <HomeStack.Screen name='SubCategories' component={SellScreens.SubCategories} />
-            <HomeStack.Screen name='SellingForm' component={SellScreens.SellingFrom} options={{title:'Include some details'}}/>
-        </HomeStack.Navigator>
+        <SellStack.Navigator initialRouteName='Home' screenOptions={StackOptions()}>
+            <SellStack.Screen name='Home' component={SellScreens.MainSell} />
+            <SellStack.Screen name='Categories' component={SellScreens.Categories} options={{ title: 'Choose a category' }} />
+            <SellStack.Screen name='SubCategories' component={SellScreens.SubCategories} />
+            <SellStack.Screen name='SellingForm' component={SellScreens.SellingFrom} options={{ title: 'Include some details' }} />
+        </SellStack.Navigator>
     )
 }
 function AddTabs() {
     return (
-        <HomeStack.Navigator initialRouteName='MainAds' screenOptions={{
-            headerTitleAlign: 'center',
-            headerBackTitleVisible: false,
-            headerStyle: {
-                backgroundColor: colors.headerbackground,
-                borderBottomColor: colors.horizontalLine,
-                borderBottomWidth: StyleSheet.hairlineWidth,
-            },
-            headerTitleContainerStyle: {
-                // backgroundColor: "blue",
-                marginLeft: scale(45)
-            },
-            headerTitleStyle: {
-                color: colors.headerText,
-                ...textStyles.H3,
-                ...textStyles.Bold
-            },
-            headerBackImage: () =>
-                BackButton({ iconColor: colors.headerText, icon: 'leftArrow' }),
-        }}>
-            <HomeStack.Screen name='MainAds' component={AdsTabs} options={{
+        <AddStack.Navigator initialRouteName='MainAds' screenOptions={StackOptions()}>
+            <AddStack.Screen name='MainAds' component={AdsTabs} options={{
                 title: 'MY ADS',
                 headerStyle: {
                     backgroundColor: colors.headerbackground,
                 },
             }} />
-        </HomeStack.Navigator>
+        </AddStack.Navigator>
     )
 }
 function AccountTabs() {
     return (
-        <HomeStack.Navigator initialRouteName='MainAccount' headerMode='screen' screenOptions={{
-            headerTitleAlign: 'center',
-            headerBackTitleVisible: false,
-            headerStyle: {
-                backgroundColor: colors.headerbackground,
-                borderBottomColor: colors.horizontalLine,
-                borderBottomWidth: StyleSheet.hairlineWidth,
-            },
-            headerTitleContainerStyle: {
-                // backgroundColor: "blue",
-                marginLeft: scale(45)
-            },
-            headerTitleStyle: {
-                color: colors.headerText,
-                ...textStyles.H3,
-                ...textStyles.Bold
-            },
-            headerBackImage: () =>
-                BackButton({ iconColor: colors.headerText, icon: 'leftArrow' }),
-        }}>
-            <HomeStack.Screen name='MainAccount' component={AccountScreens.MainAccount} options={{ title: 'My Account' }} />
-            <HomeStack.Screen name='Help' component={AccountScreens.Help} options={{ title: 'Help and Support' }} />
-            <HomeStack.Screen name='Packages' component={AccountScreens.Packages} options={{ title: 'Buy Packages & My Orders' }} />
-            <HomeStack.Screen name='Settings' component={AccountScreens.Settings} />
-            <HomeStack.Screen name='Network' component={NetworkTabs} options={{
+        <AccountStack.Navigator initialRouteName='MainAccount' headerMode='screen' screenOptions={StackOptions()}>
+            <AccountStack.Screen name='MainAccount' component={AccountScreens.MainAccount} options={{ title: 'My Account' }} />
+            <AccountStack.Screen name='Help' component={AccountScreens.Help} options={{ title: 'Help and Support' }} />
+            <AccountStack.Screen name='Packages' component={AccountScreens.Packages} options={{ title: 'Buy Packages & My Orders' }} />
+            <AccountStack.Screen name='Settings' component={AccountScreens.Settings} />
+            <AccountStack.Screen name='Network' component={NetworkTabs} options={{
                 headerStyle: {
                     backgroundColor: colors.headerbackground,
                 },
             }} />
-        </HomeStack.Navigator>
+        </AccountStack.Navigator>
     )
 }
 
