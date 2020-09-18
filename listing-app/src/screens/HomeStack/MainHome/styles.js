@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     iconContainer: {
         width: scale(40),
         height: scale(40),
-        backgroundColor: colors.containerTheme,
         borderRadius: scale(20),
         padding:scale(8)
     },

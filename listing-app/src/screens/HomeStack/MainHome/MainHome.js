@@ -8,6 +8,9 @@ import { alignment, colors } from '../../../utilities';
 import Card from './Card/Card';
 import styles from './styles';
 
+
+const COLORS = ['#ffd54d', '#6df8f3', '#ff7a7a', '#d5b09f', '#eccbcb']
+
 const category = [
   { id: '0', title: 'Mobiles', image: require('../../../assets/icons/categoryIcon/mobile.png') },
   { id: '1', title: 'Vehicles', image: require('../../../assets/icons/categoryIcon/car.png') },
@@ -103,13 +106,13 @@ function MainHome() {
             contentContainerStyle={styles.categoryContainer}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <TouchableOpacity
                 activeOpacity={0.5}
                 style={styles.cardContainer}
                 onPress={() => navigation.navigate('SubCategories', { headerTitle: item.title })}>
                 <View style={styles.textViewContainer}>
-                  <View style={styles.iconContainer}>
+                  <View style={[styles.iconContainer, { backgroundColor: COLORS[index % 5] }]}>
                     <Image
                       style={styles.imgResponsive}
                       source={item.image}
