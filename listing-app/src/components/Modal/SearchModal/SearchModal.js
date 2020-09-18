@@ -1,4 +1,5 @@
 import { Ionicons, SimpleLineIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Modal, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,7 +10,12 @@ import styles from './styles';
 const CATEGORY = ['Mobile', 'Vehicle', 'Property for sale']
 
 function SearchModal(props) {
-    const inset = useSafeAreaInsets()
+    const navigation = useNavigation()
+
+    function navigate() {
+        navigation.navigate('ProductListing', { search: 'View All' })
+        props.onModalToggle()
+    }
 
     function header() {
         return (
@@ -33,7 +39,8 @@ function SearchModal(props) {
                             placeholder={'Find Cars, Mobile, Phone and more...'}
                         />
                         <TouchableOpacity
-                            style={styles.searchBtn}>
+                            onPress={() => navigate()}
+                            style={styles.searchBtn} >
                             <Ionicons
                                 name="ios-search"
                                 size={scale(20)}
@@ -45,9 +52,7 @@ function SearchModal(props) {
                 <View style={styles.headerContents}>
                     <View style={styles.closeBtn}>
                         <TouchableOpacity
-                            onPress={() => {
-                                props.onModalToggle()
-                            }}
+                            onPress={() => navigate()}
                             style={styles.backBtn}>
                             <SimpleLineIcons
                                 name="location-pin"
@@ -62,7 +67,7 @@ function SearchModal(props) {
                         />
                     </View>
                 </View>
-            </View>
+            </View >
         )
     }
 
@@ -72,10 +77,7 @@ function SearchModal(props) {
             transparent={true}
             visible={props.visible}
         >
-            <View style={[
-                styles.safeAreaViewStyles,
-                styles.flex,
-                { paddingTop: inset.top, paddingBottom: inset.bottom }]}>
+            <View style={[styles.safeAreaViewStyles, styles.flex]}>
                 <View style={[styles.flex, styles.mainContainer]}>
                     {header()}
                     <View style={styles.body}>
@@ -84,6 +86,7 @@ function SearchModal(props) {
                         </TextDefault>
                         {CATEGORY.map((item, index) => (
                             <TouchableOpacity
+                                onPress={() => navigate()}
                                 style={styles.category}
                                 key={index}>
                                 <Ionicons
