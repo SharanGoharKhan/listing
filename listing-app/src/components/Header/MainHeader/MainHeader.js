@@ -2,6 +2,7 @@ import { Feather, FontAwesome, MaterialIcons, Octicons } from '@expo/vector-icon
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import { BorderlessButton } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { colors, scale } from '../../../utilities'
 import { TextDefault } from '../../Text'
@@ -36,10 +37,10 @@ function MainHeader(props) {
                         {'Find Cars, Mobile Phone and more...'}
                     </TextDefault>
                 </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.5} style={styles.bellBtn}
+                <BorderlessButton style={styles.bellBtn}
                     onPress={() => navigation.navigate('Notifications')}>
                     <FontAwesome name="bell-o" size={scale(18)} color={colors.headerText} />
-                </TouchableOpacity>
+                </BorderlessButton>
             </View>
         </View>
     )

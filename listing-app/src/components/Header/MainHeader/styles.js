@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '70%',
         justifyContent: "center",
-        alignItems: "flex-end",
+        alignItems: "center",
     }
 })
 export default styles;
