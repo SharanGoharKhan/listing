@@ -103,8 +103,12 @@ function AccountTabs() {
         <AccountStack.Navigator initialRouteName='MainAccount' headerMode='screen' screenOptions={StackOptions()}>
             <AccountStack.Screen name='MainAccount' component={AccountScreens.MainAccount} options={{ title: 'My Account' }} />
             <AccountStack.Screen name='Help' component={AccountScreens.Help} options={{ title: 'Help and Support' }} />
-            <AccountStack.Screen name='Packages' component={AccountScreens.Packages} options={{ title: 'Buy Packages & My Orders' }} />
             <AccountStack.Screen name='Settings' component={AccountScreens.Settings} />
+            <AccountStack.Screen name='Profile' component={AccountScreens.Profile} />
+            <AccountStack.Screen name='EditProfile' component={AccountScreens.EditProfile} />
+            <AccountStack.Screen name='EditPhone' component={AccountScreens.EditPhone} />
+            <AccountStack.Screen name='EditEmail' component={AccountScreens.EditEmail} />
+            <AccountStack.Screen name='Packages' component={AccountScreens.Packages} options={{ title: 'Buy Packages & My Orders' }} />
             <AccountStack.Screen name='Network' component={NetworkTabs} options={{
                 headerStyle: {
                     backgroundColor: colors.headerbackground,
