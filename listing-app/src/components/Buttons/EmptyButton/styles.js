@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { alignment, colors, scale } from '../../utilities'
+import { alignment, colors, scale } from '../../../utilities'
 
 const styles = StyleSheet.create({
     emptyButton: {
@@ -7,10 +7,9 @@ const styles = StyleSheet.create({
         height: scale(40),
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: colors.buttonbackground,
+        
         borderRadius: scale(5),
         ...alignment.MTlarge
-    }
-
+    },
 })
 export default styles
