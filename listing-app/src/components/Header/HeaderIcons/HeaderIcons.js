@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Ionicons,
   EvilIcons,
   MaterialIcons,
+  MaterialCommunityIcons
 } from '@expo/vector-icons'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import { HeaderBackButton } from '@react-navigation/stack'
 import PropTypes from 'prop-types'
-import { scale } from '../../../utilities'
+import { colors, scale } from '../../../utilities'
 import { View } from 'react-native'
+import { BorderlessButton } from 'react-native-gesture-handler'
+import { TextDefault } from '../../Text'
 
 function BackButton(props) {
   if (props.icon === 'leftArrow') {
@@ -39,10 +42,19 @@ function BackButton(props) {
         color={props.iconColor}
       />
     )
+  } else if (props.icon === 'dots') {
+    return (
+      <MaterialCommunityIcons
+        name="dots-vertical"
+        size={scale(30)}
+        style={styles.rightIconPadding}
+        color={props.iconColor}
+      />
+    )
   } else {
     return (
-      <EvilIcons
-        name="close"
+      <Ionicons
+        name="md-close"
         size={scale(30)}
         style={styles.leftIconPadding}
         color={props.iconColor}
@@ -88,6 +100,12 @@ function LeftButton(props) {
   }
 }
 function RightButton(props) {
+  const [password, setPassword] = useState(false)
+
+
+  function togglePassword() {
+    setPassword(prev => !prev)
+  }
   if (props.icon === 'share') {
     return (
       <HeaderBackButton
@@ -96,6 +114,43 @@ function RightButton(props) {
           BackButton({ iconColor: props.iconColor, icon: 'share' })
         }
       />
+    )
+  } else if (props.icon === 'dots') {
+    return (
+      <View>
+        {password ? (
+          <BorderlessButton
+            onPress={props.onPress}
+            borderless={false}
+            style={styles.rightContainer}>
+            <TextDefault textColor={colors.headerText} H5 bold style={styles.flex}>
+              {'Share Profile'}
+            </TextDefault>
+          </BorderlessButton>
+        ) : (
+            <HeaderBackButton
+              labelVisible={false}
+              backImage={
+                () => BackButton({ iconColor: props.iconColor, icon: 'dots' })
+              }
+              onPress={togglePassword}
+            />
+          )
+        }
+      </View >
+    )
+  }
+  else if (props.icon === 'text') {
+    return (
+      <BorderlessButton
+        onPress={props.onPress}
+        borderless={false}
+        style={styles.rightOuter}
+      >
+        <TextDefault textColor={props.iconColor} H5 style={styles.textIcon}>
+          {props.title}
+        </TextDefault>
+      </BorderlessButton>
     )
   }
 }
