@@ -26,4 +26,5 @@ export const colors = {
     shadowColor: 'rgba(52, 52, 52, .9)',
     radioColor: '#212121',
     radioOuterColor: '#212121',
+    disabled:'rgba(0,47,52,.4)'
 }
