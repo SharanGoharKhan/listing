@@ -22,8 +22,11 @@ function MainAccount() {
                     <TextDefault H4 bold style={alignment.MBmedium}>
                         {'Muhammad Saad Javed'}
                     </TextDefault>
-                    <TouchableOpacity activeOpacity={0.5}
-                        style={alignment.PBxSmall}>
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        style={alignment.PBxSmall}
+                        onPress={() => navigation.navigate('Profile')}
+                    >
                         <TextDefault textColor={colors.spinnerColor} H5 bold>
                             {'View and edit profile'}
                         </TextDefault>
