@@ -1,17 +1,26 @@
-import React from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { View, TouchableOpacity, Modal } from 'react-native'
 import styles from './styles'
-import { TextDefault } from '../../../components'
+import { DeactivateModal, TextDefault } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
 import { Entypo } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 function Settings() {
+    const navigation = useNavigation()
+    const [modalVisible, setModalVisible] = useState(false)
+
+    function onModalToggle() {
+        setModalVisible(prev => !prev)
+    }
+
     return (
         <View style={[styles.flex, styles.mainContainer]}>
-            <TouchableOpacity style={styles.smallContainer}>
+            <TouchableOpacity style={styles.smallContainer}
+                onPress={() => navigation.navigate('Notifications')}>
                 <View style={[styles.flex]}>
                     <TextDefault bold H5 style={alignment.PLlarge}>
-                        {'Recommendations'}
+                        {'Notifications'}
                     </TextDefault>
                     <TextDefault light style={[alignment.PLlarge, alignment.MTxSmall]}>
                         {'Recommendations & speical communications'}
@@ -19,7 +28,8 @@ function Settings() {
                 </View>
                 <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer}>
+            <TouchableOpacity style={styles.smallContainer}
+                onPress={() => navigation.navigate('Privacy')}>
                 <View style={[styles.flex]}>
                     <TextDefault bold H5 style={alignment.PLlarge}>
                         {'Privacy'}
@@ -30,21 +40,30 @@ function Settings() {
                 </View>
                 <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer}>
-                <TextDefault bold H5 style={alignment.PLlarge}>
+            <TouchableOpacity style={styles.smallContainer}
+                onPress={() => navigation.navigate('Home')}>
+                <TextDefault bold H5 style={[alignment.PLlarge, styles.flex]}>
                     {'Logout'}
                 </TextDefault>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer}>
-                <TextDefault bold H5 style={alignment.PLlarge}>
+            <TouchableOpacity style={styles.smallContainer}
+                onPress={() => navigation.navigate('Home')}
+            >
+                <TextDefault bold H5 style={[alignment.PLlarge, styles.flex]}>
                     {'Logout from all devices'}
                 </TextDefault>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer}>
-                <TextDefault bold H5 style={alignment.PLlarge}>
+            <TouchableOpacity style={styles.smallContainer}
+                onPress={onModalToggle}>
+                <TextDefault bold H5 style={[alignment.PLlarge, styles.flex]}>
                     {'Deactivate account and delete my data'}
                 </TextDefault>
             </TouchableOpacity>
+
+            <DeactivateModal
+                modalVisible={modalVisible}
+                onModalToggle={onModalToggle}
+            />
         </View>
     )
 }
