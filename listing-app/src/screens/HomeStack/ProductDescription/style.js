@@ -14,6 +14,10 @@ const styles = StyleSheet.create({
     mainContainer: {
         backgroundColor: colors.themeBackground,
     },
+    contentContainer: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
     swiperContainer: {
         height: height * 0.4,
         position: 'relative'

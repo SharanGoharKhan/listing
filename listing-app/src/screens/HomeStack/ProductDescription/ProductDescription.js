@@ -8,6 +8,7 @@ import { alignment, colors, scale } from '../../../utilities'
 import styles from './style'
 import { FontAwesome, MaterialIcons, Entypo, SimpleLineIcons } from '@expo/vector-icons'
 import Swiper from 'react-native-swiper'
+import { BorderlessButton } from 'react-native-gesture-handler'
 
 const IMG_LIST = [
     require('../../../assets/images/products/cycle.jpg'),
@@ -46,10 +47,8 @@ function ProductDescription() {
     return (
         <SafeAreaView edges={['top', 'left', 'right']} style={[styles.flex, styles.safeAreaview]}>
             <ScrollView style={[styles.flex, styles.mainContainer]}
-                contentContainerStyle={{
-                    justifyContent: "center",
-                    alignItems: "center"
-                }}
+                contentContainerStyle={styles.contentContainer}
+                showsVerticalScrollIndicator={false}
             >
                 {/* Modal */}
                 <ReportModal visible={reportModal} onModalToggle={toggleModal} />
@@ -117,7 +116,10 @@ function ProductDescription() {
                         {"Condition Iike new \nShimano gears \nEach and Everything smoothly functional \nFor more details contact"}
                     </TextDefault>
                 </View>
-                <TouchableOpacity style={styles.profileContainer}>
+                <BorderlessButton
+                    borderless={false}
+                    style={styles.profileContainer}
+                    onPress={() => navigation.navigate('UserProfile')}>
                     <View style={styles.imageResponsive}>
                         <Image
                             style={styles.image}
@@ -130,14 +132,12 @@ function ProductDescription() {
                         <TextDefault light small>
                             {'Member since Jan 2020'}
                         </TextDefault>
-                        <TouchableOpacity style={alignment.MTxSmall}>
-                            <TextDefault textColor={colors.spinnerColor} bold>
-                                {'SEE Profile'}
-                            </TextDefault>
-                        </TouchableOpacity>
+                        <TextDefault textColor={colors.spinnerColor} bold style={alignment.MTxSmall}>
+                            {'SEE Profile'}
+                        </TextDefault>
                     </View>
                     <Entypo name='chevron-small-right' size={scale(20)} color={colors.buttonbackground} />
-                </TouchableOpacity>
+                </BorderlessButton>
                 <View style={styles.profileContainer}>
                     <TextDefault >
                         {'AD ID:10232142312'}
