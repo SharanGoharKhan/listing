@@ -61,6 +61,7 @@ function HomeTabs() {
             <HomeStack.Screen name='ProductListing' component={HomeScreens.ProductListing} />
             <HomeStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />
             <HomeStack.Screen name='Notifications' component={HomeScreens.Notifications} />
+            <HomeStack.Screen name='UserProfile' component={HomeScreens.UserProfile} />
         </HomeStack.Navigator>
     )
 }
@@ -108,6 +109,12 @@ function AccountTabs() {
             <AccountStack.Screen name='EditProfile' component={AccountScreens.EditProfile} />
             <AccountStack.Screen name='EditPhone' component={AccountScreens.EditPhone} />
             <AccountStack.Screen name='EditEmail' component={AccountScreens.EditEmail} />
+            <AccountStack.Screen name='Privacy' component={AccountScreens.Privacy} />
+            <AccountStack.Screen name='Notifications' component={AccountScreens.Notifications} />
+            <AccountStack.Screen name='Invoices' component={AccountScreens.Invoices} />
+            <AccountStack.Screen name='Billing' component={AccountScreens.Billing} />
+            <AccountStack.Screen name='BuyPackages' component={AccountScreens.BuyPackages} />
+            <AccountStack.Screen name='MyOrders' component={AccountScreens.MyOrders} options={{ title: 'My Orders' }} />
             <AccountStack.Screen name='Packages' component={AccountScreens.Packages} options={{ title: 'Buy Packages & My Orders' }} />
             <AccountStack.Screen name='Network' component={NetworkTabs} options={{
                 headerStyle: {
