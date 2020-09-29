@@ -1,9 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react'
-import { Image, View } from 'react-native';
+import { FlatList, Image, View } from 'react-native';
 import { EmptyButton, TextDefault } from '../../../../components';
 import { alignment, colors } from '../../../../utilities';
+import Card from './Card/Card';
 import styles from './styles';
+
+const data = [
+    {
+        id: '10',
+        title: 'Japanese 28 inches cycle',
+        price: 'Rs: 22,900',
+        location: 'Peshawar Road, Rawalpindi, Punjab',
+        image: require('../../../../assets/images/products/cycle.jpg')
+    }
+]
+
 
 function Favourite() {
     const navigation = useNavigation()
@@ -30,7 +42,16 @@ function Favourite() {
 
     return (
         <View style={[styles.flex, styles.mainContainer]}>
-            {emptyView()}
+            <FlatList
+                data={data}
+                style={styles.flex}
+                contentContainerStyle={{ flexGrow: 1 }}
+                ListEmptyComponent={emptyView}
+                numColumns={2}
+                renderItem={({ item }) => (
+                    <Card {...item} />
+                )}
+            />
         </View>
     )
 }
