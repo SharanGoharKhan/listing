@@ -1,12 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const UserContext = React.createContext({})
 
 export function UserProvider(props) {
-    const isLoggedIn = true
+    const [isLoggedIn, setIsLoggedIn] = useState(true)
+
+    function logIn() {
+        setIsLoggedIn(true)
+    }
+
+    function logout() {
+        setIsLoggedIn(false)
+    }
     return (
         <UserContext.Provider value={{
-            isLoggedIn
+            isLoggedIn,
+            logout,
+            logIn
         }}>
             {props.children}
         </UserContext.Provider>
