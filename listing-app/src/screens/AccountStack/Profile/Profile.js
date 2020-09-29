@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useLayoutEffect } from 'react'
+import React, { useContext, useLayoutEffect } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
 import { RightButton, TextDefault } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
