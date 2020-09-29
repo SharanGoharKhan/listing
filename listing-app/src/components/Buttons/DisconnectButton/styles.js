@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         height: scale(40),
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: 'transparent',
+        backgroundColor: colors.themeBackground,
         borderRadius: scale(5),
         borderColor: colors.buttonbackground,
         borderWidth: scale(1),
