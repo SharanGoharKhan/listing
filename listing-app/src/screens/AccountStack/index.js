@@ -14,5 +14,9 @@ import Invoices from './Invoices/Invoices'
 import MyOrders from './MyOrders/MyOrders'
 import BuyPackages from './BuyPackages/BuyPackages'
 import Billing from './Billling/Billing'
+import Registration from './Registration/Registration'
+import Categories from './Categories/Categories'
+import SubCategories from './SubCategories/SubCategories'
+import ShowPackages from './ShowPackages/ShowPackages'
 
-export { MainAccount, Help, Settings, Packages, Followers, Following, Profile, EditProfile, EditPhone, EditEmail, Privacy, Notifications, Invoices, MyOrders, BuyPackages, Billing }
+export { MainAccount, Help, Settings, Packages, Followers, Following, Profile, EditProfile, EditPhone, EditEmail, Privacy, Notifications, Invoices, MyOrders, BuyPackages, Billing, Registration, Categories, SubCategories, ShowPackages }
