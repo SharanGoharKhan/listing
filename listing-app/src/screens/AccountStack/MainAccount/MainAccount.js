@@ -54,18 +54,6 @@ function MainAccount() {
                     </View>
                     <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.smallContainer} onPress={() => navigation.navigate('Packages')}>
-                    <AntDesign name="creditcard" size={scale(22)} color={colors.buttonbackground} />
-                    <View style={[styles.flex]}>
-                        <TextDefault bold H5 style={alignment.PLlarge}>
-                            {'Buy Packages & My Orders'}
-                        </TextDefault>
-                        <TextDefault light style={[alignment.PLlarge, alignment.MTxSmall]}>
-                            {'Packages, orders, invoices & billing information'}
-                        </TextDefault>
-                    </View>
-                    <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
-                </TouchableOpacity>
                 <TouchableOpacity style={styles.smallContainer} onPress={() => navigation.navigate('Settings')}>
                     <AntDesign name="setting" size={scale(22)} color={colors.buttonbackground} />
                     <View style={[styles.flex]}>

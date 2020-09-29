@@ -120,13 +120,6 @@ function AccountTabs() {
             <AccountStack.Screen name='EditEmail' component={AccountScreens.EditEmail} />
             <AccountStack.Screen name='Privacy' component={AccountScreens.Privacy} />
             <AccountStack.Screen name='Notifications' component={AccountScreens.Notifications} />
-            <AccountStack.Screen name='Invoices' component={AccountScreens.Invoices} />
-            <AccountStack.Screen name='Billing' component={AccountScreens.Billing} />
-            <AccountStack.Screen name='BuyPackages' component={AccountScreens.BuyPackages} />
-            <AccountStack.Screen name='MyOrders' component={AccountScreens.MyOrders} options={{ title: 'My Orders' }} />
-            <AccountStack.Screen name='Categories' component={AccountScreens.Categories} options={{ title: 'Categories' }} />
-            <AccountStack.Screen name='SubCategories' component={AccountScreens.SubCategories} />
-            <AccountStack.Screen name='Packages' component={AccountScreens.Packages} options={{ title: 'Buy Packages & My Orders' }} />
             <AccountStack.Screen name='Network' component={NetworkTabs} options={{
                 headerStyle: {
                     backgroundColor: colors.headerbackground,
@@ -157,7 +150,6 @@ function AppContainer() {
             <MainStack.Navigator initialRouteName='BottomTabs' screenOptions={{ headerShown: false }}>
                 <MainStack.Screen name='BottomTabs' component={BottomTabs} />
                 <MainStack.Screen name='Registration' component={AccountScreens.Registration} />
-                <MainStack.Screen name='ShowPackages' component={AccountScreens.ShowPackages} />
             </MainStack.Navigator>
         </NavigationContainer>
     )
