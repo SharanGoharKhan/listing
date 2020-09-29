@@ -40,6 +40,10 @@ const styles = StyleSheet.create({
         borderBottomColor: colors.horizontalLine,
         borderBottomWidth: StyleSheet.hairlineWidth,
         ...alignment.Pmedium
+    },
+    loginBtn: {
+        width: '90%',
+        alignSelf: "center",
     }
 })
 export default styles
