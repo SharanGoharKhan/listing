@@ -21,10 +21,11 @@ export const colors = {
     errorColor: '#FA7751',
     google: '#DC4E41',
     feature: '#ffce32',
+    imageHeader: '#F5E5BF',
     selected: '#c8f8f6',
     selectedText: '#1c7370',
     shadowColor: 'rgba(52, 52, 52, .9)',
     radioColor: '#212121',
     radioOuterColor: '#212121',
-    disabled:'rgba(0,47,52,.4)'
+    disabled: 'rgba(0,47,52,.4)'
 }
