@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.headerbackground,
         justifyContent: 'center',
         alignItems: 'center',
-        borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: colors.horizontalLine
     },
     headerContents: {
