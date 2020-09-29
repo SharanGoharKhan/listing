@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { View, TouchableOpacity, Modal } from 'react-native'
 import styles from './styles'
 import { DeactivateModal, TextDefault } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
 import { Entypo } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { StackActions, useNavigation } from '@react-navigation/native'
+import UserContext from '../../../context/user'
 
 function Settings() {
     const navigation = useNavigation()
+    const { logout } = useContext(UserContext)
     const [modalVisible, setModalVisible] = useState(false)
 
     function onModalToggle() {
@@ -41,13 +43,19 @@ function Settings() {
                 <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.smallContainer}
-                onPress={() => navigation.navigate('Home')}>
+                onPress={() => {
+                    logout()
+                    navigation.dispatch(StackActions.popToTop())
+                }}>
                 <TextDefault bold H5 style={[alignment.PLlarge, styles.flex]}>
                     {'Logout'}
                 </TextDefault>
             </TouchableOpacity>
             <TouchableOpacity style={styles.smallContainer}
-                onPress={() => navigation.navigate('Home')}
+                onPress={() => {
+                    logout()
+                    navigation.dispatch(StackActions.popToTop())
+                }}
             >
                 <TextDefault bold H5 style={[alignment.PLlarge, styles.flex]}>
                     {'Logout from all devices'}
