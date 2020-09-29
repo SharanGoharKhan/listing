@@ -95,7 +95,8 @@ function ALL() {
                 renderItem={({ item }) => (
                     <RectButton
                         activeOpacity={0.07}
-                        style={styles.messageContainer}>
+                        style={styles.messageContainer}
+                        onPress={() => navigation.navigate('LiveChat')}>
                         <View style={styles.imgResposive}>
                             <Image
                                 style={styles.image}
