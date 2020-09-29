@@ -15,7 +15,7 @@ function StackOptions() {
             borderBottomWidth: StyleSheet.hairlineWidth,
         },
         headerTitleContainerStyle: {
-            marginLeft: scale(45)
+            marginLeft: scale(45),
         },
         headerTitleStyle: {
             color: colors.headerText,

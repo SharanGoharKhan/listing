@@ -1,6 +1,6 @@
-import React from 'react'
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
+import React, { useContext } from 'react'
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createStackNavigator, HeaderBackButton, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { HomeScreens, AccountScreens, AddScreens, SellScreens, ChatScreens } from '../screens'
@@ -8,7 +8,9 @@ import { alignment, colors, scale, textStyles } from '../utilities';
 import { StyleSheet, Text, View } from 'react-native';
 import { SimpleLineIcons, Fontisto, MaterialCommunityIcons, Ionicons, FontAwesome5, AntDesign } from '@expo/vector-icons'
 import { StackOptions, tabIcon, tabOptions, TopBarOptions } from './screenOptions';
-import { BackButton } from '../components';
+import { BackButton, BottomTab } from '../components';
+import UserContext from '../context/user';
+
 
 const Tabs = createBottomTabNavigator()
 const MainStack = createStackNavigator()
@@ -65,18 +67,25 @@ function HomeTabs() {
         </HomeStack.Navigator>
     )
 }
-function ChatTabs() {
+function ChatTabs({ navigation }) {
+    const { isLoggedIn } = useContext(UserContext)
+
     return (
-        <ChatStack.Navigator initialRouteName='MainChat'>
+        <ChatStack.Navigator initialRouteName='MainChat' headerMode='screen' screenOptions={StackOptions()}>
             <ChatStack.Screen name='MainChat' component={InboxTabs} options={{
                 title: 'Inbox',
                 headerStyle: {
                     backgroundColor: colors.headerbackground,
                 },
+                headerTitleContainerStyle: {
+                    marginLeft: scale(0),
+                },
             }} />
+            <ChatStack.Screen name='LiveChat' component={ChatScreens.LiveChat} />
         </ChatStack.Navigator>
     )
 }
+
 function SellTabs() {
     return (
         <SellStack.Navigator initialRouteName='Home' screenOptions={StackOptions()}>
@@ -115,6 +124,8 @@ function AccountTabs() {
             <AccountStack.Screen name='Billing' component={AccountScreens.Billing} />
             <AccountStack.Screen name='BuyPackages' component={AccountScreens.BuyPackages} />
             <AccountStack.Screen name='MyOrders' component={AccountScreens.MyOrders} options={{ title: 'My Orders' }} />
+            <AccountStack.Screen name='Categories' component={AccountScreens.Categories} options={{ title: 'Categories' }} />
+            <AccountStack.Screen name='SubCategories' component={AccountScreens.SubCategories} />
             <AccountStack.Screen name='Packages' component={AccountScreens.Packages} options={{ title: 'Buy Packages & My Orders' }} />
             <AccountStack.Screen name='Network' component={NetworkTabs} options={{
                 headerStyle: {
@@ -126,12 +137,13 @@ function AccountTabs() {
 }
 
 
-function BottomTabs() {
+function BottomTabs({ navigation }) {
+    const { isLoggedIn } = useContext(UserContext)
     return (
         <Tabs.Navigator initialRouteName='Home' backBehavior='history' tabBarOptions={tabOptions()}
             screenOptions={({ route }) => tabIcon(route)}>
             <Tabs.Screen name='Home' component={HomeTabs} />
-            <Tabs.Screen name='Chat' component={ChatTabs} />
+            <Tabs.Screen name='Chat' component={isLoggedIn ? ChatTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Sell' component={SellTabs} />
             <Tabs.Screen name='Add' component={AddTabs} />
             <Tabs.Screen name='Account' component={AccountTabs} />
@@ -144,6 +156,8 @@ function AppContainer() {
         <NavigationContainer>
             <MainStack.Navigator initialRouteName='BottomTabs' screenOptions={{ headerShown: false }}>
                 <MainStack.Screen name='BottomTabs' component={BottomTabs} />
+                <MainStack.Screen name='Registration' component={AccountScreens.Registration} />
+                <MainStack.Screen name='ShowPackages' component={AccountScreens.ShowPackages} />
             </MainStack.Navigator>
         </NavigationContainer>
     )
