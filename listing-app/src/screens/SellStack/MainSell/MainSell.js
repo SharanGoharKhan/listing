@@ -3,7 +3,9 @@ import React, { useLayoutEffect } from 'react';
 import { FlatList, TouchableOpacity, View, Image } from 'react-native';
 import { FlashMessage, LeftButton, TextDefault } from '../../../components';
 import { alignment, colors, scale } from '../../../utilities';
+import { TransitionPresets, TransitionSpecs } from '@react-navigation/stack';
 import styles from './styles';
+
 
 const CATEGORY = [
     { id: '0', title: 'Mobiles', image: require('../../../assets/icons/categoryIcon/mobile.png') },
