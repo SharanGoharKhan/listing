@@ -19,5 +19,13 @@ const styles = StyleSheet.create({
         width: scale(150),
         height: scale(150)
     },
+    smallContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: colors.themeBackground,
+        borderBottomColor: colors.horizontalLine,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        ...alignment.Pmedium
+    },
 })
 export default styles
