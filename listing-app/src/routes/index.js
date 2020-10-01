@@ -56,7 +56,6 @@ function InboxTabs() {
 function HomeTabs() {
     return (
         <HomeStack.Navigator initialRouteName='Main' headerMode='screen' screenOptions={StackOptions()}>
-            {/* Home Screen */}
             <HomeStack.Screen name='Main' component={HomeScreens.MainHome} />
             <HomeStack.Screen name='Categories' component={HomeScreens.Categories} />
             <HomeStack.Screen name='SubCategories' component={HomeScreens.SubCategories} />
@@ -67,9 +66,7 @@ function HomeTabs() {
         </HomeStack.Navigator>
     )
 }
-function ChatTabs({ navigation }) {
-    const { isLoggedIn } = useContext(UserContext)
-
+function ChatTabs() {
     return (
         <ChatStack.Navigator initialRouteName='MainChat' headerMode='screen' screenOptions={StackOptions()}>
             <ChatStack.Screen name='MainChat' component={InboxTabs} options={{
@@ -93,6 +90,10 @@ function SellTabs() {
             <SellStack.Screen name='Categories' component={SellScreens.Categories} options={{ title: 'Choose a category' }} />
             <SellStack.Screen name='SubCategories' component={SellScreens.SubCategories} />
             <SellStack.Screen name='SellingForm' component={SellScreens.SellingFrom} options={{ title: 'Include some details' }} />
+            <SellStack.Screen name='UploadImage' component={SellScreens.UploadImage} />
+            <SellStack.Screen name='Price' component={SellScreens.Price} />
+            <SellStack.Screen name='LocationConfirm' component={SellScreens.LocationConfirm} />
+            <SellStack.Screen name='AdPosting' component={SellScreens.AdPosting} />
         </SellStack.Navigator>
     )
 }
@@ -130,15 +131,15 @@ function AccountTabs() {
 }
 
 
-function BottomTabs({ navigation }) {
+function BottomTabs() {
     const { isLoggedIn } = useContext(UserContext)
     return (
         <Tabs.Navigator initialRouteName='Home' backBehavior='history' tabBarOptions={tabOptions()}
             screenOptions={({ route }) => tabIcon(route)}>
             <Tabs.Screen name='Home' component={HomeTabs} />
             <Tabs.Screen name='Chat' component={isLoggedIn ? ChatTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
-            <Tabs.Screen name='Sell' component={SellTabs} />
-            <Tabs.Screen name='Add' component={AddTabs} />
+            <Tabs.Screen name='Sell' component={isLoggedIn ? SellTabs : AccountScreens.Registration} options={{ tabBarVisible: false }} />
+            <Tabs.Screen name='Add' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Account' component={AccountTabs} />
         </Tabs.Navigator >
     )
