@@ -1,16 +1,17 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect, useState } from 'react'
-import { Image, TextInput, TouchableOpacity, View } from 'react-native'
-import { EmptyButton, TextDefault } from '../../../components'
-import { alignment, colors, scale } from '../../../utilities'
-import styles from './styles'
-import { Entypo } from '@expo/vector-icons'
+import { Image, Switch, TextInput, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { EmptyButton, TextDefault } from '../../../components'
+import { alignment, colors } from '../../../utilities'
+import styles from './styles'
 
 function EditPhone() {
     const navigation = useNavigation()
     const [phone, setPhone] = useState('')
     const [focus, setFocus] = useState(false)
+    const [isEnabled, setIsEnabled] = useState(true);
+    const toggleSwitch = () => setIsEnabled(prev => !prev);
     const [adColor, setAdColor] = useState(colors.fontThirdColor)
 
     useLayoutEffect(() => {
@@ -71,11 +72,23 @@ function EditPhone() {
                             />
                         </View>
                     </View>
+                    <View style={styles.smallContainer}>
+                        <TextDefault H5 bold style={styles.flex}>
+                            {'Show my phone number in ads'}
+                        </TextDefault>
+                        <Switch
+                            trackColor={{ false: colors.headerbackground, true: colors.buttonbackground }}
+                            thumbColor={colors.containerBox}
+                            ios_backgroundColor={colors.headerbackground}
+                            onValueChange={toggleSwitch}
+                            value={isEnabled}
+                        />
+                    </View>
                 </View >
                 <View style={styles.buttonView}>
                     <EmptyButton
                         disabled={phone.length < 1}
-                        title='Next'
+                        title='Save'
                         onPress={validate} />
                 </View>
             </View >

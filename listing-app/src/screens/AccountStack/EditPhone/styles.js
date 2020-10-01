@@ -43,6 +43,13 @@ const styles = StyleSheet.create({
         width: "90%",
         alignSelf: "center",
         ...alignment.PBsmall
+    },
+    smallContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        ...alignment.MTlarge,
+        ...alignment.PTlarge
+        // ...alignment.Pmedium
     }
 })
 
