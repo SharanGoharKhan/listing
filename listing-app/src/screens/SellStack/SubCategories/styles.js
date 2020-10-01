@@ -5,6 +5,9 @@ const styles = StyleSheet.create({
     flex: {
         flex: 1,
     },
+    safeAreaview: {
+        backgroundColor: colors.bottomTabColor,
+    },
     container: {
         backgroundColor: colors.themeBackground,
         alignItems: 'center',
