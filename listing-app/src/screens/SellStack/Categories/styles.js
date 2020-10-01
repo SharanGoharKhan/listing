@@ -5,8 +5,11 @@ const styles = StyleSheet.create({
     flex: {
         flex: 1,
     },
-    spacer:{
+    spacer: {
         ...alignment.PTxSmall
+    },
+    safeAreaview: {
+        backgroundColor: colors.bottomTabColor,
     },
     container: {
         backgroundColor: colors.themeBackground,
