@@ -8,7 +8,7 @@ import styles from './styles';
 const OPTIONS = [
     {
         value: 0,
-        title: 'View all (0)'
+        title: 'View all (2)'
     },
     {
         value: 1,
