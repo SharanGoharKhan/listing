@@ -9,6 +9,9 @@ const styles = StyleSheet.create({
     width100: {
         width: "100%",
     },
+    safeAreaview: {
+        backgroundColor: colors.bottomTabColor,
+    },
     mainContainer: {
         backgroundColor: colors.themeBackground,
         alignItems: "center"
