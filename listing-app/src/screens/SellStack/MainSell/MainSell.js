@@ -5,6 +5,7 @@ import { FlashMessage, LeftButton, TextDefault } from '../../../components';
 import { alignment, colors, scale } from '../../../utilities';
 import { TransitionPresets, TransitionSpecs } from '@react-navigation/stack';
 import styles from './styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const CATEGORY = [
@@ -30,30 +31,32 @@ function MainSell() {
 
     })
     return (
-        <FlatList
-            data={CATEGORY}
-            style={[styles.flex, styles.container]}
-            contentContainerStyle={styles.flatListContent}
-            ItemSeparatorComponent={() => <View style={styles.seperator} />}
-            numColumns={2}
-            renderItem={({ item, index }) => (
-                <TouchableOpacity
-                    style={[styles.mainContainer, index % 2 == 0 && styles.borderStyle]}
-                    onPress={() => index === CATEGORY.length - 1 ? navigation.navigate('Categories') : navigation.navigate('SubCategories', { headerTitle: item.title })}>
-                    <View style={styles.imageView}>
-                        <Image
-                            style={styles.imgResponsive}
-                            source={item.image}
-                            resizeMode='cover'
-                        />
-                    </View>
-                    <TextDefault light center>
-                        {item.title}
-                    </TextDefault>
-                </TouchableOpacity>
-            )
-            }
-        />
+        <SafeAreaView edges={['bottom']} style={styles.flex}>
+            <FlatList
+                data={CATEGORY}
+                style={[styles.flex, styles.container]}
+                contentContainerStyle={styles.flatListContent}
+                ItemSeparatorComponent={() => <View style={styles.seperator} />}
+                numColumns={2}
+                renderItem={({ item, index }) => (
+                    <TouchableOpacity
+                        style={[styles.mainContainer, index % 2 == 0 && styles.borderStyle]}
+                        onPress={() => index === CATEGORY.length - 1 ? navigation.navigate('Categories') : navigation.navigate('SubCategories', { headerTitle: item.title })}>
+                        <View style={styles.imageView}>
+                            <Image
+                                style={styles.imgResponsive}
+                                source={item.image}
+                                resizeMode='cover'
+                            />
+                        </View>
+                        <TextDefault light center>
+                            {item.title}
+                        </TextDefault>
+                    </TouchableOpacity>
+                )
+                }
+            />
+        </SafeAreaView>
     );
 }
 
