@@ -13,7 +13,7 @@ function EmptyButton(props) {
             activeOpacity={0.7}
             style={[styles.emptyButton, { backgroundColor: props.disabled ? colors.disabled : colors.buttonbackground, }]}
             onPress={props.onPress}>
-            <TextDefault textColor={colors.buttonText} H4 bolder center>
+            <TextDefault textColor={props.disabled ? colors.fontSecondColor : colors.buttonText} H4 bolder center>
                 {props.title}
             </TextDefault>
         </TouchableOpacity>
