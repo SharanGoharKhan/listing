@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 const UserContext = React.createContext({})
 
 export function UserProvider(props) {
-    const [isLoggedIn, setIsLoggedIn] = useState(true)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     function logIn() {
         setIsLoggedIn(true)
