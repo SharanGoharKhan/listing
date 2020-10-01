@@ -166,6 +166,7 @@ function ProductDescription() {
                 <TouchableOpacity
                     activeOpacity={0.7}
                     style={styles.button}
+                    onPress={() => navigation.navigate('Chat', { screen: 'LiveChat', initial: false })}
                 >
                     <SimpleLineIcons name='bubble' size={scale(20)} color={colors.white} />
                     <TextDefault textColor={colors.buttonText} uppercase bold style={alignment.PLsmall}>
