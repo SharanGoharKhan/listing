@@ -6,13 +6,15 @@ import {
   MaterialCommunityIcons
 } from '@expo/vector-icons'
 import styles from './styles'
-import { useNavigation } from '@react-navigation/native'
+import { StackActions, useNavigation } from '@react-navigation/native'
 import { HeaderBackButton } from '@react-navigation/stack'
 import PropTypes from 'prop-types'
-import { colors, scale } from '../../../utilities'
-import { View } from 'react-native'
+import { alignment, colors, scale } from '../../../utilities'
+import { View, TouchableOpacity, Modal, Dimensions } from 'react-native'
 import { BorderlessButton } from 'react-native-gesture-handler'
 import { TextDefault } from '../../Text'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
 
 function BackButton(props) {
   if (props.icon === 'leftArrow') {
@@ -77,6 +79,18 @@ function LeftButton(props) {
         }}
       />
     )
+  } else if (props.icon === 'back' && props.action === 'POP') {
+    return (
+      <HeaderBackButton
+        labelVisible={false}
+        backImage={() =>
+          BackButton({ iconColor: props.iconColor, icon: 'leftArrow' })
+        }
+        onPress={() => {
+          navigation.dispatch(StackActions.pop())
+        }}
+      />
+    )
   } else if (props.icon === 'close') {
     return (
       <HeaderBackButton
@@ -101,7 +115,8 @@ function LeftButton(props) {
 }
 function RightButton(props) {
   const [password, setPassword] = useState(false)
-
+  const inset = useSafeAreaInsets()
+  const [open, setOpen] = useState(false)
 
   function togglePassword() {
     setPassword(prev => !prev)
@@ -119,14 +134,25 @@ function RightButton(props) {
     return (
       <View>
         {password ? (
-          <BorderlessButton
-            onPress={props.onPress}
-            borderless={false}
-            style={styles.rightContainer}>
-            <TextDefault textColor={colors.headerText} H5 bold style={styles.flex}>
-              {'Share Profile'}
-            </TextDefault>
-          </BorderlessButton>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={password}
+            onRequestClose={() => setPassword(false)}
+          >
+            <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => setPassword(false)} >
+              <BorderlessButton
+                onPress={props.onPress}
+                borderless={false}
+                style={[styles.shareBtn, { top: inset.top }]}
+              >
+                <TextDefault textColor={colors.headerText} H5 bold style={styles.flex}>
+                  {'Share Profile'}
+                </TextDefault>
+              </BorderlessButton>
+            </TouchableOpacity>
+          </Modal>
+
         ) : (
             <HeaderBackButton
               labelVisible={false}
@@ -160,6 +186,7 @@ BackButton.propTypes = {
   iconColor: PropTypes.string.isRequired
 }
 LeftButton.propTypes = {
+  action: PropTypes.string,
   icon: PropTypes.string,
   iconColor: PropTypes.string.isRequired
 }

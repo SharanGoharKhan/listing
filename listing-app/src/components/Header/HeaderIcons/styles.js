@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import { alignment, colors, scale } from '../../../utilities'
-
+const { width, height } = Dimensions.get('window')
 const styles = StyleSheet.create({
   leftIconPadding: {
     ...alignment.PLmedium,
@@ -26,6 +26,13 @@ const styles = StyleSheet.create({
     ...alignment.MRsmall,
     ...alignment.PLsmall
   },
+  shareBtn: {
+    width: width * 0.5,
+    backgroundColor: colors.containerBox,
+    position: 'absolute',
+    right: scale(5),
+    ...alignment.Psmall
+  }
 })
 
 export default styles
