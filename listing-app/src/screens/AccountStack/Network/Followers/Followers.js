@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, View, FlatList, Share } from 'react-native'
-import { EmptyButton, TextDefault } from '../../../../components'
+import { EmptyButton, FlashMessage, TextDefault } from '../../../../components'
 import { alignment, colors } from '../../../../utilities'
 import Card from './Card'
 import styles from './styles'
