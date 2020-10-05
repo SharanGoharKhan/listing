@@ -22,6 +22,10 @@ function Registration() {
             <View style={[styles.flex, styles.mainContainer]}>
                 <ModalHeader closeModal={() => navigation.goBack()} />
                 <View style={styles.logoContainer}>
+                    <TextDefault textColor={colors.buttonbackground} bolder H1 style={styles.textTitle} >
+                        {'OlO'}
+                    </TextDefault>
+
                 </View>
                 <View style={styles.buttonContainer}>
                     <LoginButton
