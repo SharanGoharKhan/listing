@@ -1,10 +1,9 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useContext, useLayoutEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
 import { RightButton, TextDefault } from '../../../components'
-import { alignment, colors, scale } from '../../../utilities'
+import { alignment, colors } from '../../../utilities'
 import styles from './styles'
-import { Entypo } from '@expo/vector-icons'
 
 function Profile() {
     const navigation = useNavigation()
