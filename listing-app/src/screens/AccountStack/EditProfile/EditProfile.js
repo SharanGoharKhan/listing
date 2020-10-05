@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect, useState } from 'react'
-import { Image, ScrollView, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, TextInput, TouchableOpacity, View, Text } from 'react-native'
 import { BackButton, DisconnectButton, EmptyButton, RightButton, TextDefault } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
 import styles from './styles'
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, Feather } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 
 const phone = ''
 const email = ''
@@ -17,6 +18,7 @@ function EditProfile() {
     const [description, setDescription] = useState('')
     const [nameError, setNameError] = useState(null)
     const [descriptionError, setDescriptionError] = useState(null)
+    const [image, setImage] = useState(null)
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -27,6 +29,16 @@ function EditProfile() {
             />
         })
     }, [navigation])
+
+    async function PickImage() {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            quality: 1
+        })
+        if (!result.cancelled) {
+            setImage(result.uri)
+        }
+    }
     return (
         <ScrollView style={[styles.flex, styles.mainContainer]}>
             <View style={styles.basicInfoContainer}>
@@ -34,13 +46,17 @@ function EditProfile() {
                     {'Basic information'}
                 </TextDefault>
                 <View style={styles.upperContainer}>
-                    <View style={styles.imageContainer}>
+                    <TouchableOpacity activeOpacity={1} style={styles.imageContainer} onPress={PickImage}>
                         <Image
                             style={styles.imgResponsive}
-                            source={require('../../../assets/images/avatar.png')}
+                            source={image ? { uri: image } : require('../../../assets/images/avatar.png')}
+
                             resizeMode='cover'
                         />
-                    </View>
+                        <View style={{ position: 'absolute', bottom: 0, backgroundColor: 'rgba(30, 59, 250, 0.6)', width: "100%", height: scale(22), justifyContent: "center", alignItems: "center" }}>
+                            <Feather name="camera" size={scale(17)} color={colors.white} />
+                        </View>
+                    </TouchableOpacity>
                     <View style={[styles.subContainer, styles.flex]}>
                         <TextDefault textColor={nameError ? colors.google : adColor} bold style={styles.width100}>
                             {'Enter Name *'}
