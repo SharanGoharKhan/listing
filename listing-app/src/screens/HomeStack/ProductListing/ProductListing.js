@@ -61,7 +61,7 @@ function ProductListing() {
                     {'6,123 ads'}
                 </TextDefault>
                 <TouchableOpacity style={styles.filterBtn}
-                    onPress={() => navigation.navigate('FilterModal', { visible: modalVisible,searchCategory: searchCategory })}>
+                    onPress={() => navigation.navigate('FilterModal', { visible: modalVisible, searchCategory: searchCategory })}>
                     <MaterialIcons name='tune' size={scale(20)} color={colors.buttonbackground} />
                     <TextDefault style={styles.fontText} right>
                         {'Filter'}
@@ -75,7 +75,7 @@ function ProductListing() {
             <FlatList
                 data={data}
                 style={styles.flex}
-                contentContainerStyle={{ flexGrow: 1 }}
+                contentContainerStyle={{ flexGrow: 1, ...alignment.PBlarge }}
                 ListHeaderComponent={headerView}
                 ItemSeparatorComponent={() => <View style={styles.spacer} />}
                 showsVerticalScrollIndicator={false}

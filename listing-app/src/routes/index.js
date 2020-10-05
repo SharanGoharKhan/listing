@@ -71,14 +71,8 @@ function HomeTabs() {
             <HomeStack.Screen name='Categories' component={HomeScreens.Categories} />
             <HomeStack.Screen name='SubCategories' component={HomeScreens.SubCategories} />
             <HomeStack.Screen name='ProductListing' component={HomeScreens.ProductListing} />
-            <HomeStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />
             <HomeStack.Screen name='Notifications' component={HomeScreens.Notifications} />
             <HomeStack.Screen name='UserProfile' component={HomeScreens.UserProfile} />
-            <HomeStack.Screen name='FilterModal' component={FilterScreen} options={{
-                headerShown: false,
-                ...TransitionPresets.ModalSlideFromBottomIOS
-            }} />
-
         </HomeStack.Navigator>
     )
 }
@@ -94,7 +88,7 @@ function ChatTabs() {
                     marginLeft: scale(0),
                 },
             }} />
-            <ChatStack.Screen name='LiveChat' component={ChatScreens.LiveChat} />
+            {/* <ChatStack.Screen name='LiveChat' component={ChatScreens.LiveChat} /> */}
         </ChatStack.Navigator>
     )
 }
@@ -122,7 +116,6 @@ function AddTabs() {
                     backgroundColor: colors.headerbackground,
                 },
             }} />
-            <AddStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />
         </AddStack.Navigator>
     )
 }
@@ -153,6 +146,7 @@ function AccountTabs() {
 
 function BottomTabs() {
     const { isLoggedIn } = useContext(UserContext)
+    {/* Don't change the sequence of following screens */ }
     return (
         <Tabs.Navigator initialRouteName='Home' backBehavior='history' tabBarOptions={tabOptions()}
             screenOptions={({ route }) => tabIcon(route)}>
@@ -161,16 +155,25 @@ function BottomTabs() {
             <Tabs.Screen name='Sell' component={isLoggedIn ? SellTabs : AccountScreens.Registration} options={{ tabBarVisible: false, tabBarIcon: props => <SellTab {...props} /> }} />
             <Tabs.Screen name='Add' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Account' component={AccountTabs} />
+            <Tabs.Screen name='ProductDescription' component={HomeScreens.ProductDescription} options={{ tabBarButton: () => null, tabBarVisible: false }} />
         </Tabs.Navigator >
     )
 }
 
 function AppContainer() {
+    const { isLoggedIn } = useContext(UserContext)
     return (
         <NavigationContainer>
-            <MainStack.Navigator initialRouteName='BottomTabs' screenOptions={{ headerShown: false }}>
-                <MainStack.Screen name='BottomTabs' component={BottomTabs} />
-                <MainStack.Screen name='Registration' component={AccountScreens.Registration} />
+            <MainStack.Navigator initialRouteName='BottomTabs' headerMode='screen' >
+                <MainStack.Screen name='BottomTabs' component={BottomTabs} options={{ headerShown: false }} />
+                <MainStack.Screen name='Registration' component={AccountScreens.Registration} options={{ headerShown: false }} />
+                <MainStack.Screen name='FilterModal' component={FilterScreen} options={{
+                    headerShown: false,
+                    ...TransitionPresets.ModalSlideFromBottomIOS
+                }} />
+                <MainStack.Screen name='LiveChat' component={isLoggedIn ? ChatScreens.LiveChat : AccountScreens.Registration} options={{
+                    ...TransitionPresets.ModalSlideFromBottomIOS
+                }} />
             </MainStack.Navigator>
         </NavigationContainer>
     )

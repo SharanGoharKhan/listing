@@ -96,7 +96,7 @@ function ProductDescription() {
     }
 
     return (
-        <SafeAreaView edges={['top', 'left', 'right']} style={[styles.flex, styles.safeAreaview]}>
+        <SafeAreaView style={[styles.flex, styles.safeAreaview]}>
             <ScrollView style={[styles.flex, styles.mainContainer]}
                 contentContainerStyle={styles.contentContainer}
                 showsVerticalScrollIndicator={false}

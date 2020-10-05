@@ -13,7 +13,7 @@ function LiveChat() {
         navigation.setOptions({
             header: () => <LiveHeader />
         })
-    }, [])
+    }, [navigation])
 
     const [messages, setMessages] = useState([
         /**

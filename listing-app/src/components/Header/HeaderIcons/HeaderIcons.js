@@ -79,12 +79,12 @@ function LeftButton(props) {
         }}
       />
     )
-  } else if (props.icon === 'back' && props.action === 'POP') {
+  } else if (props.icon === 'close' && props.action === 'POP') {
     return (
       <HeaderBackButton
         labelVisible={false}
         backImage={() =>
-          BackButton({ iconColor: props.iconColor, icon: 'leftArrow' })
+          BackButton({ iconColor: props.iconColor, icon: 'close' })
         }
         onPress={() => {
           navigation.dispatch(StackActions.pop())

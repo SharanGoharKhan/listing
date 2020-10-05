@@ -1,11 +1,11 @@
 import { Entypo } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BackButton, TextDefault } from '../../../components';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LeftButton, TextDefault } from '../../../components';
 import { colors, scale } from '../../../utilities';
 import styles from './styles';
 
@@ -60,14 +60,16 @@ function FilterModal() {
         setPriceSliderValue(values)
     }
 
-    navigation.setOptions({
-        title: 'Filter',
-        headerBackImage: () =>
-            BackButton({ iconColor: colors.headerText }),
-    }, navigation)
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'Filter',
+            headerLeft: () => <LeftButton icon='close' iconColor={colors.headerText} />
+        })
+    }, [navigation])
+
 
     return (
-        <View style={[
+        <SafeAreaView edges={['bottom']} style={[
             styles.safeAreaViewStyles,
             styles.flex]}>
             <View style={[styles.flex, styles.mainContainer]}>
@@ -170,7 +172,7 @@ function FilterModal() {
                     </TextDefault>
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 export default React.memo(FilterModal)

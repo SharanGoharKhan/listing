@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     safeAreaViewStyles: {
-        backgroundColor: colors.headerbackground
+        backgroundColor: colors.headerbackground,
+        overflow: "hidden"
     },
     mainContainer: {
         backgroundColor: colors.themeBackground
