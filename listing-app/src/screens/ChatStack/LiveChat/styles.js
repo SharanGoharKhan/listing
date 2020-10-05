@@ -4,14 +4,15 @@ import { colors } from '../../../utilities';
 const styles = StyleSheet.create({
     flex: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
+        // justifyContent: "center",
+        // alignItems: "center"
     },
     safeAreaViewStyles: {
         backgroundColor: colors.headerbackground
     },
     mainContainer: {
-        backgroundColor: colors.themeBackground
+        backgroundColor: colors.themeBackground,
+        // justifyContent: 'space-between'
     },
     box: {
         height: 100,
