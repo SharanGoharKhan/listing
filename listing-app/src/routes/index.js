@@ -158,7 +158,7 @@ function BottomTabs() {
             screenOptions={({ route }) => tabIcon(route)}>
             <Tabs.Screen name='Home' component={HomeTabs} />
             <Tabs.Screen name='Chat' component={isLoggedIn ? ChatTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
-            <Tabs.Screen name='Sell' component={isLoggedIn ? SellTabs : AccountScreens.Registration} options={{ tabBarVisible: false, tabBarIcon: () => <SellTab /> }} />
+            <Tabs.Screen name='Sell' component={isLoggedIn ? SellTabs : AccountScreens.Registration} options={{ tabBarVisible: false, tabBarIcon: props => <SellTab {...props} /> }} />
             <Tabs.Screen name='Add' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Account' component={AccountTabs} />
         </Tabs.Navigator >
