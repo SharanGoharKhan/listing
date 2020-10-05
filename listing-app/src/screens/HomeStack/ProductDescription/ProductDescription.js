@@ -1,14 +1,15 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useLayoutEffect, useState } from 'react'
-import { View, TouchableOpacity, ScrollView, Image } from 'react-native'
+import React, { useContext, useLayoutEffect, useState } from 'react'
+import { View, TouchableOpacity, ScrollView, Image, Linking, Share } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Header } from 'react-native/Libraries/NewAppScreen'
-import { LeftButton, ReportModal, RightButton, TextDefault } from '../../../components'
+import { FlashMessage, LeftButton, ReportModal, RightButton, TextDefault } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
 import styles from './style'
 import { FontAwesome, MaterialIcons, Entypo, SimpleLineIcons } from '@expo/vector-icons'
 import Swiper from 'react-native-swiper'
 import { BorderlessButton } from 'react-native-gesture-handler'
+import UserContext from '../../../context/user'
+import * as Device from 'expo-device';
 
 const IMG_LIST = [
     require('../../../assets/images/products/cycle.jpg'),
@@ -21,6 +22,7 @@ function ProductDescription() {
     const navigation = useNavigation()
     const [isLike, isLikeSetter] = useState(false)
     const [reportModal, setReportModal] = useState(false);
+    const { isLoggedIn } = useContext(UserContext)
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -31,6 +33,55 @@ function ProductDescription() {
     function toggleModal() {
         setReportModal(prev => !prev)
     }
+    async function share() {
+        try {
+            const result = await Share.share({
+                title: 'App link',
+                message:
+                    'Install this app and enjoy your friend community',
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                    FlashMessage({ message: 'The invitation has been sent', type: 'success' });
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            FlashMessage({ message: error.message, type: 'warning' });
+        }
+    }
+
+    function dialCall() {
+        if (!isLoggedIn)
+            navigation.navigate('Registration')
+        else if (!Device.isDevice)
+            FlashMessage({ message: 'This function is not working on Simulator/Emulator', type: 'warning' })
+        else {
+            let phoneNumber = '';
+            if (Platform.OS === 'android') {
+                phoneNumber = 'tel:${1234567890}';
+            }
+            else {
+                phoneNumber = 'telprompt:${1234567890}';
+            }
+
+            Linking.openURL(phoneNumber);
+        }
+    };
+
+    function Sms() {
+        if (!isLoggedIn)
+            navigation.navigate('Registration')
+        else {
+            let url = `sms:1234567890${Platform.OS === "ios" ? "&" : "?"}body=${"This is sample text"}`
+
+            Linking.openURL(url);
+        }
+    };
 
     const Slide = props => {
         return (
@@ -156,7 +207,7 @@ function ProductDescription() {
                     <TouchableOpacity activeOpacity={0.7}>
                         {LeftButton({ iconColor: colors.white, icon: 'back' })}
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.7}>
+                    <TouchableOpacity activeOpacity={0.7} onPress={share}>
                         {RightButton({ iconColor: colors.white, icon: 'share' })}
                     </TouchableOpacity>
                 </View>
@@ -177,6 +228,7 @@ function ProductDescription() {
                 <TouchableOpacity
                     activeOpacity={0.7}
                     style={styles.button}
+                    onPress={Sms}
                 >
                     <SimpleLineIcons name='envelope' size={scale(20)} color={colors.white} />
                     <TextDefault textColor={colors.buttonText} uppercase bold style={alignment.PLsmall}>
@@ -187,6 +239,7 @@ function ProductDescription() {
                 <TouchableOpacity
                     activeOpacity={0.7}
                     style={styles.button}
+                    onPress={dialCall}
                 >
                     <SimpleLineIcons name='phone' size={scale(20)} color={colors.white} />
                     <TextDefault textColor={colors.buttonText} uppercase bold style={alignment.PLsmall}>
