@@ -8,7 +8,7 @@ import { alignment, colors, scale, textStyles } from '../utilities';
 import { StyleSheet, Text, View } from 'react-native';
 import { SimpleLineIcons, Fontisto, MaterialCommunityIcons, Ionicons, FontAwesome5, AntDesign } from '@expo/vector-icons'
 import { StackOptions, tabIcon, tabOptions, TopBarOptions } from './screenOptions';
-import { BackButton, BottomTab } from '../components';
+import { BackButton, BottomTab, SellTab } from '../components';
 import UserContext from '../context/user';
 
 
@@ -19,15 +19,16 @@ const AccountStack = createStackNavigator()
 const ChatStack = createStackNavigator()
 const AddStack = createStackNavigator()
 const SellStack = createStackNavigator()
+const FilterStack = createStackNavigator()
 const AccountTOP = createMaterialTopTabNavigator()
 const ChatTOP = createMaterialTopTabNavigator()
 const AdsTOP = createMaterialTopTabNavigator()
 
 function NetworkTabs() {
     return (
-        <AccountTOP.Navigator initialRouteName='Followers' tabBarOptions={TopBarOptions()}>
-            <AccountTOP.Screen name='Followers' component={AccountScreens.Followers} />
+        <AccountTOP.Navigator initialRouteName='Following' tabBarOptions={TopBarOptions()}>
             <AccountTOP.Screen name='Following' component={AccountScreens.Following} />
+            <AccountTOP.Screen name='Followers' component={AccountScreens.Followers} />
         </AccountTOP.Navigator>
     )
 }
@@ -53,6 +54,16 @@ function InboxTabs() {
     )
 }
 
+function FilterScreen() {
+    return (
+        <FilterStack.Navigator initialRouteName='FilterModal' headerMode='screen' screenOptions={StackOptions()}>
+            <FilterStack.Screen name='FilterModal' component={HomeScreens.FilterModal} />
+            <FilterStack.Screen name='Categories' component={HomeScreens.Categories} />
+            <FilterStack.Screen name='SubCategories' component={HomeScreens.SubCategories} />
+        </FilterStack.Navigator>
+    )
+}
+
 function HomeTabs() {
     return (
         <HomeStack.Navigator initialRouteName='Main' headerMode='screen' screenOptions={StackOptions()}>
@@ -63,6 +74,11 @@ function HomeTabs() {
             <HomeStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />
             <HomeStack.Screen name='Notifications' component={HomeScreens.Notifications} />
             <HomeStack.Screen name='UserProfile' component={HomeScreens.UserProfile} />
+            <HomeStack.Screen name='FilterModal' component={FilterScreen} options={{
+                headerShown: false,
+                ...TransitionPresets.ModalSlideFromBottomIOS
+            }} />
+
         </HomeStack.Navigator>
     )
 }
@@ -106,6 +122,7 @@ function AddTabs() {
                     backgroundColor: colors.headerbackground,
                 },
             }} />
+            <AddStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />
         </AddStack.Navigator>
     )
 }
@@ -117,11 +134,14 @@ function AccountTabs() {
             <AccountStack.Screen name='Settings' component={AccountScreens.Settings} />
             <AccountStack.Screen name='Profile' component={AccountScreens.Profile} />
             <AccountStack.Screen name='EditProfile' component={AccountScreens.EditProfile} />
+            <AccountStack.Screen name='UserProfile' component={HomeScreens.UserProfile} />
             <AccountStack.Screen name='EditPhone' component={AccountScreens.EditPhone} />
             <AccountStack.Screen name='EditEmail' component={AccountScreens.EditEmail} />
             <AccountStack.Screen name='Privacy' component={AccountScreens.Privacy} />
             <AccountStack.Screen name='Notifications' component={AccountScreens.Notifications} />
+            <AccountStack.Screen name='HelpBrowser' component={AccountScreens.HelpBrowser} />
             <AccountStack.Screen name='Network' component={NetworkTabs} options={{
+                title: 'My network',
                 headerStyle: {
                     backgroundColor: colors.headerbackground,
                 },
@@ -138,7 +158,7 @@ function BottomTabs() {
             screenOptions={({ route }) => tabIcon(route)}>
             <Tabs.Screen name='Home' component={HomeTabs} />
             <Tabs.Screen name='Chat' component={isLoggedIn ? ChatTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
-            <Tabs.Screen name='Sell' component={isLoggedIn ? SellTabs : AccountScreens.Registration} options={{ tabBarVisible: false }} />
+            <Tabs.Screen name='Sell' component={isLoggedIn ? SellTabs : AccountScreens.Registration} options={{ tabBarVisible: false, tabBarIcon: () => <SellTab /> }} />
             <Tabs.Screen name='Add' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Account' component={AccountTabs} />
         </Tabs.Navigator >
