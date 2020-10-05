@@ -40,21 +40,69 @@ const data = [
     price: 'Rs: 71,900',
     location: 'Model Town Extension, Lahore, Punjab',
     image: require('../../../assets/images/products/nord.jpg')
-  }
+  },
+  {
+    id: '13',
+    title: 'iPad 7th gen',
+    price: 'Rs 59,000',
+    location: 'Gulberg 3, Lahore, Punjab',
+    image: require('../../../assets/images/products/ipad.jpg')
+  },
+  {
+    id: '14',
+    title: 'W26 smart watch health sale Mela',
+    price: 'Rs 3,200',
+    location: 'Gulberg 3, Lahore, Punjab',
+    image: require('../../../assets/images/products/watch.jpg')
+  },
+  {
+    id: '15',
+    title: 'Pure hand work',
+    price: 'Rs 3,500',
+    location: 'Zamzama, Karachi, Sindh',
+    image: require('../../../assets/images/products/handwork.jpg')
+  },
+  {
+    id: '16',
+    title: 'Samsung Note 10 plus 5g Dot..S10 plus S10 4g etc available',
+    price: 'Rs 84,000',
+    location: 'Quetta, Balochistan, Pakistan',
+    image: require('../../../assets/images/products/note10.jpg')
+  }, {
+    id: '17',
+    title: 'Japanese 28 inches cycle',
+    price: 'Rs: 22,900',
+    location: 'Peshawar Road, Rawalpindi, Punjab',
+    image: require('../../../assets/images/products/cycle.jpg')
+  },
+  {
+    id: '18',
+    title: 'PS4 Pro 1TB With Nacon Controller',
+    price: 'Rs: 74,900',
+    location: 'Agha Shahi Avenue, Islamabad, Islamabad Capital Territory',
+    image: require('../../../assets/images/products/Ps4.jpg')
+  },
+  {
+    id: '19',
+    title: 'OnePlus Nord Dual Sim Onyx Grey 8GB RAM 128GB 5G - Global Version',
+    price: 'Rs: 71,900',
+    location: 'Model Town Extension, Lahore, Punjab',
+    image: require('../../../assets/images/products/nord.jpg')
+  },
 ]
 
 function MainHome() {
   const inset = useSafeAreaInsets()
   const navigation = useNavigation()
-  const [filters, setFilters] = useState({})
+  const [filters, setFilters] = useState('Sevice Society E11/2')
   const [modalVisible, setModalVisible] = useState(false);
   const [searchVisible, setSerachVisible] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      header: () => <MainHeader onModalToggle={toggleModal} toggleSearch={toggleSearch} />
+      header: () => <MainHeader onModalToggle={toggleModal} toggleSearch={toggleSearch} locationText={filters} />
     })
-  }, [navigation])
+  }, [navigation, filters])
 
   function toggleModal() {
     setModalVisible(prev => !prev)
@@ -142,7 +190,7 @@ function MainHome() {
       <FlatList
         data={data}
         style={[styles.flex, styles.flatList]}
-        contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.containerBox }}
+        contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.containerBox, ...alignment.PBlarge }}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={emptyView}

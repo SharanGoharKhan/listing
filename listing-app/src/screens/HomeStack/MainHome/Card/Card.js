@@ -22,8 +22,8 @@ function Card(props) {
                 <TouchableOpacity activeOpacity={0}
                     onPress={() => isLikeSetter(prev => !prev)}
                     style={styles.heartContainer}>
-                    {isLike ? <FontAwesome name="heart" size={scale(20)} color="black" /> :
-                        <FontAwesome name="heart-o" size={scale(20)} color="black" />
+                    {isLike ? <FontAwesome name="heart" size={scale(18)} color={colors.black} /> :
+                        <FontAwesome name="heart-o" size={scale(18)} color={colors.horizontalLine} />
                     }
                 </TouchableOpacity>
             </View>
