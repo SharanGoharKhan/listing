@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { Image, View, FlatList, Share } from 'react-native'
-import { EmptyButton, TextDefault, UnfollowModal } from '../../../../components'
-import { alignment, colors, scale } from '../../../../utilities'
-import styles from './styles'
-import { Feather } from '@expo/vector-icons';
-import { BorderlessButton } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
+import React from 'react'
+import { FlatList, Image, Share, View } from 'react-native'
+import { EmptyButton, FlashMessage, TextDefault } from '../../../../components'
+import { alignment, colors } from '../../../../utilities'
 import Card from './Card'
+import styles from './styles'
 
 const empty = false
 
