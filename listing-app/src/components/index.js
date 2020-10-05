@@ -7,13 +7,14 @@ import LiveHeader from './Header/LiveHeader.js/LiveHeader'
 import SearchHeader from './Header/SearchHeader/SearchHeader'
 import ImageHeader from './Header/ImageHeader/ImageHeader'
 import LocationModal from './Modal/LocationModal/LocationModal'
-import FilterModal from './Modal/FilterModal/FilterModal'
 import ReportModal from './Modal/ReportModal/ReportModal'
 import DeactivateModal from './Modal/DeactivateModal/DeactivateModal'
+import UnfollowModal from './Modal/UnfollowModal/UnfollowModal'
 import AddFilter from './Modal/AddFilter/AddFilter'
 import RadioBtn from './RadioBtn/RadioBtn'
 import EmptyButton from './Buttons/EmptyButton/EmptyButton';
 import DisconnectButton from './Buttons/DisconnectButton/DisconnectButton'
+import SellTab from './Buttons/SellTab/SellTab'
 import { LeftButton, BackButton, RightButton } from './Header/HeaderIcons/HeaderIcons'
 
-export { FlashMessage, TextDefault, TextError, Spinner, LocationModal, ModalHeader, MainHeader, ImageHeader, ReportModal, BackButton, LeftButton, RightButton, FilterModal, SearchHeader, RadioBtn, EmptyButton, DisconnectButton, DeactivateModal, AddFilter, LiveHeader }
+export { FlashMessage, TextDefault, TextError, Spinner, LocationModal, ModalHeader, MainHeader, ImageHeader, ReportModal, BackButton, LeftButton, RightButton, SearchHeader, RadioBtn, EmptyButton, DisconnectButton, DeactivateModal, AddFilter, LiveHeader, UnfollowModal, SellTab }
