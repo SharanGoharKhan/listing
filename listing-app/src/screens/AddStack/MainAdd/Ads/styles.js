@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
     dateRow: {
         backgroundColor: colors.bottomTabColor,
-        ...alignment.Psmall
+        width: "100%"
     },
 
     InfoContainer: {

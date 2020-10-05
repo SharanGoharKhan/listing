@@ -100,7 +100,7 @@ function ModalHeader() {
                             visible={open}
                             onRequestClose={() => setOpen(false)}
                         >
-                            <TouchableOpacity activeOpacity={1} style={styles.flex}  >
+                            <TouchableOpacity activeOpacity={1} style={styles.flex} onPress={() => setOpen(false)} >
                                 <FlatList
                                     data={OPTIONS}
                                     style={{ width: width * 0.5, backgroundColor: colors.containerBox, position: 'absolute', top: inset.top, right: scale(5) }}
