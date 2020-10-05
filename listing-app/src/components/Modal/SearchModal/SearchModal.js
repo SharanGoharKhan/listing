@@ -13,8 +13,8 @@ function SearchModal(props) {
     const inset = useSafeAreaInsets()
     const navigation = useNavigation()
 
-    function navigate() {
-        navigation.navigate('ProductListing', { search: 'View All' })
+    function navigate(item) {
+        navigation.navigate('ProductListing', { search: item ?? 'View All' })
         props.onModalToggle()
     }
 
@@ -90,7 +90,7 @@ function SearchModal(props) {
                         </TextDefault>
                         {CATEGORY.map((item, index) => (
                             <TouchableOpacity
-                                onPress={() => navigate()}
+                                onPress={() => navigate(item)}
                                 style={styles.category}
                                 key={index}>
                                 <Ionicons

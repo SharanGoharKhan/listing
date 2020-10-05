@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Modal, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { FlashMessage } from '../../FlashMessage/FlashMessage';
 import ModalHeader from '../../Header/ModalHeader/ModalHeader';
 import RadioButton from '../../RadioBtn/RadioBtn';
 import { TextDefault } from '../../Text';
@@ -33,6 +34,10 @@ function ReportModal(props) {
     const inset = useSafeAreaInsets()
     const [check, setCheck] = useState(null)
 
+    function Send() {
+        FlashMessage({ message: 'Thanks for your feedback', type: 'success' })
+        props.onModalToggle()
+    }
 
     function footerView() {
         return (
@@ -49,7 +54,7 @@ function ReportModal(props) {
                             </TextDefault>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={Send}>
                         <View style={styles.buttonText}>
                             <TextDefault>
                                 {'Send'}
