@@ -1,5 +1,5 @@
 import { SimpleLineIcons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { StackActions, useNavigation } from '@react-navigation/native'
 import React, { useEffect } from 'react'
 import { Image, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -16,6 +16,11 @@ function AdPosting() {
             headerShown: false
         })
     }, [])
+
+    function NavigateScreen() {
+        navigation.dispatch(StackActions.popToTop())
+        navigation.navigate('ProductDescription')
+    }
 
     return (
         <SafeAreaView style={[styles.safeAreaViewStyles, styles.flex]}>
@@ -45,7 +50,7 @@ function AdPosting() {
 
                     <DisconnectButton
                         title='Preview Ad'
-                        onPress={() => navigation.navigate('ProductDescription')}
+                        onPress={NavigateScreen}
                     />
                 </View>
             </View>

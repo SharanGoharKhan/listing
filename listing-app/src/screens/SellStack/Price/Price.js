@@ -30,7 +30,6 @@ function Price() {
         };
     }, []);
     function _keyboardDidShow() {
-        console.log('here')
         marginSetter(true)
     }
     function _keyboardDidHide() {
