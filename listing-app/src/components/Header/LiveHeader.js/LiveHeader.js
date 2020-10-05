@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { View, TouchableOpacity, StyleSheet, Image, Platform, Modal, FlatList, Dimensions } from 'react-native'
-import { TextDefault } from '../../Text'
-import styles from './styles'
-import { AntDesign } from '@expo/vector-icons'
-import { alignment, colors, scale } from '../../../utilities'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import * as Device from 'expo-device'
+import React, { useState } from 'react'
+import { Dimensions, FlatList, Image, Linking, Modal, Platform, TouchableOpacity, View } from 'react-native'
+import { BorderlessButton } from 'react-native-gesture-handler'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { alignment, colors, scale } from '../../../utilities'
+import { FlashMessage } from '../../FlashMessage/FlashMessage'
+import { TextDefault } from '../../Text'
 import { LeftButton } from '../HeaderIcons/HeaderIcons'
-import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler'
+import styles from './styles'
 
 const { width, height } = Dimensions.get('window')
 
@@ -18,6 +19,34 @@ function ModalHeader() {
     const navigation = useNavigation()
     const [open, setOpen] = useState(false)
     const inset = useSafeAreaInsets()
+
+    function dialCall() {
+        if (!Device.isDevice)
+            FlashMessage({ message: 'This function is not working on Simulator/Emulator', type: 'warning' })
+        else {
+            let phoneNumber = '';
+            if (Platform.OS === 'android') {
+                phoneNumber = 'tel:${1234567890}';
+            }
+            else {
+                phoneNumber = 'telprompt:${1234567890}';
+            }
+
+            Linking.openURL(phoneNumber);
+        }
+    };
+
+    function Sms() {
+        let url = `sms:1234567890${Platform.OS === "ios" ? "&" : "?"}body=${"This is sample text"}`
+
+        Linking.openURL(url);
+    };
+
+    function customMessage() {
+        FlashMessage({ message: 'Pending Features' })
+        setOpen(false)
+        // navigation.goBack()
+    }
     return (
         <SafeAreaView edges={['top']} style={styles.safeAreaContainer}>
             <View style={styles.headerContainer}>
@@ -44,14 +73,16 @@ function ModalHeader() {
                         <View style={styles.iconContainer}>
                             <BorderlessButton
                                 style={alignment.PxSmall}
-                                borderless={false}>
+                                borderless={false}
+                                onPress={dialCall}>
                                 <View accessible>
                                     <Feather name="phone" size={scale(20)} color={colors.headerText} />
                                 </View>
                             </BorderlessButton>
                             <BorderlessButton
                                 style={alignment.PxSmall}
-                                borderless={false}>
+                                borderless={false}
+                                onPress={Sms}>
                                 <MaterialCommunityIcons name="message-text-outline" size={scale(20)} color={colors.headerText} />
                             </BorderlessButton>
                             <BorderlessButton
@@ -69,17 +100,14 @@ function ModalHeader() {
                             visible={open}
                             onRequestClose={() => setOpen(false)}
                         >
-                            <TouchableOpacity activeOpacity={1} style={styles.flex} onPress={() => setOpen(false)} >
+                            <TouchableOpacity activeOpacity={1} style={styles.flex}  >
                                 <FlatList
                                     data={OPTIONS}
                                     style={{ width: width * 0.5, backgroundColor: colors.containerBox, position: 'absolute', top: inset.top, right: scale(5) }}
                                     keyExtractor={(index) => index.toString()}
                                     renderItem={({ item, index }) => (
                                         <BorderlessButton
-                                            onPress={() => {
-                                                setOpen(false)
-                                                navigation.goBack()
-                                            }}
+                                            onPress={customMessage}
                                             borderless={false}
                                             style={{ ...alignment.Pmedium }}>
                                             <TextDefault bold H5>

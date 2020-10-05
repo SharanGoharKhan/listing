@@ -19,8 +19,8 @@ function MainHeader(props) {
                 style={styles.row}>
                 <MaterialIcons name='location-on' size={scale(25)} color={colors.headerText} />
                 <TextDefault numberOfLines={1} textColor={colors.headerText} H5 style={styles.title}>
-                    Sevice Society E11/2
-            </TextDefault>
+                    {props.locationText}
+                </TextDefault>
                 <Feather name='chevron-down' size={scale(20)} color={colors.fontSecondColor} />
             </TouchableOpacity>
             <View style={styles.searchContainer}>
