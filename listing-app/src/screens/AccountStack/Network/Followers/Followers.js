@@ -1,10 +1,46 @@
 import React from 'react'
-import { Image, View } from 'react-native'
-import { TextDefault } from '../../../../components'
-import { alignment } from '../../../../utilities'
+import { Image, View, FlatList, Share } from 'react-native'
+import { EmptyButton, TextDefault } from '../../../../components'
+import { alignment, colors } from '../../../../utilities'
+import Card from './Card'
 import styles from './styles'
 
+const data = [
+    {
+        img: require('../../../../assets/images/avatar.png'),
+        name: 'John',
+        following: false
+    },
+    {
+        img: require('../../../../assets/images/avatar.png'),
+        name: 'Doe',
+        following: false
+    },
+]
+
 function Followers() {
+
+    async function share() {
+        try {
+            const result = await Share.share({
+                title: 'App link',
+                message:
+                    'Install this app and enjoy your friend community',
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                    FlashMessage({ message: 'The invitation has been sent', type: 'success' });
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            FlashMessage({ message: error.message, type: 'warning' });
+        }
+    }
 
     function emptyView() {
         return (
@@ -23,9 +59,38 @@ function Followers() {
         )
     }
 
+    function header() {
+        return (
+            <View style={styles.notificationContainer}>
+                <View style={styles.imgResponsive}>
+                    <Image style={styles.img} source={require('../../../../assets/images/emptyView/network.png')} />
+                </View>
+                <View style={styles.notificationText}>
+                    <TextDefault textColor={colors.buttonbackground} H5 center >
+                        {'APP is more fun shared with friends'}
+                    </TextDefault>
+                    <View style={{ width: '70%' }}>
+                        <EmptyButton title='Invite Friends'
+                            onPress={share} />
+                    </View>
+                </View>
+            </View>
+        )
+    }
+
     return (
         <View style={[styles.flex, styles.mainContainer]}>
-            {emptyView()}
+            <FlatList
+                style={styles.flex}
+                contentContainerStyle={[styles.mainContainer, { flexGrow: 1 }]}
+                data={data}
+                ListEmptyComponent={emptyView()}
+                ListHeaderComponent={data.length > 0 && header()}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                    <Card {...item} />
+                )}
+            />
         </View>
     )
 }
