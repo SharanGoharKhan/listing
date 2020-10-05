@@ -12,6 +12,11 @@ const STATE = ['All in Pakistan', 'Azad Kashmir', 'Balochistan', 'Islamabad Capi
 function LocationModal(props) {
     const inset = useSafeAreaInsets()
     const loading = false
+
+    function btnLocation(title) {
+        props.setFilters(title)
+        props.onModalToggle()
+    }
     return (
         <Modal
             animationType="slide"
@@ -44,7 +49,7 @@ function LocationModal(props) {
                                     placeholder={'Search city, area or neighbour'}
                                 />
                             </View>
-                            <View style={styles.currentLocation}>
+                            <TouchableOpacity style={styles.currentLocation} onPress={() => btnLocation('E11/2')}>
                                 <MaterialCommunityIcons name="target" size={scale(25)} color={colors.spinnerColor} />
                                 <View style={alignment.PLsmall}>
                                     <TextDefault textColor={colors.spinnerColor} H5 bold>
@@ -54,7 +59,7 @@ function LocationModal(props) {
                                         {loading ? 'Fetching location...' : 'E11/2'}
                                     </TextDefault>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         </View>
                         <TextDefault textColor={colors.fontSecondColor} uppercase style={styles.title}>
                             {'Choose State'}
@@ -65,7 +70,7 @@ function LocationModal(props) {
                             renderItem={({ item }) => (
                                 <TouchableOpacity
                                     style={styles.stateBtn}
-                                    onPress={() => props.onModalToggle()} >
+                                    onPress={() => btnLocation(item)} >
                                     <TextDefault style={styles.flex} >
                                         {item}
                                     </TextDefault>
