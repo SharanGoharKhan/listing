@@ -1,5 +1,5 @@
 import { Entypo } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react';
 import { FlatList, Image, TouchableOpacity, View } from 'react-native';
 import { TextDefault } from '../../../components';
@@ -21,6 +21,9 @@ const category = [
 
 function Categories() {
     const navigation = useNavigation()
+    const route = useRoute()
+    const screen = route.params?.screen ?? null
+
 
     function emptyView() {
         return (
@@ -49,7 +52,8 @@ function Categories() {
                     <TouchableOpacity
                         activeOpacity={0.5}
                         style={styles.categoryRow}
-                        onPress={() => navigation.navigate('SubCategories', { headerTitle: item.title })}>
+                        // onPress={() => navigation.dispatch(StackActions.push('SubCategories', { headerTitle: item.title, screen: screen }))}>
+                        onPress={() => navigation.navigate('SubCategories', { headerTitle: item.title, screen: screen })}>
                         <View style={styles.rowContainer}>
                             <View style={[styles.image, { backgroundColor: COLORS[index % 5] }]}>
                                 <Image
@@ -66,10 +70,11 @@ function Categories() {
                         </View>
 
                     </TouchableOpacity>
-                )}
+                )
+                }
             />
 
-        </View>
+        </View >
     );
 }
 
