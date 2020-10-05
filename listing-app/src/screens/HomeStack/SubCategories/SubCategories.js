@@ -14,6 +14,8 @@ function SubCategories() {
     const navigation = useNavigation()
     const route = useRoute()
     const headerTitle = route?.params?.headerTitle ?? null
+    const screen = route.params?.screen ?? null
+
 
 
     useLayoutEffect(() => {
@@ -22,12 +24,19 @@ function SubCategories() {
         })
     }, [navigation, headerTitle])
 
+    function navigateScreen(title) {
+        if (screen === 'Filter')
+            navigation.navigate('FilterModal', { search: title })
+        else
+            navigation.navigate('ProductListing', { search: title })
+    }
+
     function footer() {
         return (
             <TouchableOpacity
                 activeOpacity={0.5}
                 style={styles.categoryRow}
-                onPress={()=>navigation.navigate('ProductListing', { search: 'View All' })}>
+                onPress={() => navigateScreen('View All')}>
                 <TextDefault light H5 style={styles.fontText}>
                     {'View All'}
                 </TextDefault>
@@ -46,7 +55,7 @@ function SubCategories() {
                     <TouchableOpacity
                         activeOpacity={0.5}
                         style={styles.categoryRow}
-                        onPress={() => navigation.navigate('ProductListing', { search: item.title })}
+                        onPress={() => navigateScreen(item.title)}
                     >
                         <TextDefault light H5 style={styles.fontText}>
                             {item.title}
