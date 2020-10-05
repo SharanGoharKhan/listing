@@ -61,7 +61,7 @@ function ProductListing() {
                     {'6,123 ads'}
                 </TextDefault>
                 <TouchableOpacity style={styles.filterBtn}
-                    onPress={() => toggleModal()}>
+                    onPress={() => navigation.navigate('FilterModal', { visible: modalVisible,searchCategory: searchCategory })}>
                     <MaterialIcons name='tune' size={scale(20)} color={colors.buttonbackground} />
                     <TextDefault style={styles.fontText} right>
                         {'Filter'}
@@ -83,7 +83,7 @@ function ProductListing() {
                     <ProductCard {...item} />
                 )}
             />
-            <FilterModal visible={modalVisible} onModalToggle={toggleModal} searchCategory={searchCategory} />
+            {/* <FilterModal visible={modalVisible} onModalToggle={toggleModal} searchCategory={searchCategory} /> */}
         </View>
     )
 }
