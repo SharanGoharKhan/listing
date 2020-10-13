@@ -1,26 +1,15 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import { colors } from '../../../utilities'
 import { TextDefault } from '../../Text'
+import { LeftButton } from '../HeaderIcons/HeaderIcons'
 import styles from './styles'
-import { AntDesign } from '@expo/vector-icons'
-import { colors, scale } from '../../../utilities'
-import { BorderlessButton } from 'react-native-gesture-handler'
 
 function ModalHeader(props) {
     return (
         <View style={[styles.headerContainer, { borderBottomWidth: props.title ? StyleSheet.hairlineWidth : 0 }]}>
             <View style={styles.headerContents}>
-                <BorderlessButton
-                    style={styles.closeBtn}
-                    onPress={() => {
-                        props.closeModal()
-                    }}>
-                    <AntDesign
-                        name="close"
-                        size={scale(25)}
-                        color={colors.headerText}
-                    />
-                </BorderlessButton>
+                <LeftButton icon='close' iconColor={colors.headerText} navigate={props.closeModal} />
                 {props.title &&
                     <TextDefault textColor={colors.headerText} style={styles.title} bolder H3>
                         {props.title}
