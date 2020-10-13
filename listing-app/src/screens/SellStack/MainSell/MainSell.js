@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const CATEGORY = [
     { id: '0', title: 'Mobiles', image: require('../../../assets/icons/categoryIcon/mobile.png') },
     { id: '1', title: 'Vehicles', image: require('../../../assets/icons/categoryIcon/car.png') },
-    { id: '2', title: 'Property for sale', image: require('../../../assets/icons/categoryIcon/sale.png') },
+    { id: '2', title: 'Property For Sale', image: require('../../../assets/icons/categoryIcon/sale.png') },
     { id: '3', title: 'Animals', image: require('../../../assets/icons/categoryIcon/pet(1).png') },
     { id: '4', title: 'Electronics', image: require('../../../assets/icons/categoryIcon/monitor.png') },
     { id: '5', title: 'Bikes', image: require('../../../assets/icons/categoryIcon/motorcycle.png') },

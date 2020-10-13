@@ -14,10 +14,14 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         backgroundColor: colors.themeBackground,
-        alignItems: "center"
+        // alignItems: "center"
     },
     subContainer: {
         ...alignment.Psmall,
+    },
+    line: {
+        borderBottomColor: colors.horizontalLine,
+        borderBottomWidth: StyleSheet.hairlineWidth
     },
     subContainerRow: {
         width: "95%",
@@ -86,6 +90,7 @@ const styles = StyleSheet.create({
     },
     buttonView: {
         width: "90%",
+        alignSelf: "center",
         ...alignment.PBsmall
     }
 })

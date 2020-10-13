@@ -31,7 +31,7 @@ function AdPosting() {
                         {'congratulations!'}
                     </TextDefault>
                     <TextDefault textColor={colors.white} style={alignment.MTsmall}>
-                        {'Your ad will be go live shortly!'}
+                        {'Your ad will go live shortly!'}
                     </TextDefault>
                 </View>
                 <View style={styles.buttonContainer}>

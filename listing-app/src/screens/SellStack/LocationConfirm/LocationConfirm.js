@@ -10,6 +10,7 @@ import styles from './styles'
 function LocationConfirm() {
     const navigation = useNavigation()
     const [modalVisible, setModalVisible] = useState(false);
+    const [filters, setFilters] = useState('')
 
     useEffect(() => {
         navigation.setOptions({
@@ -30,7 +31,7 @@ function LocationConfirm() {
                             {'Location'}
                         </TextDefault>
                         <TextDefault light style={[alignment.PLxSmall, alignment.MTxSmall]}>
-                            {'Recommendation & special communication'}
+                            {filters ? filters : 'Recommendation & special communication'}
                         </TextDefault>
                     </View>
                     <Entypo name="chevron-small-right" size={scale(20)} color={colors.buttonbackground} />
@@ -45,7 +46,7 @@ function LocationConfirm() {
                 </View>
 
             </View>
-            <LocationModal visible={modalVisible} onModalToggle={toggleModal} />
+            <LocationModal setFilters={setFilters} visible={modalVisible} onModalToggle={toggleModal} />
         </SafeAreaView>
     )
 }

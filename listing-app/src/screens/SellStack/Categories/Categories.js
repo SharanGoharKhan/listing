@@ -13,7 +13,7 @@ const category = [
     { id: '1', title: 'Vehicles', image: require('../../../assets/icons/categoryIcon/car.png') },
     { id: '2', title: 'Animals', image: require('../../../assets/icons/categoryIcon/pet(1).png') },
     { id: '3', title: 'Kids', image: require('../../../assets/icons/categoryIcon/stroller.png') },
-    { id: '4', title: 'Property for sale', image: require('../../../assets/icons/categoryIcon/sale.png') },
+    { id: '4', title: 'Property For Sale', image: require('../../../assets/icons/categoryIcon/sale.png') },
     { id: '5', title: 'Electronics', image: require('../../../assets/icons/categoryIcon/monitor.png') },
     { id: '6', title: 'Bikes', image: require('../../../assets/icons/categoryIcon/motorcycle.png') },
     { id: '7', title: 'Jobs', image: require('../../../assets/icons/categoryIcon/work.png') },

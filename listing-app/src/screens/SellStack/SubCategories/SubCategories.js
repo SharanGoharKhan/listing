@@ -8,7 +8,7 @@ import styles from './styles';
 const SubCategory = [
     { id: '0', title: 'Tablets' },
     { id: '1', title: 'Accessories' },
-    { id: '2', title: 'MobilePhones' }
+    { id: '2', title: 'Mobile Phones' }
 ]
 
 function SubCategories() {
@@ -30,6 +30,7 @@ function SubCategories() {
                     style={styles.flatList}
                     contentContainerStyle={styles.categoryContainer}
                     showsHorizontalScrollIndicator={false}
+                    ItemSeparatorComponent={() => <View style={styles.line} />}
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             activeOpacity={0.5}
