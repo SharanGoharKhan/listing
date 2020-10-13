@@ -10,6 +10,7 @@ import Swiper from 'react-native-swiper'
 import { BorderlessButton } from 'react-native-gesture-handler'
 import UserContext from '../../../context/user'
 import * as Device from 'expo-device';
+import Slider from './Slider'
 
 const IMG_LIST = [
     require('../../../assets/images/products/cycle.jpg'),
@@ -83,18 +84,6 @@ function ProductDescription() {
         }
     };
 
-    const Slide = props => {
-        return (
-            <View style={styles.slide}>
-                <Image
-                    style={styles.image}
-                    source={props.uri}
-                    resizeMode='cover'
-                />
-            </View>
-        )
-    }
-
     return (
         <SafeAreaView style={[styles.flex, styles.safeAreaview]}>
             <ScrollView style={[styles.flex, styles.mainContainer]}
@@ -105,14 +94,7 @@ function ProductDescription() {
                 <ReportModal visible={reportModal} onModalToggle={toggleModal} />
 
                 <View style={styles.swiperContainer}>
-                    <Swiper style={styles.wrapper} >
-                        {IMG_LIST.map((item, i) => (
-                            <Slide
-                                uri={item}
-                                key={i}
-                            />
-                        ))}
-                    </Swiper>
+                    <Slider IMG_LIST={IMG_LIST} />
                 </View>
                 <View style={styles.priceContainer}>
                     <View style={styles.priceRow}>
