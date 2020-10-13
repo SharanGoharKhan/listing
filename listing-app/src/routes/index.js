@@ -1,15 +1,12 @@
-import React, { useContext } from 'react'
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createStackNavigator, HeaderBackButton, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import { HomeScreens, AccountScreens, AddScreens, SellScreens, ChatScreens } from '../screens'
-import { alignment, colors, scale, textStyles } from '../utilities';
-import { StyleSheet, Text, View } from 'react-native';
-import { SimpleLineIcons, Fontisto, MaterialCommunityIcons, Ionicons, FontAwesome5, AntDesign } from '@expo/vector-icons'
-import { StackOptions, tabIcon, tabOptions, TopBarOptions } from './screenOptions';
-import { BackButton, BottomTab, SellTab } from '../components';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+import React, { useContext } from 'react';
 import UserContext from '../context/user';
+import { AccountScreens, AddScreens, ChatScreens, HomeScreens, SellScreens } from '../screens';
+import { colors, scale } from '../utilities';
+import { StackOptions, tabIcon, tabOptions, TopBarOptions } from './screenOptions';
 
 
 const Tabs = createBottomTabNavigator()
@@ -154,13 +151,14 @@ function AccountTabs() {
 
 function BottomTabs() {
     const { isLoggedIn } = useContext(UserContext)
-    {/* Don't change the sequence of following screens */ }
     return (
         <Tabs.Navigator initialRouteName='Home' backBehavior='history' tabBarOptions={tabOptions()}
             screenOptions={({ route }) => tabIcon(route)}>
             <Tabs.Screen name='Home' component={HomeTabs} />
             <Tabs.Screen name='Chat' component={isLoggedIn ? ChatTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
-            <Tabs.Screen name='Sell' component={isLoggedIn ? SellTabs : AccountScreens.Registration} options={{ tabBarVisible: false, tabBarIcon: props => <SellTab {...props} /> }} />
+            <Tabs.Screen name='Sell' component={isLoggedIn ? SellTabs : AccountScreens.Registration} options={{
+                tabBarVisible: false
+            }} />
             <Tabs.Screen name='Add' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Account' component={AccountTabs} />
             <Tabs.Screen name='ProductDescription' component={HomeScreens.ProductDescription} options={{ tabBarButton: () => null, tabBarVisible: false }} />
