@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
     width100: {
         width: "100%",
     },
+    safeAreaView: {
+        backgroundColor: colors.headerbackground
+    },
     mainContainer: {
         backgroundColor: colors.themeBackground
     },

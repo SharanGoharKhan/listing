@@ -23,7 +23,7 @@ function Registration() {
                 <ModalHeader closeModal={() => navigation.goBack()} />
                 <View style={styles.logoContainer}>
                     <TextDefault textColor={colors.buttonbackground} bolder H1 style={styles.textTitle} >
-                        {'OlO'}
+                        {'OLO'}
                     </TextDefault>
 
                 </View>
