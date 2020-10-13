@@ -7,7 +7,7 @@ import { colors, scale } from '../../../utilities';
 import { TextDefault } from '../../Text';
 import styles from './styles';
 
-const CATEGORY = ['Mobile', 'Vehicle', 'Property for sale']
+const CATEGORY = ['Mobile', 'Vehicle', 'Property For Sale']
 
 function SearchModal(props) {
     const inset = useSafeAreaInsets()
