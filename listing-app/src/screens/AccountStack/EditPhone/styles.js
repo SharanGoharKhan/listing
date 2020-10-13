@@ -5,11 +5,14 @@ const styles = StyleSheet.create({
     flex: {
         flex: 1
     },
+    safeAreaView: {
+        backgroundColor: colors.headerbackground
+    },
     mainContainer: {
-        backgroundColor: colors.themeBackground
+        backgroundColor: colors.themeBackground,
     },
     basicInfoContainer: {
-        ...alignment.PTlarge,
+        ...alignment.PTsmall,
         ...alignment.PLmedium,
         ...alignment.PRmedium
     },

@@ -13,7 +13,7 @@ import styles from './styles'
 
 const { width, height } = Dimensions.get('window')
 
-const OPTIONS = ['Delete Chat', 'Report User', 'Block User', 'Safety Tipe', 'Turn Off SafetyTips']
+const OPTIONS = ['Delete Chat', 'Report User', 'Block User', 'Safety Tips', 'Turn Off SafetyTips']
 
 function ModalHeader() {
     const navigation = useNavigation()

@@ -10,10 +10,18 @@ import { useNavigation } from '@react-navigation/native'
 function Card(props) {
     const [modalVisible, setModalVisible] = useState(false)
     const navigation = useNavigation()
+    const [following, setfollowing] = useState(props.following)
 
     function onModalToggle() {
         setModalVisible(prev => !prev)
     }
+    function onFollowing() {
+        setfollowing(prev => !prev)
+    }
+
+    if (!following)
+        return null
+
     return (
         <>
             <View style={styles.userContainer}>
@@ -30,7 +38,7 @@ function Card(props) {
                     <Feather name="user-check" size={scale(20)} color="black" />
                 </BorderlessButton>
             </View>
-            <UnfollowModal modalVisible={modalVisible} onModalToggle={onModalToggle} name={props.name} />
+            <UnfollowModal modalVisible={modalVisible} onModalToggle={onModalToggle} onFollowing={onFollowing} name={props.name} />
         </>
     )
 }

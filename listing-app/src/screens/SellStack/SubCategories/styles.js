@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
         width: "100%",
         ...alignment.PLlarge,
         ...alignment.PRlarge
-    }
+    },
+    line: {
+        borderBottomColor: colors.horizontalLine,
+        borderBottomWidth: StyleSheet.hairlineWidth
+    },
 })
 export default styles

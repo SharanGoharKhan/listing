@@ -33,12 +33,11 @@ const styles = StyleSheet.create({
     subContainer: {
         width: "100%",
         alignItems: "center",
-        // backgroundColor: "blue",
         ...alignment.PTsmall,
         ...alignment.PBsmall
     },
     subContainerRow: {
-        width: "95%",
+        width: "100%",
         alignSelf: "center",
         flexDirection: 'row',
         justifyContent: "space-between",

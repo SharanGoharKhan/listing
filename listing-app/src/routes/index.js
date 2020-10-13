@@ -16,6 +16,7 @@ const Tabs = createBottomTabNavigator()
 const MainStack = createStackNavigator()
 const HomeStack = createStackNavigator()
 const AccountStack = createStackNavigator()
+const EditAccountStack = createStackNavigator()
 const ChatStack = createStackNavigator()
 const AddStack = createStackNavigator()
 const SellStack = createStackNavigator()
@@ -119,6 +120,16 @@ function AddTabs() {
         </AddStack.Navigator>
     )
 }
+function EditAccount() {
+    return (
+        <EditAccountStack.Navigator initialRouteName='EditProfile' headerMode='screen' screenOptions={StackOptions()}>
+            <EditAccountStack.Screen name='EditProfile' component={AccountScreens.EditProfile} />
+            <EditAccountStack.Screen name='EditPhone' component={AccountScreens.EditPhone} />
+            <EditAccountStack.Screen name='EditEmail' component={AccountScreens.EditEmail} />
+        </EditAccountStack.Navigator>
+
+    )
+}
 function AccountTabs() {
     return (
         <AccountStack.Navigator initialRouteName='MainAccount' headerMode='screen' screenOptions={StackOptions()}>
@@ -126,15 +137,12 @@ function AccountTabs() {
             <AccountStack.Screen name='Help' component={AccountScreens.Help} options={{ title: 'Help and Support' }} />
             <AccountStack.Screen name='Settings' component={AccountScreens.Settings} />
             <AccountStack.Screen name='Profile' component={AccountScreens.Profile} />
-            <AccountStack.Screen name='EditProfile' component={AccountScreens.EditProfile} />
             <AccountStack.Screen name='UserProfile' component={HomeScreens.UserProfile} />
-            <AccountStack.Screen name='EditPhone' component={AccountScreens.EditPhone} />
-            <AccountStack.Screen name='EditEmail' component={AccountScreens.EditEmail} />
             <AccountStack.Screen name='Privacy' component={AccountScreens.Privacy} />
             <AccountStack.Screen name='Notifications' component={AccountScreens.Notifications} />
             <AccountStack.Screen name='HelpBrowser' component={AccountScreens.HelpBrowser} />
             <AccountStack.Screen name='Network' component={NetworkTabs} options={{
-                title: 'My network',
+                title: 'My Network',
                 headerStyle: {
                     backgroundColor: colors.headerbackground,
                 },
@@ -156,6 +164,7 @@ function BottomTabs() {
             <Tabs.Screen name='Add' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Account' component={AccountTabs} />
             <Tabs.Screen name='ProductDescription' component={HomeScreens.ProductDescription} options={{ tabBarButton: () => null, tabBarVisible: false }} />
+            <Tabs.Screen name='EditProfile' component={isLoggedIn ? EditAccount : AccountScreens.Registration} options={{ tabBarButton: () => null, tabBarVisible: false }} />
         </Tabs.Navigator >
     )
 }

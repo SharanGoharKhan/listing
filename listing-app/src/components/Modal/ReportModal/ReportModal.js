@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { FlatList, KeyboardAvoidingView, Modal, TextInput, TouchableOpacity, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Keyboard, KeyboardAvoidingView, Modal, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { scale } from '../../../utilities';
 import { FlashMessage } from '../../FlashMessage/FlashMessage';
 import ModalHeader from '../../Header/ModalHeader/ModalHeader';
 import RadioButton from '../../RadioBtn/RadioBtn';
@@ -33,10 +34,27 @@ const REPORT_OPTIONS = [
 function ReportModal(props) {
     const inset = useSafeAreaInsets()
     const [check, setCheck] = useState(null)
+    const [margin, marginSetter] = useState(false)
 
     function Send() {
         FlashMessage({ message: 'Thanks for your feedback', type: 'success' })
         props.onModalToggle()
+    }
+    useEffect(() => {
+        Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
+        Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+
+        // cleanup function
+        return () => {
+            Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
+            Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+        };
+    }, []);
+    function _keyboardDidShow() {
+        marginSetter(true)
+    }
+    function _keyboardDidHide() {
+        marginSetter(false)
     }
 
     function footerView() {
@@ -72,14 +90,13 @@ function ReportModal(props) {
             transparent={true}
             visible={props.visible}
         >
-            <View style={[
+            <SafeAreaView edges={['top', 'bottom']} style={[
                 styles.safeAreaViewStyles,
-                styles.flex,
-                { paddingTop: inset.top, paddingBottom: inset.bottom }]}>
+                styles.flex]}>
                 <KeyboardAvoidingView
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                     style={styles.flex}>
-                    <View style={[styles.flex, styles.mainContainer]}>
+                    <View style={[styles.flex, styles.mainContainer, { paddingBottom: margin ? scale(50) : scale(0) }]}>
                         <ModalHeader closeModal={props.onModalToggle} title={'Report ad'} />
                         <FlatList
                             data={REPORT_OPTIONS}
@@ -105,7 +122,7 @@ function ReportModal(props) {
                         {footerView()}
                     </View>
                 </KeyboardAvoidingView>
-            </View>
+            </SafeAreaView>
         </Modal >
     )
 }

@@ -177,7 +177,7 @@ function MainHome() {
         <View style={styles.spacer} />
         <View style={styles.headerTitle}>
           <TextDefault H5 bold>
-            {'Fresh recommendations'}
+            {'Fresh Recommendations'}
           </TextDefault>
         </View>
       </>

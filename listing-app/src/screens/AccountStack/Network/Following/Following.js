@@ -11,11 +11,13 @@ const empty = false
 const data = [
     {
         img: require('../../../../assets/images/avatar.png'),
-        name: 'Merchant Ali'
+        name: 'Merchant Ali',
+        following: true
     },
     {
         img: require('../../../../assets/images/avatar.png'),
-        name: 'Saad Javed'
+        name: 'Saad Javed',
+        following: true
     },
 ]
 function Following() {
@@ -92,7 +94,8 @@ function Following() {
                 ListHeaderComponent={data.length > 0 && header()}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <Card {...item} />
+                    item.following &&
+                    < Card {...item} />
                 )}
             />
         </View>

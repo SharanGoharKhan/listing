@@ -99,7 +99,10 @@ function LeftButton(props) {
           BackButton({ iconColor: props.iconColor, icon: 'close' })
         }
         onPress={() => {
-          navigation.goBack()
+          if (props.navigate)
+            props.navigate()
+          else
+            navigation.goBack()
           // navigation.dispatch(state => {
           //   const routes = state.routes.filter(r => r.name === 'Menu')
           //   return CommonActions.reset({

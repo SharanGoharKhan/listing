@@ -2,7 +2,7 @@ import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { Image, Platform, TouchableOpacity, View } from 'react-native'
-import { BaseButton, BorderlessButton } from 'react-native-gesture-handler'
+import { BaseButton, BorderlessButton, RectButton } from 'react-native-gesture-handler'
 import { FlashMessage, TextDefault } from '../../../../components'
 import { alignment, colors, scale } from '../../../../utilities'
 import styles from './styles'
@@ -84,7 +84,7 @@ function Card(props) {
                         </TextDefault>
                     </View>
                     <TextDefault style={alignment.MTxSmall}>
-                        {props.status === 'PENDING' ? 'This ad is being processed and it will be live soon' : 'This add is currently live'}
+                        {props.status === 'PENDING' ? 'This ad is being processed and it will be live soon' : 'This ad is currently live'}
                     </TextDefault>
                 </View>
                 {deleteBox &&
@@ -104,26 +104,26 @@ function Card(props) {
                         top: scale(30),
                         zIndex: 1
                     }}>
-                        <TouchableOpacity style={alignment.Psmall} onPress={adOptions}>
+                        <RectButton style={alignment.Psmall} onPress={adOptions}>
                             <TextDefault H5 bold uppercase>
                                 {'Edit'}
                             </TextDefault>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={alignment.Psmall} onPress={adOptions}>
+                        </RectButton>
+                        <RectButton style={alignment.Psmall} onPress={adOptions}>
+                            <TextDefault H5 bold uppercase>
+                                {'Delete'}
+                            </TextDefault>
+                        </RectButton>
+                        <RectButton style={alignment.Psmall} onPress={adOptions}>
                             <TextDefault H5 bold uppercase>
                                 {'Deactivate'}
                             </TextDefault>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={alignment.Psmall} onPress={adOptions}>
-                            <TextDefault H5 bold uppercase>
-                                {'Edit'}
-                            </TextDefault>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={alignment.Psmall} onPress={adOptions}>
+                        </RectButton>
+                        <RectButton style={alignment.Psmall} onPress={adOptions}>
                             <TextDefault H5 bold uppercase>
                                 {'Mark as sold'}
                             </TextDefault>
-                        </TouchableOpacity>
+                        </RectButton>
                     </View>
                 }
             </BaseButton>

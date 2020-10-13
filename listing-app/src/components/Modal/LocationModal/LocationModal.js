@@ -1,7 +1,7 @@
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { FlatList, Modal, TextInput, TouchableOpacity, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { alignment, colors, scale } from '../../../utilities';
 import ModalHeader from '../../Header/ModalHeader/ModalHeader';
 import { TextDefault } from '../../Text';
@@ -23,10 +23,9 @@ function LocationModal(props) {
             transparent={true}
             visible={props.visible}
         >
-            <View style={[
+            <SafeAreaView edges={['top', 'bottom']} style={[
                 styles.safeAreaViewStyles,
-                styles.flex,
-                { paddingTop: inset.top, paddingBottom: inset.bottom }]}>
+                styles.flex]}>
                 <View style={[styles.flex, styles.mainContainer]}>
                     <ModalHeader closeModal={props.onModalToggle} title={'Location'} />
                     <View style={styles.body}>
@@ -79,7 +78,7 @@ function LocationModal(props) {
                             )} />
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         </Modal >
     )
 }

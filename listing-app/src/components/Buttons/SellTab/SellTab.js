@@ -18,7 +18,6 @@ function SellTab(props) {
     else {
         return (
             <View
-                activeOpacity={0.7}
                 style={styles.emptyButton}>
                 <FontAwesome name='plus' size={scale(20)} color={colors.buttonbackground} />
             </View>
