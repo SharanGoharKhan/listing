@@ -1,6 +1,5 @@
 /*eslint-disable*/
 import React, { useState } from 'react'
-import { withTranslation } from 'react-i18next'
 import { NavLink as NavLinkRRD, Link } from 'react-router-dom'
 // nodejs library to set properties for components
 import { PropTypes } from 'prop-types'
@@ -23,8 +22,6 @@ import {
   Col
 } from 'reactstrap'
 
-var ps
-
 function Sidebar(props) {
   const [collapseOpen, collapseOpenSetter] = useState(false)
   // verifies if routeName is the one active (in browser input)
@@ -40,7 +37,7 @@ function Sidebar(props) {
     collapseOpenSetter(false)
   }
   // creates the links that appear in the left menu / Sidebar
-  const createLinks = (routes, t) => {
+  const createLinks = (routes) => {
     return routes.map((prop, key) => {
       return prop.appearInSidebar ? (
         <NavItem key={key}>
@@ -49,14 +46,13 @@ function Sidebar(props) {
             tag={NavLinkRRD}
             onClick={closeCollapse}
             activeClassName="active">
-            <i className={prop.icon} style={{ color: '#ab7a49' }} />
-            {t(prop.name)}
+            <i className={prop.icon} style={{ color: '#1c7370' }} />
+            {prop.name}
           </NavLink>
         </NavItem>
       ) : null
     })
   }
-  const { t } = props
   const { bgColor, routes, logo } = props
   let navbarBrandProps
   if (logo && logo.innerLink) {
@@ -108,18 +104,18 @@ function Sidebar(props) {
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-arrow" right>
               <DropdownItem className="noti-title" header tag="div">
-                <h6 className="text-overflow m-0">{t('Welcome')}!</h6>
+                <h6 className="text-overflow m-0">{'Welcome'}!</h6>
               </DropdownItem>
               <DropdownItem divider />
               <DropdownItem
                 href="#pablo"
                 onClick={e => {
                   e.preventDefault()
-                  localStorage.removeItem('user-ecommero')
+                  localStorage.removeItem('user-olo')
                   props.history.push('/auth/login')
                 }}>
                 <i className="ni ni-user-run" />
-                <span>{t('Logout')}</span>
+                <span>Logout</span>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -136,10 +132,10 @@ function Sidebar(props) {
                       <img alt={logo.imgAlt} src={logo.imgSrc} />
                     </Link>
                   ) : (
-                    <a href={logo.outterLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
-                    </a>
-                  )}
+                      <a href={logo.outterLink}>
+                        <img alt={logo.imgAlt} src={logo.imgSrc} />
+                      </a>
+                    )}
                 </Col>
               ) : null}
               <Col className="collapse-close" xs="6">
@@ -155,7 +151,7 @@ function Sidebar(props) {
           </div>
 
           {/* Navigation */}
-          <Nav navbar>{createLinks(routes, t)}</Nav>
+          <Nav navbar>{createLinks(routes)}</Nav>
         </Collapse>
       </Container>
     </Navbar>
@@ -183,4 +179,4 @@ Sidebar.propTypes = {
   })
 }
 
-export default withTranslation()(Sidebar)
+export default React.memo(Sidebar)
