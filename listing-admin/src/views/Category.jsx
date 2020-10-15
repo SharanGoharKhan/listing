@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 import React, { useState } from 'react'
-import { withTranslation } from 'react-i18next'
 import CategoryComponent from '../components/Category/Category'
 import CustomLoader from '../components/Loader/CustomLoader'
 // reactstrap components
@@ -53,6 +52,11 @@ const Category = props => {
       selector: 'title'
     },
     {
+      name: 'Image',
+      sortable: false,
+      selector: 'img_url'
+    },
+    {
       name: 'Action',
       cell: row => (
         <ActionButton
@@ -66,7 +70,6 @@ const Category = props => {
       )
     }
   ]
-  const { t } = props
   return (
     <>
       <Header />
@@ -79,11 +82,11 @@ const Category = props => {
             <Card className="shadow">
               {error ? (
                 <span>
-                  {t('Error')}! ${error.message}
+                  {'Error'}! ${error.message}
                 </span>
               ) : (
                 <DataTable
-                  title={t('Categories')}
+                  title={'Categories'}
                   columns={columns}
                   data={data ? data.categories : []}
                   pagination
@@ -110,4 +113,4 @@ const Category = props => {
     </>
   )
 }
-export default withTranslation()(Category)
+export default Category
