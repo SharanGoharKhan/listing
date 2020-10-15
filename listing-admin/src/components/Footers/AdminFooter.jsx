@@ -17,8 +17,8 @@ function Footer(props) {
               className="font-weight-bold ml-1"
               href={server_url}
               rel="noopener noreferrer"
-              target="_blank">
-              Ecommero
+              target="_blank" style={{ fontFamily: 'Monoton' }}>
+              OLO
             </a>
           </div>
         </Col>
@@ -29,8 +29,8 @@ function Footer(props) {
               <NavLink
                 href={server_url}
                 rel="noopener noreferrer"
-                target="_blank">
-                Ecommero
+                target="_blank" style={{ fontFamily: 'Monoton' }}>
+                OLO
               </NavLink>
             </NavItem>
 
