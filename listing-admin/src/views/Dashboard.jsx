@@ -120,7 +120,7 @@ const Dashboard = props => {
                   <Row>
                     <div className="col">
                       <CardTitle className="text-uppercase text-muted mb-0">
-                        {'Total Orders'}
+                        {'Active Items'}
                       </CardTitle>
                       <span className="h2 font-weight-bold mb-0">
                         {loadingTotal
@@ -129,7 +129,7 @@ const Dashboard = props => {
                       </span>
                     </div>
                     <Col className="col-auto">
-                      <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
+                      <div className="icon icon-shape bg-success text-white rounded-circle shadow">
                         <i className="ni ni-cart" />
                       </div>
                     </Col>
@@ -152,7 +152,7 @@ const Dashboard = props => {
                       </span>
                     </div>
                     <Col className="col-auto">
-                      <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
+                      <div className="icon icon-shape bg-success text-white rounded-circle shadow">
                         <i className="ni ni-single-02" />
                       </div>
                     </Col>
@@ -166,7 +166,7 @@ const Dashboard = props => {
                   <Row>
                     <div className="col">
                       <CardTitle className="text-uppercase text-muted mb-0">
-                        {'Total Sales'}
+                        {'Sold Items'}
                       </CardTitle>
                       <span className="h2 font-weight-bold mb-0">
                         {loadingTotal
@@ -175,7 +175,7 @@ const Dashboard = props => {
                       </span>
                     </div>
                     <Col className="col-auto">
-                      <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
+                      <div className="icon icon-shape bg-success text-white rounded-circle shadow">
                         <i className="fas fa-chart-bar" />
                       </div>
                     </Col>
@@ -202,7 +202,7 @@ const Dashboard = props => {
                       </span>
                     </div>
                     <Col className="col-auto">
-                      <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
+                      <div className="icon icon-shape bg-success text-white rounded-circle shadow">
                         <i className="fas fa-star" />
                       </div>
                     </Col>
