@@ -37,9 +37,8 @@ const constraints = {
     }
   },
   category_title: {
-    presence: true,
-    length: {
-      minimum: 1
+    presence: {
+      allowEmpty: false
     }
   },
   sub_category: {
