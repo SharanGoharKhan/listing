@@ -1,8 +1,6 @@
 /* eslint-disable camelcase */
 import React, { useState } from 'react'
-import { gql, useMutation } from '@apollo/client'
 import { validateFunc } from '../../constraints/constraints'
-import Loader from 'react-loader-spinner'
 
 // reactstrap components
 import {
@@ -17,18 +15,11 @@ import {
   Col,
   UncontrolledAlert
 } from 'reactstrap'
+import LoadingBtn from '../Loader/LoadingBtn'
 
-import { editCategory, createCategory, categories } from '../../apollo/server'
-
-const CREATE_CATEGORY = gql`
-  ${createCategory}
-`
-const EDIT_CATEGORY = gql`
-  ${editCategory}
-`
-const GET_CATEGORIES = gql`
-  ${categories}
-`
+const loading = false
+const errorMessage = false
+const successMessage = false
 
 function Category(props) {
   const [title, titleSetter] = useState(
@@ -37,15 +28,8 @@ function Category(props) {
   const [imgMenu, imgMenuSetter] = useState(
     props.category ? props.category.img_url : ''
   )
-  const [errorMessage, errorMessageSetter] = useState('')
-  const [successMessage, successMessageSetter] = useState('')
+
   const [titleError, titleErrorSetter] = useState(null)
-  const mutation = props.category ? EDIT_CATEGORY : CREATE_CATEGORY
-  const [mutate, { loading }] = useMutation(mutation, {
-    onCompleted,
-    onError,
-    refetchQueries: [{ query: GET_CATEGORIES }]
-  })
 
   const onBlur = (setter, field, state) => {
     setter(!validateFunc({ [field]: state }, field))
@@ -57,29 +41,6 @@ function Category(props) {
     )
     titleErrorSetter(titleError)
     return titleError
-  }
-  const clearFields = () => {
-    titleSetter('')
-    titleErrorSetter(null)
-  }
-  function onCompleted(data) {
-    const message = props.category
-      ? 'Category updated successfully'
-      : 'Category added successfully'
-    successMessageSetter(message)
-    errorMessageSetter('')
-    if (!props.category) clearFields()
-    setTimeout(hideMessage, 3000)
-  }
-  function onError() {
-    const message = 'Action failed. Please Try again'
-    successMessageSetter('')
-    errorMessageSetter(message)
-    setTimeout(hideMessage, 3000)
-  }
-  const hideMessage = () => {
-    successMessageSetter('')
-    errorMessageSetter('')
   }
   const selectImage = (event, state) => {
     const result = filterImage(event)
@@ -150,65 +111,6 @@ function Category(props) {
                   </Col>
                 </Row>
                 <Row>
-                  {loading ? (
-                    <Col className="text-right" xs="12">
-                      <Button color="primary" onClick={() => null}>
-                        <Loader
-                          type="TailSpin"
-                          color="#FFF"
-                          height={25}
-                          width={30}
-                          visible={loading}
-                        />
-                      </Button>
-                    </Col>
-                  ) : (
-                    <Col className="text-right" xs="12">
-                      <Button
-                        color="primary"
-                        href="#pablo"
-                        onClick={async e => {
-                          e.preventDefault()
-                          if (onSubmitValidaiton()) {
-                            mutate({
-                              variables: {
-                                _id: props.category ? props.category._id : '',
-                                title: title
-                              }
-                            })
-                          }
-                        }}
-                        size="md">
-                        {'Save'}
-                      </Button>
-                    </Col>
-                  )}
-                </Row>
-                <Row>
-                  <Col lg="6">
-                    {!!successMessage && (
-                      <UncontrolledAlert color="success" fade={true}>
-                        <span className="alert-inner--icon">
-                          <i className="ni ni-like-2" />
-                        </span>{' '}
-                        <span className="alert-inner--text">
-                          <strong>{'Success'}!</strong> {successMessage}
-                        </span>
-                      </UncontrolledAlert>
-                    )}
-                    {!!errorMessage && (
-                      <UncontrolledAlert color="danger" fade={true}>
-                        <span className="alert-inner--icon">
-                          <i className="ni ni-like-2" />
-                        </span>{' '}
-                        <span className="alert-inner--text">
-                          <strong>{'Danger'}!</strong> {errorMessage}
-                        </span>
-                      </UncontrolledAlert>
-                    )}
-                  </Col>
-                </Row>
-                <Row>
                   <Col>
                     <h3 className="mb-0"> {'Category Image'}</h3>
                     <FormGroup>
@@ -234,6 +136,54 @@ function Category(props) {
                         />
                       </div>
                     </FormGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="text-right" xs="12">
+                    <Button
+                      disabled={loading}
+                      color="success"
+                      href="#pablo"
+                      onClick={async e => {
+                        e.preventDefault()
+                        if (onSubmitValidaiton()) {
+                          // mutate({
+                          //   variables: {
+                          //     _id: props.category ? props.category._id : '',
+                          //     title: title
+                          //   }
+                          // })
+                        }
+                      }}
+                      size="md">
+                      {loading
+                        ? <LoadingBtn height={15} width={35} />
+                        : 'Save'}
+                    </Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col lg="6">
+                    {!!successMessage && (
+                      <UncontrolledAlert color="success" fade={true}>
+                        <span className="alert-inner--icon">
+                          <i className="ni ni-like-2" />
+                        </span>{' '}
+                        <span className="alert-inner--text">
+                          <strong>{'Success'}!</strong> {successMessage}
+                        </span>
+                      </UncontrolledAlert>
+                    )}
+                    {!!errorMessage && (
+                      <UncontrolledAlert color="danger" fade={true}>
+                        <span className="alert-inner--icon">
+                          <i className="ni ni-like-2" />
+                        </span>{' '}
+                        <span className="alert-inner--text">
+                          <strong>{'Danger'}!</strong> {errorMessage}
+                        </span>
+                      </UncontrolledAlert>
+                    )}
                   </Col>
                 </Row>
               </div>

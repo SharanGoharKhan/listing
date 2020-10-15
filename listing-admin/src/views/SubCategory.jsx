@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 import React, { useState } from 'react'
-import { withTranslation } from 'react-i18next'
 import SubCategoryComponent from '../components/SubCategory/SubCategory'
 import CustomLoader from '../components/Loader/CustomLoader'
 // reactstrap components
@@ -65,17 +64,6 @@ const SubCategory = props => {
       selector: 'category.title'
     },
     {
-      name: 'Image',
-      cell: row => (
-        <>
-          {!!row.image && (
-            <img className="img-responsive" src={row.image} alt="img menu" />
-          )}
-          {!row.image && 'No Image'}
-        </>
-      )
-    },
-    {
       name: 'Action',
       cell: row => (
         <ActionButton
@@ -89,8 +77,6 @@ const SubCategory = props => {
       )
     }
   ]
-
-  const { t } = props
   return (
     <>
       <Header />
@@ -103,11 +89,11 @@ const SubCategory = props => {
             <Card className="shadow">
               {error ? (
                 <span>
-                  {t('Error')}! ${error.message}
+                  {'Error'}! ${error.message}
                 </span>
               ) : (
                 <DataTable
-                  title={t('Sub Categories')}
+                  title={'Sub Categories'}
                   columns={columns}
                   data={data ? data.subCategories : []}
                   pagination
@@ -134,4 +120,4 @@ const SubCategory = props => {
     </>
   )
 }
-export default withTranslation()(SubCategory)
+export default SubCategory
