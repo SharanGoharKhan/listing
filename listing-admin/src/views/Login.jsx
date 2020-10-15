@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { withTranslation } from 'react-i18next'
 // reactstrap components
 import {
   Button,
@@ -12,28 +11,19 @@ import {
   InputGroupAddon,
   InputGroupText,
   InputGroup,
-  Col,
-  UncontrolledAlert
+  Col
 } from 'reactstrap'
 
 import { Redirect } from 'react-router-dom'
-import { gql, useMutation } from '@apollo/client'
-import { adminLogin } from '../apollo/server'
 import { validateFunc } from '../constraints/constraints'
 
-const LOGIN = gql`
-  ${adminLogin}
-`
-
 const Login = props => {
-  const [email, setEmail] = useState('admin@ecommero.com')
-  const [password, setPassword] = useState('ecommero123')
+  const [email, setEmail] = useState('admin@olo.com')
+  const [password, setPassword] = useState('olo123')
   const [emailError, setEmailError] = useState(null)
   const [passwordError, setPasswordError] = useState(null)
-  const [error, setError] = useState(null)
-  const [adminLogin, { loading }] = useMutation(LOGIN, { onCompleted, onError })
   const [redirectToReferrer, setRedirectToReferrer] = useState(
-    !!localStorage.getItem('user-ecommero')
+    !!localStorage.getItem('user-olo')
   )
 
   const onBlur = (event, field) => {
@@ -53,20 +43,13 @@ const Login = props => {
   }
 
   function onCompleted(data) {
-    localStorage.setItem('user-commero', JSON.stringify(data.adminLogin))
+    localStorage.setItem('user-olo', { name: 'test' })
     setRedirectToReferrer(true)
     setEmailError(null)
     setPasswordError(null)
   }
-  function onError(data) {
-    console.log('error', JSON.stringify(error))
-    setEmailError(null)
-    setPasswordError(null)
-    setError(error.graphQLErrors[0].message)
-  }
 
   const { from } = props.location.state || { from: { pathname: '/' } }
-  const { t } = props
   if (redirectToReferrer) return <Redirect to={from} />
   return (
     <>
@@ -74,7 +57,7 @@ const Login = props => {
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-5">
             <div className="text-muted text-center mt-2 mb-3">
-              <small>{t('Sign in credentials')}</small>
+              <small>{'Sign in credentials'}</small>
             </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
@@ -136,7 +119,7 @@ const Login = props => {
 
               <div className="text-center">
                 <Button
-                  disabled={loading}
+                  disabled={false}
                   className="my-4"
                   color="primary"
                   type="button"
@@ -144,17 +127,17 @@ const Login = props => {
                     setEmailError(null)
                     setPasswordError(null)
                     if (validate()) {
-                      adminLogin({ variables: { password, email } })
+                      onCompleted()
                     }
                   }}>
-                  {t('Sign in')}
+                  {'Sign in'}
                 </Button>
               </div>
-              {error && (
+              {/* {error && (
                 <UncontrolledAlert color="danger" fade={true}>
                   <span className="alert-inner--text">{error}</span>
                 </UncontrolledAlert>
-              )}
+              )} */}
             </Form>
           </CardBody>
         </Card>
@@ -163,4 +146,4 @@ const Login = props => {
   )
 }
 
-export default withTranslation()(Login)
+export default (Login)
