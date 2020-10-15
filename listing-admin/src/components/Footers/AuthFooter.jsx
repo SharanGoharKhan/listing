@@ -14,16 +14,16 @@ function AuthFooter(props) {
           <Row className="align-items-center justify-content-xl-between">
             <Col xl="6">
               <div className="copyright text-center text-xl-left text-muted">
-                © {t('2019-20')}{' '}
-                <a className="font-weight-bold ml-1" href={server_url}>
-                  Ecommero
+                © {t('2020-21')}{' '}
+                <a className="font-weight-bold ml-1" href={server_url} style={{ fontFamily: 'Monoton' }}>
+                  OLO
                 </a>
               </div>
             </Col>
             <Col xl="6">
               <Nav className="nav-footer justify-content-center justify-content-xl-end">
                 <NavItem>
-                  <NavLink href={server_url}>Ecommer</NavLink>
+                  <NavLink href={server_url} style={{ fontFamily: 'Monoton' }}>OLO</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
