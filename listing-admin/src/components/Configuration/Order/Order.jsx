@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { withTranslation } from 'react-i18next'
 import {
   Row,
   Col,
@@ -43,20 +42,19 @@ function Order(props) {
   function onError(error) {
     console.log(error)
   }
-  const { t } = props
   return (
     <Row className="mt-3">
       <div className="col">
         <Card className="shadow">
           <CardHeader className="border-0">
-            <h3 className="mb-0">{t('Order')}</h3>
+            <h3 className="mb-0">{'Ad'}</h3>
           </CardHeader>
           <Form>
             <div className="pl-lg-4">
               <Row>
                 <Col md="8">
                   <label className="form-control-label" htmlFor="input-orderid">
-                    {t('OrderID prefix')}
+                    {'AdID prefix'}
                   </label>
                   <FormGroup
                     className={
@@ -118,7 +116,7 @@ function Order(props) {
                         }
                       }}
                       size="lg">
-                      {t('Save')}
+                      {'Save'}
                     </Button>
                   )}
                 </Col>
@@ -130,4 +128,4 @@ function Order(props) {
     </Row>
   )
 }
-export default withTranslation()(Order)
+export default Order
