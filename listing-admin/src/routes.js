@@ -4,12 +4,9 @@ import Product from './views/Product'
 import Orders from './views/Orders'
 import Configuration from './views/Configuration'
 import Users from './views/Users'
-import Ratings from './views/Ratings'
 import ResetPassword from './views/ForgotPassword'
-import Coupons from './views/Coupons'
 import Dashboard from './views/Dashboard'
 import SubCategory from './views/SubCategory'
-import Atttribute from './views/Atttribute'
 
 var routes = [
   {
@@ -37,25 +34,17 @@ var routes = [
     appearInSidebar: true
   },
   {
-    path: '/attribute',
-    name: 'Attribute',
-    icon: 'ni ni-vector',
-    component: Atttribute,
-    layout: '/admin',
-    appearInSidebar: true
-  },
-  {
-    path: '/product',
-    name: 'Product',
-    icon: 'ni ni-shop',
+    path: '/orders',
+    name: 'Selling Form',
+    icon: 'ni ni-single-copy-04',
     component: Product,
     layout: '/admin',
     appearInSidebar: true
   },
   {
-    path: '/orders',
-    name: 'Orders',
-    icon: 'ni ni-delivery-fast',
+    path: '/ads',
+    name: 'Ads',
+    icon: 'ni ni-shop',
     component: Orders,
     layout: '/admin',
     appearInSidebar: true
@@ -69,26 +58,10 @@ var routes = [
     appearInSidebar: true
   },
   {
-    path: '/ratings',
-    name: 'Ratings',
-    icon: 'fas fa-star',
-    component: Ratings,
-    layout: '/admin',
-    appearInSidebar: true
-  },
-  {
     path: '/configuration',
     name: 'Configuration',
     icon: 'ni ni-settings',
     component: Configuration,
-    layout: '/admin',
-    appearInSidebar: true
-  },
-  {
-    path: '/coupons',
-    name: 'Coupons',
-    icon: 'ni ni-single-copy-04',
-    component: Coupons,
     layout: '/admin',
     appearInSidebar: true
   },
