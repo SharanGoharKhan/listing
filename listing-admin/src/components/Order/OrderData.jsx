@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 import React, { useEffect, useState } from 'react'
-import { withTranslation } from 'react-i18next'
 import DataTable from 'react-data-table-component'
 import orderBy from 'lodash/orderBy'
 import CustomLoader from '../Loader/CustomLoader'
@@ -16,7 +15,7 @@ const ORDER_PLACED = gql`
 `
 
 const OrdersData = props => {
-  const { t, selected, updateSelected } = props
+  const { selected, updateSelected } = props
   const [search, setSearch] = useState('')
   const { data, loading, error } = useQuery(ORDERCOUNT)
 
@@ -136,7 +135,7 @@ const OrdersData = props => {
     {
       when: row => row.orderStatus !== 'DELIVERED',
       style: {
-        backgroundColor: 'rgba(240, 173, 78,0.2)'
+        backgroundColor: 'rgba(60, 179, 113,0.2)'
       }
     }
   ]
@@ -179,14 +178,14 @@ const OrdersData = props => {
     return (
       <tr>
         <td>
-          {t('Error')}! ${error.message}
+          {'Error'}! ${error.message}
         </td>
       </tr>
     )
   }
   return (
     <DataTable
-      title={t('Orders')}
+      title={'Ads'}
       columns={columns}
       data={props.orders}
       onRowClicked={props.toggleModal}
@@ -206,4 +205,4 @@ const OrdersData = props => {
     />
   )
 }
-export default withTranslation()(OrdersData)
+export default OrdersData
