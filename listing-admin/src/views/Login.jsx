@@ -14,7 +14,7 @@ import {
   Col
 } from 'reactstrap'
 
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { validateFunc } from '../constraints/constraints'
 
 const Login = props => {
@@ -55,9 +55,12 @@ const Login = props => {
     <>
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
-          <CardHeader className="bg-transparent pb-5">
+          <CardHeader className="bg-transparent pb-4">
             <div className="text-muted text-center mt-2 mb-3">
               <small>{'Sign in credentials'}</small>
+            </div>
+            <div className="text-center">
+              <Link to="/auth/reset">{'Forget Password?'}</Link>
             </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
@@ -121,7 +124,7 @@ const Login = props => {
                 <Button
                   disabled={false}
                   className="my-4"
-                  color="primary"
+                  color="success"
                   type="button"
                   onClick={() => {
                     setEmailError(null)

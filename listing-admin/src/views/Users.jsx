@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 import React from 'react'
-import { withTranslation } from 'react-i18next'
 import { Container, Row, Card } from 'reactstrap'
 import Header from 'components/Headers/Header.jsx'
 import CustomLoader from '../components/Loader/CustomLoader'
@@ -12,7 +11,7 @@ import { gql, useQuery } from '@apollo/client'
 const GET_USERS = gql`
   ${getUsers}
 `
-const Users = props => {
+function Users() {
   const { data, loading, error } = useQuery(GET_USERS, {
     variables: {
       page: 0
@@ -23,19 +22,41 @@ const Users = props => {
     {
       name: 'Name',
       sortable: true,
-      selector: 'name'
+      selector: 'name',
+      grow: 2
     },
     {
       name: 'Email',
       sortable: true,
       selector: 'email',
-      cell: row => hiddenData(row.email, 'EMAIL')
+      cell: row => hiddenData(row.email, 'EMAIL'),
+      grow: 3
     },
     {
       name: 'Phone',
       sortable: true,
       selector: 'phone',
       cell: row => hiddenData(row.phone, 'PHONE')
+    },
+    {
+      name: 'Followers',
+      sortable: false,
+      selector: 'ads'
+    },
+    {
+      name: 'Following',
+      sortable: false,
+      selector: 'sold'
+    },
+    {
+      name: 'Ads',
+      sortable: false,
+      selector: 'sold'
+    },
+    {
+      name: 'Sold',
+      sortable: false,
+      selector: 'sold'
     }
   ]
 
@@ -68,8 +89,6 @@ const Users = props => {
   const handleSort = (column, sortDirection) =>
     console.log(column.selector, sortDirection)
 
-  const { t } = props
-
   return (
     <>
       <Header />
@@ -81,11 +100,11 @@ const Users = props => {
             <Card className="shadow">
               {error ? (
                 <span>
-                  {t('Error')}! ${error.message}
+                  {'Error'}! ${error.message}
                 </span>
               ) : (
                 <DataTable
-                  title={t('Users')}
+                  title={'Users'}
                   columns={columns}
                   data={data ? data.users : []}
                   pagination
@@ -103,4 +122,4 @@ const Users = props => {
   )
 }
 
-export default withTranslation()(Users)
+export default Users

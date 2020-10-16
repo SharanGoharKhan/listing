@@ -129,7 +129,7 @@ const Dashboard = props => {
                       </span>
                     </div>
                     <Col className="col-auto">
-                      <div className="icon icon-shape bg-success text-white rounded-circle shadow">
+                      <div className="icon icon-shape bg-gradient-primary text-white rounded-circle shadow">
                         <i className="ni ni-cart" />
                       </div>
                     </Col>
@@ -152,7 +152,7 @@ const Dashboard = props => {
                       </span>
                     </div>
                     <Col className="col-auto">
-                      <div className="icon icon-shape bg-success text-white rounded-circle shadow">
+                      <div className="icon icon-shape bg-gradient-primary text-white rounded-circle shadow">
                         <i className="ni ni-single-02" />
                       </div>
                     </Col>
@@ -175,7 +175,7 @@ const Dashboard = props => {
                       </span>
                     </div>
                     <Col className="col-auto">
-                      <div className="icon icon-shape bg-success text-white rounded-circle shadow">
+                      <div className="icon icon-shape bg-gradient-primary text-white rounded-circle shadow">
                         <i className="fas fa-chart-bar" />
                       </div>
                     </Col>
@@ -202,7 +202,7 @@ const Dashboard = props => {
                       </span>
                     </div>
                     <Col className="col-auto">
-                      <div className="icon icon-shape bg-success text-white rounded-circle shadow">
+                      <div className="icon icon-shape bg-gradient-primary text-white rounded-circle shadow">
                         <i className="fas fa-star" />
                       </div>
                     </Col>
@@ -263,7 +263,7 @@ const Dashboard = props => {
                         htmlFor="input-description">
                         {'Filter Graph'}
                       </label>
-                      <Button className="btn-block" color="primary">
+                      <Button className="btn-block" color="success">
                         {'Submit'}
                       </Button>
                     </FormGroup>

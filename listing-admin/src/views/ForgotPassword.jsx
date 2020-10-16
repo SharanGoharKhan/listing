@@ -142,7 +142,7 @@ const ResetPassword = props => {
               <div className="text-center">
                 <Button
                   className="my-4"
-                  color="primary"
+                  color="success"
                   type="button"
                   disabled={loading}
                   onClick={() => {
