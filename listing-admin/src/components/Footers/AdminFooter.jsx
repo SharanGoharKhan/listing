@@ -1,18 +1,16 @@
 /*eslint-disable*/
 import React from 'react'
-import { withTranslation } from 'react-i18next'
 import { server_url } from '../../config/config'
 // reactstrap components
 import { Row, Col, Nav, NavItem, NavLink } from 'reactstrap'
 
 function Footer(props) {
-  const { t } = props
   return (
     <footer className="footer">
       <Row className="align-items-center justify-content-xl-between">
         <Col xl="6">
           <div className="copyright text-center text-xl-left text-muted">
-            © {t('2019-20')}{' '}
+            © {'2019-20'}{' '}
             <a
               className="font-weight-bold ml-1"
               href={server_url}
@@ -39,7 +37,7 @@ function Footer(props) {
                 href="https://ninjascode.com/pages/ourteam.html"
                 rel="noopener noreferrer"
                 target="_blank">
-                {t('About Us')}
+                {'About Us'}
               </NavLink>
             </NavItem>
 
@@ -48,7 +46,7 @@ function Footer(props) {
                 href="https://medium.com/@sharangohar"
                 rel="noopener noreferrer"
                 target="_blank">
-                {t('Blog')}
+                {'Blog'}
               </NavLink>
             </NavItem>
           </Nav>
@@ -58,4 +56,4 @@ function Footer(props) {
   )
 }
 
-export default withTranslation()(Footer)
+export default Footer

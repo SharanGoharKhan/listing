@@ -1,5 +1,4 @@
 import React from 'react'
-import { withTranslation } from 'react-i18next'
 import { Container } from 'reactstrap'
 import Header from 'components/Headers/Header.jsx'
 import { getConfiguration } from '../apollo/server'
@@ -56,4 +55,4 @@ const Configuration = props => {
   )
 }
 
-export default withTranslation()(Configuration)
+export default Configuration

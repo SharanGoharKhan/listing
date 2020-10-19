@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { withTranslation } from 'react-i18next'
 import { Row, Col, Card, CardHeader, FormGroup, Form, Button } from 'reactstrap'
 import { gql, useMutation } from '@apollo/client'
 import { validateFunc } from '../../../constraints/constraints'
@@ -46,7 +45,6 @@ function Currency(props) {
   const onBlur = (setter, value, field) => {
     setter(!validateFunc({ [field]: value }, field))
   }
-  const { t } = props
   var currencyCodesT = stripeCurrencies.map(val => val.currency)
   const currencyCodes = [...new Set(currencyCodesT)]
   var currencySymbolsT = stripeCurrencies.map(val => val.currency_symbol)
@@ -56,14 +54,14 @@ function Currency(props) {
       <div className="col">
         <Card className="shadow">
           <CardHeader className="border-0">
-            <h3 className="mb-0">{t('Currency')}</h3>
+            <h3 className="mb-0">{'Currency'}</h3>
           </CardHeader>
           <Form>
             <div className="pl-lg-4">
               <Row>
                 <Col md="6">
                   <label className="form-control-label" htmlFor="input-orderid">
-                    {t('Currency Code')}
+                    {'Currency Code'}
                   </label>
                   <FormGroup
                     className={
@@ -81,7 +79,7 @@ function Currency(props) {
                       }}
                       labelKey="currencyCode"
                       options={currencyCodes}
-                      placeholder={t('Currency Code')}
+                      placeholder={'Currency Code'}
                       id="CurrencyCode"
                       onBlur={() => {
                         onBlur(
@@ -98,7 +96,7 @@ function Currency(props) {
                 </Col>
                 <Col md="5">
                   <label className="form-control-label" htmlFor="input-orderid">
-                    {t('Currency Symbol')}
+                    {'Currency Symbol'}
                   </label>
                   <FormGroup
                     className={
@@ -116,7 +114,7 @@ function Currency(props) {
                       }}
                       labelKey="currencySymbol"
                       options={currencySymbols}
-                      placeholder={t('Currency Symbol')}
+                      placeholder={'Currency Symbol'}
                       id="CurrencySymbol"
                       onBlur={() => {
                         onBlur(
@@ -169,7 +167,7 @@ function Currency(props) {
                         }
                       }}
                       size="lg">
-                      {t('Save')}
+                      {'Save'}
                     </Button>
                   )}
                 </Col>
@@ -182,4 +180,4 @@ function Currency(props) {
   )
 }
 
-export default withTranslation()(Currency)
+export default Currency

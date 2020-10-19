@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { withTranslation } from 'react-i18next'
 import {
   Row,
   Col,
@@ -48,20 +47,19 @@ function Email(props) {
   function onError(error) {
     console.log(error)
   }
-  const { t } = props
   return (
     <Row className="mt-3">
       <div className="col">
         <Card className="shadow">
           <CardHeader className="border-0">
-            <h3 className="mb-0">{t('Email')}</h3>
+            <h3 className="mb-0">{'Email'}</h3>
           </CardHeader>
           <Form>
             <div className="pl-lg-4">
               <Row>
                 <Col md="8">
                   <label className="form-control-label" htmlFor="input-email">
-                    {t('Email')}
+                    {'Email'}
                   </label>
                   <FormGroup
                     className={
@@ -91,7 +89,7 @@ function Email(props) {
                   <label
                     className="form-control-label"
                     htmlFor="input-password">
-                    {t('Password')}
+                    {'Password'}
                   </label>
                   <FormGroup
                     className={
@@ -119,7 +117,7 @@ function Email(props) {
               <Row>
                 <Col md="8">
                   <label className="form-control-label" htmlFor="input-enable">
-                    {t('Enable/Disable')}
+                    {'Enable/Disable'}
                   </label>
                   <FormGroup>
                     <label className="custom-toggle">
@@ -138,7 +136,7 @@ function Email(props) {
               <Row>
                 <Col md="4">
                   {error ? (
-                    t('Error')
+                    'Error'
                   ) : loading ? (
                     <Button
                       className="btn-block mb-2"
@@ -173,7 +171,7 @@ function Email(props) {
                         }
                       }}
                       size="lg">
-                      {t('Save')}
+                      {'Save'}
                     </Button>
                   )}
                 </Col>
@@ -185,4 +183,4 @@ function Email(props) {
     </Row>
   )
 }
-export default withTranslation()(Email)
+export default Email

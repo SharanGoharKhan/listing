@@ -1,12 +1,10 @@
 /*eslint-disable*/
 import React from 'react'
-import { withTranslation } from 'react-i18next'
 import { server_url } from '../../config/config'
 // reactstrap components
 import { NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap'
 
 function AuthFooter(props) {
-  const { t } = props
   return (
     <>
       <footer className="py-5">
@@ -14,7 +12,7 @@ function AuthFooter(props) {
           <Row className="align-items-center justify-content-xl-between">
             <Col xl="6">
               <div className="copyright text-center text-xl-left text-muted">
-                © {t('2020-21')}{' '}
+                © {'2020-21'}{' '}
                 <a className="font-weight-bold ml-1" href={server_url} style={{ fontFamily: 'Monoton' }}>
                   OLO
                 </a>
@@ -29,14 +27,14 @@ function AuthFooter(props) {
                   <NavLink
                     href="https://ecommero.ninjascode.com/pages/ourteam.html"
                     target="_blank">
-                    {t('About Us')}
+                    {'About Us'}
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                     href="https://medium.com/@sharangohar"
                     target="_blank">
-                    {t('Blog')}
+                    {'Blog'}
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -48,4 +46,4 @@ function AuthFooter(props) {
   )
 }
 
-export default withTranslation()(AuthFooter)
+export default AuthFooter
