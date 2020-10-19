@@ -1,7 +1,7 @@
 import Login from 'views/Login.jsx'
 import Category from 'views/Category.jsx'
-import Product from './views/Product'
-import Orders from './views/Orders'
+import SellingFrom from './views/SellingForm'
+import Ads from './views/Ads'
 import Configuration from './views/Configuration'
 import Users from './views/Users'
 import ResetPassword from './views/ForgotPassword'
@@ -34,10 +34,10 @@ var routes = [
     appearInSidebar: true
   },
   {
-    path: '/orders',
+    path: '/selling-form',
     name: 'Selling Form',
     icon: 'ni ni-single-copy-04',
-    component: Product,
+    component: SellingFrom,
     layout: '/admin',
     appearInSidebar: true
   },
@@ -45,7 +45,7 @@ var routes = [
     path: '/ads',
     name: 'Ads',
     icon: 'ni ni-shop',
-    component: Orders,
+    component: Ads,
     layout: '/admin',
     appearInSidebar: true
   },
