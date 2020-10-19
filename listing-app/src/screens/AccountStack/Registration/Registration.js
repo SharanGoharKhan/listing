@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ModalHeader, TextDefault } from '../../../components'
 import LoginButton from '../../../components/Buttons/LoginButton/LoginButton'
 import UserContext from '../../../context/user'
-import { colors } from '../../../utilities'
+import { colors, scale } from '../../../utilities'
 import styles from './styles'
 
 const icon = require('../../../assets/icon.png')
@@ -29,7 +29,6 @@ function Registration() {
                             style={styles.imgResponsive}
                             resizeMode='contain' />
                     </View>
-
                 </View>
                 <View style={styles.buttonContainer}>
                     <LoginButton
