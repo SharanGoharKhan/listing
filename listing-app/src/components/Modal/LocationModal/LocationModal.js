@@ -1,6 +1,6 @@
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
-import { FlatList, Modal, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Modal, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { alignment, colors, scale } from '../../../utilities';
 import ModalHeader from '../../Header/ModalHeader/ModalHeader';
@@ -26,47 +26,53 @@ function LocationModal(props) {
             <SafeAreaView edges={['top', 'bottom']} style={[
                 styles.safeAreaViewStyles,
                 styles.flex]}>
-                <View style={[styles.flex, styles.mainContainer]}>
-                    <ModalHeader closeModal={props.onModalToggle} title={'Location'} />
-                    <View style={styles.body}>
-                        <View style={styles.headerContents}>
-                            <View style={styles.closeBtn}>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        props.onModalToggle()
-                                    }}
-                                    style={styles.backBtn}>
-                                    <Ionicons
-                                        name="ios-search"
-                                        size={scale(17)}
-                                        color={colors.headerText}
+                <KeyboardAvoidingView style={[styles.flex]}
+                    behavior={Platform.OS === 'ios' ? 'padding' : null}
+                >
+                    <View style={[styles.flex, styles.mainContainer]}>
+                        <ModalHeader closeModal={props.onModalToggle} title={'Location'} />
+                        <View style={styles.body}>
+                            <View style={styles.headerContents}>
+                                <View style={styles.closeBtn}>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            props.onModalToggle()
+                                        }}
+                                        style={styles.backBtn}>
+                                        <Ionicons
+                                            name="ios-search"
+                                            size={scale(17)}
+                                            color={colors.headerText}
+                                        />
+                                    </TouchableOpacity>
+                                    <TextInput
+                                        style={styles.inputAddress}
+                                        placeholderTextColor={colors.fontSecondColor}
+                                        placeholder={'Search city, area or neighbour'}
                                     />
-                                </TouchableOpacity>
-                                <TextInput
-                                    style={styles.inputAddress}
-                                    placeholderTextColor={colors.fontSecondColor}
-                                    placeholder={'Search city, area or neighbour'}
-                                />
-                            </View>
-                            <TouchableOpacity style={styles.currentLocation} onPress={() => btnLocation('E11/2')}>
-                                <MaterialCommunityIcons name="target" size={scale(25)} color={colors.spinnerColor} />
-                                <View style={alignment.PLsmall}>
-                                    <TextDefault textColor={colors.spinnerColor} H5 bold>
-                                        {'Use current location'}
-                                    </TextDefault>
-                                    <TextDefault numberOfLines={1} textColor={colors.fontMainColor} light small style={{ ...alignment.MTxSmall, width: '85%' }}>
-                                        {loading ? 'Fetching location...' : 'E11/2'}
-                                    </TextDefault>
                                 </View>
-                            </TouchableOpacity>
+                                <TouchableOpacity style={styles.currentLocation} onPress={() => btnLocation('E11/2')}>
+                                    <MaterialCommunityIcons name="target" size={scale(25)} color={colors.spinnerColor} />
+                                    <View style={alignment.PLsmall}>
+                                        <TextDefault textColor={colors.spinnerColor} H5 bold>
+                                            {'Use current location'}
+                                        </TextDefault>
+                                        <TextDefault numberOfLines={1} textColor={colors.fontMainColor} light small style={{ ...alignment.MTxSmall, width: '85%' }}>
+                                            {loading ? 'Fetching location...' : 'E11/2'}
+                                        </TextDefault>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            <TextDefault textColor={colors.fontSecondColor} uppercase style={styles.title}>
+                                {'Choose State'}
+                            </TextDefault>
                         </View>
-                        <TextDefault textColor={colors.fontSecondColor} uppercase style={styles.title}>
-                            {'Choose State'}
-                        </TextDefault>
                         <FlatList
+                            contentContainerStyle={alignment.PBlarge}
+                            showsVerticalScrollIndicator={false}
                             data={STATE}
-                            keyExtractor={index => index}
-                            renderItem={({ item }) => (
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item, index }) => (
                                 <TouchableOpacity
                                     style={styles.stateBtn}
                                     onPress={() => btnLocation(item)} >
@@ -77,7 +83,7 @@ function LocationModal(props) {
                                 </TouchableOpacity>
                             )} />
                     </View>
-                </View>
+                </KeyboardAvoidingView>
             </SafeAreaView>
         </Modal >
     )

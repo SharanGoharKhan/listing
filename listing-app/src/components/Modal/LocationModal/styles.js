@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.themeBackground
     },
     body: {
-        ...alignment.PTsmall
+        ...alignment.PTsmall,
     },
     headerContents: {
         width: "95%",
