@@ -78,7 +78,7 @@ const AdsData = props => {
     )
   }
 
-  const handlePerRowsChange = async (perPage, page) => {
+  const handlePerRowsChange = async(perPage, page) => {
     props.page(page)
     props.rows(perPage)
   }

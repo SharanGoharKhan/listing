@@ -5,7 +5,7 @@ import AdsData from '../components/Ad/AdsData'
 import Header from 'components/Headers/Header.jsx'
 import { getOrders } from '../apollo/server'
 import { useQuery, gql } from '@apollo/client'
-import MapComponent from '../components/Order/Map'
+import MapComponent from '../components/Ad/Map'
 
 const GET_ORDERS = gql`
   ${getOrders}
