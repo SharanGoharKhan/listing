@@ -40,7 +40,7 @@ function Price() {
             <KeyboardAvoidingView style={[styles.flex]}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                <TouchableOpacity activeOpacity={1} onPress={Keyboard.dismiss} style={[styles.flex, styles.mainContainer, { paddingBottom: margin ? scale(70) : 0 }]}>
+                <TouchableOpacity activeOpacity={1} onPress={Keyboard.dismiss} style={[styles.flex, styles.mainContainer, { paddingBottom: margin ? scale(100) : 0 }]}>
                     <View style={styles.flex}>
                         <View style={[styles.inputBorder, { borderBottomColor: adColor }]}>
                             <View style={styles.leftText}>
