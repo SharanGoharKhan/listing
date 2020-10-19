@@ -1,13 +1,14 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext } from 'react'
-import { View } from 'react-native'
+import { View, Image } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ModalHeader, TextDefault } from '../../../components'
 import LoginButton from '../../../components/Buttons/LoginButton/LoginButton'
 import UserContext from '../../../context/user'
-import { colors } from '../../../utilities'
+import { colors, scale } from '../../../utilities'
 import styles from './styles'
 
+const icon = require('../../../assets/Icon.png')
 
 function Registration() {
     const navigation = useNavigation()
@@ -22,10 +23,12 @@ function Registration() {
             <View style={[styles.flex, styles.mainContainer]}>
                 <ModalHeader closeModal={() => navigation.goBack()} />
                 <View style={styles.logoContainer}>
-                    <TextDefault textColor={colors.buttonbackground} bolder H1 style={styles.textTitle} >
-                        {'OLO'}
-                    </TextDefault>
-
+                    <View style={styles.image}>
+                        <Image
+                            source={icon}
+                            style={styles.imgResponsive}
+                            resizeMode='contain' />
+                    </View>
                 </View>
                 <View style={styles.buttonContainer}>
                     <LoginButton

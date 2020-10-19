@@ -29,6 +29,15 @@ const styles = StyleSheet.create({
     textTitle: {
         fontSize: scale(52),
         letterSpacing: scale(5),
+    },
+    image: {
+        width: scale(200),
+        height: scale(100),
+    },
+    imgResponsive: {
+        flex: 1,
+        width: undefined,
+        height: undefined
     }
 })
 export default styles
