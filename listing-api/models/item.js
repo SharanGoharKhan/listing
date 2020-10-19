@@ -34,7 +34,9 @@ const itemSchema = new Schema(
             default:"PENDING"
         },
         images: [String],
-        address: { addressSchema },
+        address: { 
+            type: addressSchema 
+        },
         price: {
             type: Number,
             required: true
@@ -46,4 +48,5 @@ const itemSchema = new Schema(
     },
     { timestamps: true }
 )
+itemSchema.index({"address.location":"2dsphere"})
 module.exports = mongoose.model('Item', itemSchema)

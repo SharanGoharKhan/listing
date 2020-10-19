@@ -73,7 +73,6 @@ type Configuration {
   type SubCategory {
     _id: ID
     title: String!
-    image: String!
     category: Category!
     isActive: Boolean!
     createdAt: String!
@@ -109,7 +108,6 @@ type Configuration {
   input SubCategoryInput {
     _id: String
     title: String!
-    image: String!
     category: String!
   }
 
@@ -157,7 +155,7 @@ type Configuration {
     subCategories: [SubCategory!]!
     subCategoriesById(id: String!): [SubCategory!]!
     configuration: Configuration!
-    allItems: [Item!]
+    allItems(lat: Float!,long: Float!): [Item!]
     itemsByCategory(subCategory: String!): [Item!]
     itemsByUser(user: String!): [Item!]
   }
@@ -187,6 +185,7 @@ type Configuration {
     deleteSubCategory(id: String!): SubCategory!
     createItem(item: ItemInput!): Item!
     editItem(item: ItemInput!): Item!
+    updateOrderStatus(id: String!, status: String!): Item!
     pushToken(token: String): User!
     changePassword(oldPassword: String!, newPassword: String!): Boolean!
     checkVerificationCode(email: String!, verificationCode: String!): AuthData!

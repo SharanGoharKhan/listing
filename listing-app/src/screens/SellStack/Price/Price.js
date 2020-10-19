@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { Keyboard, View, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native'
+import { Keyboard, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { EmptyButton, TextDefault } from '../../../components'
 import { alignment, colors, scale, textStyles } from '../../../utilities'
@@ -38,9 +38,9 @@ function Price() {
     return (
         <SafeAreaView edges={['bottom']} style={[styles.flex, styles.safeAreaview]}>
             <KeyboardAvoidingView style={[styles.flex]}
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                behavior={Platform.OS === 'ios' ? 'padding' : null}
             >
-                <TouchableOpacity activeOpacity={1} onPress={Keyboard.dismiss} style={[styles.flex, styles.mainContainer, { paddingBottom: margin ? scale(70) : 0 }]}>
+                <TouchableOpacity activeOpacity={1} onPress={Keyboard.dismiss} style={[styles.flex, styles.mainContainer, { paddingBottom: Platform.OS === 'ios' ? margin ? scale(100) : 0 : 0 }]}>
                     <View style={styles.flex}>
                         <View style={[styles.inputBorder, { borderBottomColor: adColor }]}>
                             <View style={styles.leftText}>

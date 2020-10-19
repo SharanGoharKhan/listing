@@ -14,7 +14,6 @@ import AddFilter from './Modal/AddFilter/AddFilter'
 import RadioBtn from './RadioBtn/RadioBtn'
 import EmptyButton from './Buttons/EmptyButton/EmptyButton';
 import DisconnectButton from './Buttons/DisconnectButton/DisconnectButton'
-import SellTab from './Buttons/SellTab/SellTab'
 import { LeftButton, BackButton, RightButton } from './Header/HeaderIcons/HeaderIcons'
 
-export { FlashMessage, TextDefault, TextError, Spinner, LocationModal, ModalHeader, MainHeader, ImageHeader, ReportModal, BackButton, LeftButton, RightButton, SearchHeader, RadioBtn, EmptyButton, DisconnectButton, DeactivateModal, AddFilter, LiveHeader, UnfollowModal, SellTab }
+export { FlashMessage, TextDefault, TextError, Spinner, LocationModal, ModalHeader, MainHeader, ImageHeader, ReportModal, BackButton, LeftButton, RightButton, SearchHeader, RadioBtn, EmptyButton, DisconnectButton, DeactivateModal, AddFilter, LiveHeader, UnfollowModal }

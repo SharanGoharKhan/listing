@@ -8,7 +8,7 @@ import UserContext from '../../../context/user'
 import { colors, scale } from '../../../utilities'
 import styles from './styles'
 
-const icon = require('../../../assets/Icon.png')
+const icon = require('../../../assets/icon.png')
 
 function Registration() {
     const navigation = useNavigation()

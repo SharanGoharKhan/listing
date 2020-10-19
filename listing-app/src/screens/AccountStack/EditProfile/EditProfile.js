@@ -59,14 +59,14 @@ function EditProfile() {
     return (
         <SafeAreaView edges={['bottom']} style={[styles.flex, styles.safeAreaView]}>
             <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "height" : null}
+                behavior={Platform.OS === "ios" ? "padding" : null}
                 style={styles.flex}>
                 <ScrollView
                     keyboardShouldPersistTaps='handled'
                     showsVerticalScrollIndicator={false}
                     style={styles.flex}
                     alwaysBounceVertical={false}
-                    contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.themeBackground, paddingBottom: margin ? scale(70) : 0 }}>
+                    contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.themeBackground, paddingBottom: Platform.OS === 'ios' ? margin ? scale(70) : 0 : 0 }}>
                     <View style={styles.flex}>
                         <View style={styles.basicInfoContainer}>
                             <TextDefault textColor={colors.fontMainColor} bold H4 style={alignment.MTlarge}>
