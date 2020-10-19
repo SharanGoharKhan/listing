@@ -36,7 +36,6 @@ module.exports = {
       try {
         const subCategory = new SubCategory({
           title: args.subCategory.title,
-          image: args.subCategory.image,
           category: args.subCategory.category
         })
 
@@ -55,7 +54,6 @@ module.exports = {
         })
 
         subCategory.title = args.subCategory.title
-        subCategory.image = args.subCategory.image
         subCategory.category = args.subCategory.category
 
         const result = await subCategory.save()
