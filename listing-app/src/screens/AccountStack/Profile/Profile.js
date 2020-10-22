@@ -1,12 +1,14 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useContext } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
 import { RightButton, TextDefault } from '../../../components'
 import { alignment, colors } from '../../../utilities'
+import UserContext from '../../../context/user';
 import styles from './styles'
 
 function Profile() {
     const navigation = useNavigation()
+    const { profile } = useContext(UserContext)
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -34,7 +36,7 @@ function Profile() {
                                 onPress={() => navigation.navigate('Network', { screen: 'Following' })}
                             >
                                 <TextDefault textColor={colors.fontMainColor} H3 bold>
-                                    {'0'}
+                                    {profile.following.length}
                                 </TextDefault>
                                 <TextDefault textColor={colors.fontSecondColor} light uppercase>
                                     {'Following'}
@@ -46,7 +48,7 @@ function Profile() {
                                 onPress={() => navigation.navigate('Network', { screen: 'Followers' })}
                             >
                                 <TextDefault textColor={colors.fontMainColor} H3 bold>
-                                    {'0'}
+                                    {profile.followers.length}
                                 </TextDefault>
                                 <TextDefault textColor={colors.fontSecondColor} light uppercase>
                                     {'Followers'}
@@ -64,7 +66,7 @@ function Profile() {
                     </View>
                 </View>
                 <TextDefault H4 bold style={[alignment.MBxSmall, alignment.PLsmall, alignment.MTsmall]}>
-                    {'Muhammad Saad Javed'}
+                    {profile.name}
                 </TextDefault>
             </View>
         </View>

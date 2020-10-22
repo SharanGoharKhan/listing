@@ -41,7 +41,8 @@ module.exports = {
       if (!user && type === 'google') {
         const newUser = new User({
           email: email,
-          name: name
+          name: name,
+          googleEmail: email
         })
         user = await newUser.save()
       }

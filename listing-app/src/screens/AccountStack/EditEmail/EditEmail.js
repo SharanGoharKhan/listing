@@ -11,7 +11,6 @@ function EditEmail() {
     const navigation = useNavigation()
     const [Email, setEmail] = useState('')
     const [focus, setFocus] = useState(false)
-    const [margin, marginSetter] = useState(false)
     const [adColor, setAdColor] = useState(colors.fontThirdColor)
 
 
@@ -26,28 +25,11 @@ function EditEmail() {
             return navigation.goBack()
     }
 
-    useEffect(() => {
-        Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
-        Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
-
-        // cleanup function
-        return () => {
-            Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
-            Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
-        };
-    }, []);
-    function _keyboardDidShow() {
-        marginSetter(true)
-    }
-    function _keyboardDidHide() {
-        marginSetter(false)
-    }
-
     return (
         <SafeAreaView style={[styles.flex, styles.safeAreaView]}>
             <KeyboardAvoidingView contentContainerStyle={alignment.PBlarge} style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                 <TouchableOpacity activeOpacity={1}
-                    style={[styles.flex, styles.mainContainer, { paddingBottom: margin ? scale(70) : scale(0) }]}
+                    style={[styles.flex, styles.mainContainer]}
                     onPress={() => Keyboard.dismiss()}>
                     <ModalHeader closeModal={() => navigation.goBack()} />
                     <View style={[styles.flex, styles.basicInfoContainer]}>

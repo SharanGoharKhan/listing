@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState, useContext } from 'react'
 import { Image, ScrollView, TextInput, TouchableOpacity, View, Text, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
 import { BackButton, DisconnectButton, EmptyButton, LeftButton, RightButton, TextDefault } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
 import styles from './styles'
 import { Entypo, Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import UserContext from '../../../context/user';
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const phone = ''
@@ -13,15 +14,17 @@ const email = ''
 
 function EditProfile() {
     const navigation = useNavigation()
+    const { profile } = useContext(UserContext)
     const [adColor, setAdColor] = useState(colors.fontThirdColor)
     const [descriptionColor, setDescriptionColor] = useState(colors.fontMainColor)
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
+    const [name, setName] = useState(profile.name)
+    const [description, setDescription] = useState(profile.description??'')
     const [nameError, setNameError] = useState(null)
     const [margin, marginSetter] = useState(false)
     const [descriptionError, setDescriptionError] = useState(null)
     const [image, setImage] = useState(null)
 
+    console.log("profile",profile)
     useLayoutEffect(() => {
         navigation.setOptions({
             title: null,
@@ -95,8 +98,8 @@ function EditProfile() {
                                                 setNameError(null)
                                                 setAdColor(colors.selectedText)
                                             }}
+                                            defaultValue={profile.name}
                                             onBlur={() => setAdColor(colors.fontThirdColor)}
-                                            onChangeText={text => setName(text)}
                                             placeholderTextColor={colors.fontThirdColor}
                                             placeholder={'Enter your name'}
                                         />
@@ -121,6 +124,7 @@ function EditProfile() {
                                             setDescriptionError(null)
                                             setDescriptionColor(colors.selectedText)
                                         }}
+                                        defaultValue={description}
                                         onBlur={() => setDescriptionColor(colors.fontMainColor)}
                                         onChangeText={text => setDescription(text)}
                                         placeholderTextColor={colors.fontSecondColor}
@@ -176,7 +180,7 @@ function EditProfile() {
                                         {email.length < 1 ? '' : 'Email'}
                                     </TextDefault>
                                     <TextDefault textColor={email.length < 1 ? colors.fontThirdColor : colors.fontMainColor} H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
-                                        {email.length < 1 ? 'Email' : email}
+                                        {profile.email}
                                     </TextDefault>
                                 </View>
                                 <Entypo name="chevron-small-right" size={scale(25)} color={colors.fontMainColor} />
@@ -201,9 +205,12 @@ function EditProfile() {
                                     </TextDefault>
                                 </View>
                                 <View style={styles.optionalRight}>
-                                    <EmptyButton
+                                    {!profile.facebookId ? <EmptyButton
                                         title='Connect'
-                                        onPress={() => navigation.goBack()} />
+                                        onPress={() => navigation.goBack()} />:
+                                        <DisconnectButton
+                                        title='Disconnect'
+                                        onPress={() => navigation.goBack()} />}
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -218,9 +225,12 @@ function EditProfile() {
                                     </TextDefault>
                                 </View>
                                 <View style={styles.optionalRight}>
-                                    <DisconnectButton
+                                {!profile.googleEmail ? <EmptyButton
+                                        title='Connect'
+                                        onPress={() => navigation.goBack()} />:
+                                        <DisconnectButton
                                         title='Disconnect'
-                                        onPress={() => navigation.goBack()} />
+                                        onPress={() => navigation.goBack()} />}
                                 </View>
                             </TouchableOpacity>
                         </View>

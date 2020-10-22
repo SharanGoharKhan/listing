@@ -9,7 +9,7 @@ import styles from './styles';
 
 function MainAccount() {
     const navigation = useNavigation()
-    const { isLoggedIn } = useContext(UserContext)
+    const { isLoggedIn, profile } = useContext(UserContext)
 
     return (
         <View style={[styles.flex, styles.container]}>
@@ -23,7 +23,7 @@ function MainAccount() {
                 </View>
                 <View style={[styles.flex, styles.profileInfo]}>
                     <TextDefault H4 bold style={alignment.MBmedium}>
-                        {isLoggedIn ? 'Muhammad Saad Javed' : 'Log in'}
+                        {isLoggedIn ? profile.name : 'Log in'}
                     </TextDefault>
                     <TouchableOpacity
                         activeOpacity={0.5}

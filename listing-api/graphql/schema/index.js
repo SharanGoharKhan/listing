@@ -26,6 +26,7 @@ type User {
     createdAt: String
     updatedAt: String
     notificationToken: String
+    googleEmail: String
     followers: [User]
     following: [User]
     likes: [Item]

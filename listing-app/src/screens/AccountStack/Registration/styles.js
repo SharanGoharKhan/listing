@@ -1,4 +1,4 @@
-import { colors, scale } from "../../../utilities";
+import { colors, scale, alignment } from "../../../utilities";
 
 const { StyleSheet, Dimensions } = require("react-native");
 const { height } = Dimensions.get('window')
@@ -25,6 +25,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
         backgroundColor: colors.buttonbackground,
+    },
+    footerContainer: {
+        justifyContent: 'center',
+        alignItems: "center",
+        backgroundColor: colors.buttonbackground,
+        ...alignment.PBxSmall
     },
     textTitle: {
         fontSize: scale(52),

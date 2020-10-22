@@ -34,9 +34,10 @@ const styles = StyleSheet.create({
         ...alignment.MTmedium
     },
     countryBox: {
-        width: "20%",
+        width: "25%",
         borderBottomColor: colors.horizontalLine,
-        borderBottomWidth: scale(1)
+        borderBottomWidth: scale(1),
+        alignItems:'center'
     },
     numberBox: {
         width: "70%",

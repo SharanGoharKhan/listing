@@ -1,6 +1,7 @@
 const User = require('../../models/user')
 const Category = require('../../models/category')
 const SubCategory = require('../../models/subCategory')
+const Item = require('../../models/item')
 // const { dateToString } = require('../../helpers/date')
 
 const user = async userId => {
@@ -12,6 +13,15 @@ const user = async userId => {
     }
   } catch (err) {
     throw err
+  }
+}
+
+const populateUsers = async userIds => {
+  try {
+    const users = await User.find({ '_id': { $in: userIds } })
+    return users.map(transformUser)
+  } catch (error) {
+    throw error
   }
 }
 
@@ -43,8 +53,9 @@ const transformUser = async user => {
     ...user._doc,
     password: null,
     _id: user.id,
-    addresses: populateAddresses.bind(this, user.addresses),
-    whishlist: products.bind(this, user.whishlist)
+    followers: populateUsers.bind(this, user.followers),
+    following: populateUsers.bind(this, user.following),
+    likes: populateItems.bind(this, user.likes)
   }
 }
 
@@ -69,6 +80,15 @@ const transformItem = async (item) => {
     _id: item.id,
     subCategory: subCategory.bind(this, item.subCategory),
     user: user.bind(this, item.user)
+  }
+}
+
+const populateItems = async itemIds => {
+  try {
+    const items = await Item.find({ '_id': { $in: itemIds } })
+    return items.map(transformItem)
+  } catch (error) {
+    throw error
   }
 }
 

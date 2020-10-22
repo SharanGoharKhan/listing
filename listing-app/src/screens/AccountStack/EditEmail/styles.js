@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         backgroundColor: colors.themeBackground,
-        ...alignment.PBlarge
+        ...alignment.PBxSmall
     },
     basicInfoContainer: {
         ...alignment.PTlarge,
