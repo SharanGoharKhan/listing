@@ -27,6 +27,19 @@ const styles = StyleSheet.create({
         width: "100%",
         ...alignment.PLlarge,
         ...alignment.PRlarge
-    }
+    },
+    emptyContainer: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    emptyImage: {
+        width: scale(150),
+        height: scale(150)
+    },
+    buttonView: {
+        width: "90%",
+        alignSelf: "center",
+        ...alignment.PBsmall
+    },
 })
 export default styles

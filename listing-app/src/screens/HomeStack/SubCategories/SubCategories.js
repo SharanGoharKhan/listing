@@ -1,22 +1,21 @@
+import { gql, useQuery } from '@apollo/client';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import React, { useLayoutEffect } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
-import { TextDefault } from '../../../components';
+import React, { useEffect, useLayoutEffect } from 'react';
+import { FlatList, TouchableOpacity, View, Image } from 'react-native';
+import { subCategories } from '../../../apollo/server';
+import { EmptyButton, FlashMessage, Spinner, TextDefault, TextError } from '../../../components';
+import { alignment, colors } from '../../../utilities';
 import styles from './styles';
 
-const SubCategory = [
-    { id: '0', title: 'Tablets' },
-    { id: '1', title: 'Accessories' },
-    { id: '2', title: 'Mobile Phones' }
-]
+const GET_SUB_CATEGORIES = gql`${subCategories}`
 
 function SubCategories() {
     const navigation = useNavigation()
     const route = useRoute()
+    const categoryId = route.params?.categoryId ?? null
+    const { loading, error, data } = useQuery(GET_SUB_CATEGORIES, { variables: { id: categoryId } })
     const headerTitle = route?.params?.headerTitle ?? null
     const screen = route.params?.screen ?? null
-
-
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -24,11 +23,38 @@ function SubCategories() {
         })
     }, [navigation, headerTitle])
 
+    useEffect(() => {
+        if (!categoryId) {
+            FlashMessage({ message: 'Something is wrong', type: 'warning' })
+            navigation.goBack()
+        }
+    }, [categoryId, route])
+
     function navigateScreen(title) {
         if (screen === 'Filter')
             navigation.navigate('FilterModal', { search: title })
         else
             navigation.navigate('ProductListing', { search: title })
+    }
+
+    function emptyView() {
+        return (
+            <View style={[styles.flex, styles.emptyContainer]}>
+                <Image
+                    style={styles.emptyImage}
+                    source={require('../../../assets/images/emptyView/investigate.png')}
+                />
+                <TextDefault H5 center bold style={alignment.MTlarge}>
+                    {'There is no sub-category.'}
+                </TextDefault>
+                <View style={styles.buttonView}>
+                    <EmptyButton
+                        title='View All'
+                        onPress={() => navigateScreen('View All')}
+                    />
+                </View>
+            </View>
+        )
     }
 
     function footer() {
@@ -43,14 +69,19 @@ function SubCategories() {
             </TouchableOpacity>
         )
     }
+
+    if (error) return <TextError text={error.message} />
+    if (loading) return <Spinner spinnerColor={colors.spinnerColor1} />
     return (
         <View style={[styles.flex, styles.container]}>
             <FlatList
-                data={SubCategory}
+                data={data ? data.subCategoriesById : []}
                 style={styles.flatList}
                 contentContainerStyle={styles.categoryContainer}
                 showsHorizontalScrollIndicator={false}
-                ListFooterComponent={footer}
+                ListEmptyComponent={emptyView}
+                ListFooterComponent={data.subCategoriesById.length > 1 ? footer : null}
+                keyExtractor={item => item._id}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         activeOpacity={0.5}
