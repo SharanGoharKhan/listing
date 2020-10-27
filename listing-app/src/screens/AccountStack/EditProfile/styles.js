@@ -63,9 +63,6 @@ const styles = StyleSheet.create({
         ...alignment.PRsmall
     },
     phoneRow: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
         ...alignment.MTsmall,
         ...alignment.MBsmall
     },
@@ -86,9 +83,6 @@ const styles = StyleSheet.create({
         width: "100%",
         borderBottomColor: colors.horizontalLine,
         borderBottomWidth: scale(1),
-        flexDirection: "row",
-        alignItems: "flex-end",
-        justifyContent: "space-between",
         ...alignment.MTsmall
     },
     optionalLeft: {
@@ -98,6 +92,10 @@ const styles = StyleSheet.create({
     },
     optionalRight: {
         width: "35%"
+    },
+    error: {
+        width: "70%",
+        alignSelf: "flex-end"
     }
 })
 

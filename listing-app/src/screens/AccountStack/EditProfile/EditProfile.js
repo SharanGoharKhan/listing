@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState, useContext } from 'react'
-import { Image, ScrollView, TextInput, TouchableOpacity, View, Text, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
+import { Image, ScrollView, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
 import { BackButton, DisconnectButton, EmptyButton, LeftButton, RightButton, TextDefault } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
 import styles from './styles'
@@ -13,26 +13,58 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 function EditProfile() {
     const navigation = useNavigation()
+    const route = useRoute()
     const { profile } = useContext(UserContext)
     const [adColor, setAdColor] = useState(colors.fontThirdColor)
     const [descriptionColor, setDescriptionColor] = useState(colors.fontMainColor)
     const [name, setName] = useState(profile.name)
-    const [description, setDescription] = useState(profile.description??'')
+    const [description, setDescription] = useState(profile.description ?? '')
     const [nameError, setNameError] = useState(null)
+    const [phoneError, setPhoneError] = useState(null)
     const [margin, marginSetter] = useState(false)
-    const [descriptionError, setDescriptionError] = useState(null)
     const [image, setImage] = useState(null)
-    const [number, setNumber] = useState(profile.phone)
-    const [callingNo, setCallingNo] = useState(profile.callingCode??'92')
+
+    const PHONE_DATA = {
+        number: profile.number ?? '',
+        callingCode: profile.callingCode ?? '92',
+        countryCode: profile.countryCode ?? 'PK',
+        showPhone: profile.showPhone ?? false
+    }
+
+    const phoneData =
+        route.params && route.params.phoneData
+            ? route.params.phoneData
+            : PHONE_DATA
 
     useLayoutEffect(() => {
         navigation.setOptions({
             title: null,
             headerLeft: () => <LeftButton icon='close' iconColor={colors.headerText} />,
-            headerRight: () => <RightButton iconColor={colors.headerText} icon='text' title='Save' onPress={() => navigation.goBack()}
+            headerRight: () => <RightButton iconColor={colors.headerText} icon='text' title='Save' onPress={validation}
             />
         })
     }, [navigation])
+
+    useEffect(() => {
+        if (!(phoneData.number.length <= 13 && phoneData.number.length >= 9))
+            setPhoneError('Phone Number is missing')
+        else
+            setPhoneError(null)
+    }, [phoneData])
+
+    function validation() {
+        let result = true
+        if (name.length < 1) {
+            setNameError('This is mandatory. Please complete the required field.')
+            result = false
+        }
+        if (!(phoneData.number.length <= 13 && phoneData.number.length >= 9)) {
+            setPhoneError('Phone Number must be between 9-13')
+            result = false
+        }
+        console.log('Res: ', result)
+        return result
+    }
 
     async function PickImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -89,7 +121,7 @@ function EditProfile() {
                                 </TouchableOpacity>
                                 <View style={[styles.subContainer, styles.flex]}>
                                     <TextDefault textColor={nameError ? colors.google : adColor} bold style={styles.width100}>
-                                        {'Enter Name *'}
+                                        {'Enter Name '}<TextDefault textColor={colors.errorColor}>{'*'}</TextDefault>
                                     </TextDefault>
                                     <View style={[styles.textContainer, { borderColor: adColor }]}>
                                         <TextInput
@@ -98,8 +130,9 @@ function EditProfile() {
                                                 setNameError(null)
                                                 setAdColor(colors.selectedText)
                                             }}
-                                            defaultValue={profile.name}
+                                            defaultValue={name}
                                             onBlur={() => setAdColor(colors.fontThirdColor)}
+                                            onChangeText={text => setName(text)}
                                             placeholderTextColor={colors.fontThirdColor}
                                             placeholder={'Enter your name'}
                                         />
@@ -112,7 +145,7 @@ function EditProfile() {
                                 </View>
                             </View>
                             <View style={styles.subContainer}>
-                                <TextDefault textColor={descriptionError ? colors.google : descriptionColor} bold style={styles.width100}>
+                                <TextDefault textColor={descriptionColor} bold style={styles.width100}>
                                     {'Description'}
                                 </TextDefault>
                                 <View style={[styles.descriptionContainer, { borderColor: descriptionColor }]}>
@@ -121,7 +154,6 @@ function EditProfile() {
                                         maxLength={140}
                                         multiline={true}
                                         onFocus={() => {
-                                            setDescriptionError(null)
                                             setDescriptionColor(colors.selectedText)
                                         }}
                                         defaultValue={description}
@@ -134,11 +166,6 @@ function EditProfile() {
                                 <TextDefault light small right style={alignment.MTxSmall}>
                                     {description.length + '/ 140'}
                                 </TextDefault>
-                                {descriptionError &&
-                                    <TextDefault textColor={colors.google} style={styles.width100}>
-                                        {descriptionError}
-                                    </TextDefault>
-                                }
                             </View>
                         </View>
 
@@ -149,42 +176,44 @@ function EditProfile() {
                             <TouchableOpacity
                                 activeOpacity={1}
                                 style={styles.phoneRow}
-                                onPress={() => navigation.navigate('EditPhone',setNumber,setCallingNo)}>
-                                <View style={styles.countryBox}>
-                                    <TextDefault textColor={colors.fontThirdColor}>
-                                        {'Country'}
-                                    </TextDefault>
-                                    <TextDefault H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
-                                        {`+${callingNo}`}
-                                    </TextDefault>
-
-                                </View>
-                                <View style={styles.numberBox}>
-                                    <View>
+                                onPress={() => navigation.navigate('EditPhone', { phoneData: phoneData })}>
+                                <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+                                    <View style={styles.countryBox}>
                                         <TextDefault textColor={colors.fontThirdColor}>
-                                            {number.length < 1 ? '' : 'Phone Number'}
+                                            {'Country'}
                                         </TextDefault>
-                                        <TextDefault textColor={number.length < 1 ? colors.fontThirdColor : colors.fontMainColor} H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
-                                            {number.length < 1 ? 'Phone Number' : number}
+                                        <TextDefault H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
+                                            {`+${phoneData.callingCode}`}
                                         </TextDefault>
+
                                     </View>
-                                    <Entypo name="chevron-small-right" size={scale(25)} color={colors.fontMainColor} />
+                                    <View style={styles.numberBox}>
+                                        <View>
+                                            <TextDefault textColor={phoneError ? colors.errorColor : colors.fontThirdColor}>
+                                                {phoneData.number.length < 1 ? '' : 'Phone Number'}
+                                            </TextDefault>
+                                            <TextDefault textColor={phoneData.number.length < 1 ? colors.fontThirdColor : colors.fontMainColor} H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
+                                                {phoneData.number.length < 1 ? 'Phone Number' : phoneData.number}
+                                            </TextDefault>
+                                        </View>
+                                        <Entypo name="chevron-small-right" size={scale(25)} color={colors.fontMainColor} />
+                                    </View>
                                 </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.emailBox}
-                                activeOpacity={1}
-                                onPress={() => navigation.navigate('EditEmail')}>
-                                <View>
-                                    <TextDefault textColor={colors.fontThirdColor}>
-                                        {profile.email.length < 1 ? '' : 'Email'}
+                                {phoneError &&
+                                    <TextDefault textColor={colors.google} style={styles.error}>
+                                        {phoneError}
                                     </TextDefault>
-                                    <TextDefault textColor={profile.email.length < 1 ? colors.fontThirdColor : colors.fontMainColor} H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
-                                        {profile.email}
-                                    </TextDefault>
-                                </View>
-                                <Entypo name="chevron-small-right" size={scale(25)} color={colors.fontMainColor} />
+                                }
                             </TouchableOpacity>
+                            <View
+                                style={styles.emailBox}>
+                                <TextDefault textColor={colors.fontThirdColor}>
+                                    {profile.email.length < 1 ? '' : 'Email'}
+                                </TextDefault>
+                                <TextDefault textColor={profile.email.length < 1 ? colors.fontThirdColor : colors.fontSecondColor} H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
+                                    {profile.email}
+                                </TextDefault>
+                            </View>
                             <TextDefault textColor={colors.fontSecondColor} style={[alignment.MTxSmall, alignment.MBsmall]}>
                                 {"This email will be useful to keep in touch. We won't share your private email with other APP users."}
                             </TextDefault>
@@ -237,7 +266,7 @@ function EditProfile() {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView >
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
