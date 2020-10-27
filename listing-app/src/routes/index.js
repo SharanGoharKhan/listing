@@ -122,7 +122,6 @@ function EditAccount() {
         <EditAccountStack.Navigator initialRouteName='EditProfile' headerMode='screen' screenOptions={StackOptions()}>
             <EditAccountStack.Screen name='EditProfile' component={AccountScreens.EditProfile} />
             <EditAccountStack.Screen name='EditPhone' component={AccountScreens.EditPhone} />
-            <EditAccountStack.Screen name='EditEmail' component={AccountScreens.EditEmail} />
         </EditAccountStack.Navigator>
 
     )
@@ -162,7 +161,6 @@ function BottomTabs() {
             <Tabs.Screen name='Add' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Account' component={AccountTabs} />
             <Tabs.Screen name='ProductDescription' component={HomeScreens.ProductDescription} options={{ tabBarButton: () => null, tabBarVisible: false }} />
-            <Tabs.Screen name='EditProfile' component={isLoggedIn ? EditAccount : AccountScreens.Registration} options={{ tabBarButton: () => null, tabBarVisible: false }} />
         </Tabs.Navigator >
     )
 }
@@ -179,6 +177,10 @@ function AppContainer() {
                     ...TransitionPresets.ModalSlideFromBottomIOS
                 }} />
                 <MainStack.Screen name='LiveChat' component={isLoggedIn ? ChatScreens.LiveChat : AccountScreens.Registration} options={{
+                    ...TransitionPresets.ModalSlideFromBottomIOS
+                }} />
+                <MainStack.Screen name='EditProfile' component={isLoggedIn ? EditAccount : AccountScreens.Registration} options={{
+                    headerShown: false,
                     ...TransitionPresets.ModalSlideFromBottomIOS
                 }} />
             </MainStack.Navigator>
