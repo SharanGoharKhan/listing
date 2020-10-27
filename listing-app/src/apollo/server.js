@@ -19,6 +19,9 @@ export const profile = `
         phone
         email
         notificationToken
+        showPhone
+        countryCode
+        callingCode
         googleEmail
         followers{
           _id
