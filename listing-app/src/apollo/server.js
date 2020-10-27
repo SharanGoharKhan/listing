@@ -11,6 +11,21 @@ mutation Login($facebookId:String,$email:String,$password:String,$type:String!,$
 }
 `
 
+export const categories = `query{
+  categories{
+    _id
+    title
+    image
+  }
+}`
+export const subCategories = `query SubCategoriesById($id: String!){
+  subCategoriesById(id:$id){
+    _id
+    title
+    
+  }
+}`
+
 export const profile = `
   query{
     profile{
