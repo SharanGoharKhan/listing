@@ -16,6 +16,7 @@ function TextError(props) {
           : colors.containerDark
       }}>
       <TextDefault
+        style={props.style}
         textColor={
           props.textColor ? props.textColor : colors.fontMainColor
         }
