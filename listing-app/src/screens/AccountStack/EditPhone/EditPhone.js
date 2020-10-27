@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useLayoutEffect, useState, useContext } from 'react'
 import {
     Image, Switch, Text, TextInput, View, KeyboardAvoidingView, Keyboard, TouchableOpacity,
@@ -6,44 +6,54 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CountryPicker from 'react-native-country-picker-modal';
-import { EmptyButton, ModalHeader, TextDefault } from '../../../components'
+import { EmptyButton, FlashMessage, ModalHeader, TextDefault } from '../../../components'
 import UserContext from '../../../context/user';
 import { alignment, colors, scale, textStyles, fontStyles } from '../../../utilities'
 import styles from './styles'
 
 
-function EditPhone(props) {
-    console.log('props',props.route)
+function EditPhone() {
     const navigation = useNavigation()
-    const { profile } = useContext(UserContext)
-    const [phone, setPhone] = useState(profile.phone)
+    const route = useRoute()
+    const phoneData = route.params && route.params.phoneData
+        ? route.params.phoneData
+        : null
+    const [phone, setPhone] = useState(phoneData ? phoneData.number : '')
+    const [phoneError, setPhoneError] = useState(null)
     const [focus, setFocus] = useState(false)
-    const [margin, marginSetter] = useState(false)
-    const [isEnabled, setIsEnabled] = useState(!!profile.showPhone);
+    const [isEnabled, setIsEnabled] = useState(phoneData ? !!phoneData.showPhone : false);
     const toggleSwitch = () => setIsEnabled(prev => !prev);
     const [adColor, setAdColor] = useState(colors.fontThirdColor)
-    const [countryCode, setCountryCode] = useState(profile.countryCode??'PK')
-    const [callingCode, setCallingCode] = useState(profile.callingCode??'92')
+    const [countryCode, setCountryCode] = useState(phoneData ? phoneData.countryCode : 'PK')
+    const [callingCode, setCallingCode] = useState(phoneData ? phoneData.callingCode : '92')
     useLayoutEffect(() => {
         navigation.setOptions({
-            header: () => null
+            title: null
         })
     }, [navigation])
 
     function validate() {
-        if (phone.length > 0)
-            return navigation.goBack()
+        let result = true
+        if (!(phone.length >= 9 && phone.length <= 13)) {
+            setPhoneError('Phone Number must be between 9-13')
+            result = false
+        }
+        else if (!callingCode || !callingCode) {
+            FlashMessage({ message: 'Country is missing' })
+            result = false
+        }
+        return result
     }
 
 
 
     return (
-        <SafeAreaView style={[styles.flex, styles.safeAreaView]}>
+        <SafeAreaView edges={['bottom']} style={[styles.flex, styles.safeAreaView]}>
             <KeyboardAvoidingView contentContainerStyle={alignment.PBlarge} style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                 <TouchableOpacity activeOpacity={1}
                     style={[styles.flex, styles.mainContainer]}
                     onPress={() => Keyboard.dismiss()}>
-                    <ModalHeader closeModal={() => navigation.goBack()} />
+                    {/* <ModalHeader closeModal={() => navigation.goBack()} /> */}
                     <View style={[styles.flex, styles.basicInfoContainer]}>
                         <View style={styles.imageContainer}>
                             <Image
@@ -58,9 +68,6 @@ function EditPhone(props) {
                         <TextDefault textColor={colors.fontSecondColor} style={[alignment.MTsmall, alignment.PLsmall]}>
                             {'We will send a confirmation code to your phone'}
                         </TextDefault>
-                        {/* <View style={stylesCountry.container}>
-                            
-                        </View> */}
                         <View style={styles.phoneRow}>
                             <View style={styles.countryBox}>
                                 <CountryPicker
@@ -71,10 +78,8 @@ function EditPhone(props) {
                                     withFilter
                                     withCallingCodeButton
                                     onSelect={(value) => {
-                                        console.log(value)
                                         setCountryCode(value.cca2)
                                         setCallingCode(value.callingCode[0])
-                                        alert(value.callingCode[0])
                                     }}
                                     cca2={countryCode}
                                     translation='eng'
@@ -82,16 +87,18 @@ function EditPhone(props) {
                                 />
                             </View>
                             <View style={[styles.numberBox, { borderColor: adColor }]}>
-                                <TextDefault textColor={adColor}>
+                                <TextDefault textColor={phoneError ? colors.errorColor : adColor}>
                                     {(focus || phone.length > 0) ? 'Phone Number' : ''}
                                 </TextDefault>
                                 <TextInput
-                                 style={[styles.flex, alignment.PBxSmall,textStyles.H5]}
+                                    style={[styles.flex, alignment.PBxSmall, textStyles.H5]}
                                     placeholder={focus ? '' : 'Phone Number'}
                                     placeholderTextColor={colors.fontThirdColor}
+                                    maxLength={13}
                                     value={phone}
                                     keyboardType={'phone-pad'}
                                     onFocus={() => {
+                                        setPhoneError(null)
                                         setFocus(true)
                                         setAdColor(colors.selectedText)
                                     }}
@@ -103,6 +110,11 @@ function EditPhone(props) {
                                 />
                             </View>
                         </View>
+                        {phoneError &&
+                            <TextDefault textColor={colors.google} style={styles.error}>
+                                {phoneError}
+                            </TextDefault>
+                        }
                         <View style={styles.smallContainer}>
                             <TextDefault H5 bold style={styles.flex}>
                                 {`Show my phone number in ads`}
@@ -120,39 +132,24 @@ function EditPhone(props) {
                         <EmptyButton
                             disabled={phone.length < 1}
                             title='Save'
-                            onPress={validate} />
+                            onPress={() => {
+                                if (validate()) {
+                                    navigation.navigate('EditProfile', {
+                                        phoneData: {
+                                            number: phone,
+                                            callingCode: callingCode,
+                                            countryCode: countryCode,
+                                            showPhone: isEnabled
+                                        }
+                                    })
+                                }
+                            }
+                            } />
                     </View>
                 </TouchableOpacity >
             </KeyboardAvoidingView>
         </SafeAreaView >
     )
 }
-
-const stylesCountry = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        fontSize: 12,
-        textAlign: 'center',
-        color: '#888',
-        marginBottom: 5,
-    },
-    data: {
-        padding: 15,
-        marginTop: 10,
-        backgroundColor: '#ddd',
-        borderColor: '#888',
-        borderWidth: 1 / PixelRatio.get(),
-        color: '#777'
-    }
-});
 
 export default React.memo(EditPhone)

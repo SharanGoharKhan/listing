@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { alignment, colors, scale, textStyles } from '../../../utilities'
+import { alignment, colors, scale } from '../../../utilities'
 
 const styles = StyleSheet.create({
     flex: {
@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
         ...alignment.MTlarge,
         ...alignment.PTlarge
         // ...alignment.Pmedium
+    },
+    error:{
+        width:"70%",
+        alignSelf:"flex-end"
     }
 })
 
