@@ -77,7 +77,8 @@ export default function App() {
     )
   } else {
     return (
-      <AppLoading />
+      <></>
+      // <AppLoading />
     );
   }
 } 

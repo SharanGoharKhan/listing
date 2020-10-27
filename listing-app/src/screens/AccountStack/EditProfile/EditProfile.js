@@ -9,8 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import UserContext from '../../../context/user';
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const phone = ''
-const email = ''
+
 
 function EditProfile() {
     const navigation = useNavigation()
@@ -23,8 +22,9 @@ function EditProfile() {
     const [margin, marginSetter] = useState(false)
     const [descriptionError, setDescriptionError] = useState(null)
     const [image, setImage] = useState(null)
+    const [number, setNumber] = useState(profile.phone)
+    const [callingNo, setCallingNo] = useState(profile.callingCode??'92')
 
-    console.log("profile",profile)
     useLayoutEffect(() => {
         navigation.setOptions({
             title: null,
@@ -149,23 +149,23 @@ function EditProfile() {
                             <TouchableOpacity
                                 activeOpacity={1}
                                 style={styles.phoneRow}
-                                onPress={() => navigation.navigate('EditPhone')}>
+                                onPress={() => navigation.navigate('EditPhone',setNumber,setCallingNo)}>
                                 <View style={styles.countryBox}>
                                     <TextDefault textColor={colors.fontThirdColor}>
                                         {'Country'}
                                     </TextDefault>
                                     <TextDefault H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
-                                        {'+92'}
+                                        {`+${callingNo}`}
                                     </TextDefault>
 
                                 </View>
                                 <View style={styles.numberBox}>
                                     <View>
                                         <TextDefault textColor={colors.fontThirdColor}>
-                                            {phone.length < 1 ? '' : 'Phone Number'}
+                                            {number.length < 1 ? '' : 'Phone Number'}
                                         </TextDefault>
-                                        <TextDefault textColor={phone.length < 1 ? colors.fontThirdColor : colors.fontMainColor} H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
-                                            {phone.length < 1 ? 'Phone Number' : phone}
+                                        <TextDefault textColor={number.length < 1 ? colors.fontThirdColor : colors.fontMainColor} H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
+                                            {number.length < 1 ? 'Phone Number' : number}
                                         </TextDefault>
                                     </View>
                                     <Entypo name="chevron-small-right" size={scale(25)} color={colors.fontMainColor} />
@@ -177,9 +177,9 @@ function EditProfile() {
                                 onPress={() => navigation.navigate('EditEmail')}>
                                 <View>
                                     <TextDefault textColor={colors.fontThirdColor}>
-                                        {email.length < 1 ? '' : 'Email'}
+                                        {profile.email.length < 1 ? '' : 'Email'}
                                     </TextDefault>
-                                    <TextDefault textColor={email.length < 1 ? colors.fontThirdColor : colors.fontMainColor} H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
+                                    <TextDefault textColor={profile.email.length < 1 ? colors.fontThirdColor : colors.fontMainColor} H5 style={[alignment.PBxSmall, alignment.PTxSmall]}>
                                         {profile.email}
                                     </TextDefault>
                                 </View>
@@ -189,7 +189,7 @@ function EditProfile() {
                                 {"This email will be useful to keep in touch. We won't share your private email with other APP users."}
                             </TextDefault>
                         </View>
-                        <View style={styles.basicInfoContainer}>
+                        {/* <View style={styles.basicInfoContainer}>
                             <TextDefault textColor={colors.fontMainColor} bold H4>
                                 {'Optional information'}
                             </TextDefault>
@@ -233,7 +233,7 @@ function EditProfile() {
                                         onPress={() => navigation.goBack()} />}
                                 </View>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView >

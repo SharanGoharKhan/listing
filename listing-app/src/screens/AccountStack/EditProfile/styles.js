@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         ...alignment.PLmedium,
         ...alignment.PRmedium,
         borderBottomColor: colors.medHorizontalLine,
-        borderBottomWidth: StyleSheet.hairlineWidth
+        // borderBottomWidth: StyleSheet.hairlineWidth
     },
     upperContainer: {
         flexDirection: 'row',

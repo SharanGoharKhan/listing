@@ -7,20 +7,23 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CountryPicker from 'react-native-country-picker-modal';
 import { EmptyButton, ModalHeader, TextDefault } from '../../../components'
+import UserContext from '../../../context/user';
 import { alignment, colors, scale, textStyles, fontStyles } from '../../../utilities'
 import styles from './styles'
 
 
-function EditPhone() {
+function EditPhone(props) {
+    console.log('props',props.route)
     const navigation = useNavigation()
-    const [phone, setPhone] = useState('')
+    const { profile } = useContext(UserContext)
+    const [phone, setPhone] = useState(profile.phone)
     const [focus, setFocus] = useState(false)
     const [margin, marginSetter] = useState(false)
-    const [isEnabled, setIsEnabled] = useState(true);
+    const [isEnabled, setIsEnabled] = useState(!!profile.showPhone);
     const toggleSwitch = () => setIsEnabled(prev => !prev);
     const [adColor, setAdColor] = useState(colors.fontThirdColor)
-    const [countryCode, setCountryCode] = useState('PK')
-    const [callingCode, setCallingCode] = useState('')
+    const [countryCode, setCountryCode] = useState(profile.countryCode??'PK')
+    const [callingCode, setCallingCode] = useState(profile.callingCode??'92')
     useLayoutEffect(() => {
         navigation.setOptions({
             header: () => null
@@ -102,7 +105,7 @@ function EditPhone() {
                         </View>
                         <View style={styles.smallContainer}>
                             <TextDefault H5 bold style={styles.flex}>
-                                {'Show my phone number in ads'}
+                                {`Show my phone number in ads`}
                             </TextDefault>
                             <Switch
                                 trackColor={{ false: colors.headerbackground, true: colors.buttonbackground }}
