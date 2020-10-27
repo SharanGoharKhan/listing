@@ -38,6 +38,25 @@ const userSchema = new Schema(
     appleId: { type: String },
     googleEmail: { type: String },
     confirmationCode: { type: String },
+    showEmail: {
+      type: Boolean,
+      default: true
+    },
+    showPhone: {
+      type: Boolean,
+      default: true
+    },
+    countryCode:{
+      type: String,
+      default: 'PK'
+    },
+    callingCode:{
+      type: String,
+      default: '92'
+    },
+    description: {
+      type: String
+    },
     isActive: {
       type: Boolean,
       default: true

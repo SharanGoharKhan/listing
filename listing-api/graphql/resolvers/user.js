@@ -5,7 +5,6 @@ const { checkPhoneAlreadyUsed, randomString } = require('../../helpers/utilities
 const sendEmail = require('../../helpers/email')
 const { transformUser } = require('./merge')
 const { signupTemplate, signupText, verificationTemplate, verificationText } = require('../../helpers/templates')
-const user = require('../../models/user')
 
 module.exports = {
   Query: {

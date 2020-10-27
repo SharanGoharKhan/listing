@@ -30,6 +30,11 @@ type User {
     followers: [User]
     following: [User]
     likes: [Item]
+    showEmail: Boolean
+    showPhone: Boolean
+    countryCode: String
+    callingCode: String
+    description: String
 }
 type Configuration {
   _id: String!
