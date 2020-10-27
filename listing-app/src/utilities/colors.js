@@ -17,6 +17,7 @@ export const colors = {
     medHorizontalLine: '#D8D8D8',
     lightHorizontalLine: '#f0f0f0',
     spinnerColor: '#3a77ff',
+    spinnerColor1: 'rgba(0,47,52,1)',
     messageBackground: 'rgba(52, 52, 52, .9)',
     errorColor: '#FA7751',
     google: '#DC4E41',
