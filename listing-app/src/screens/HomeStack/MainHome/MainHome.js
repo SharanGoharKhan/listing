@@ -1,12 +1,15 @@
+import { gql, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import React, { useLayoutEffect, useState } from 'react';
 import { FlatList, Image, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { LocationModal, MainHeader, TextDefault } from '../../../components';
+import { categories } from '../../../apollo/server';
+import { LocationModal, MainHeader, Spinner, TextDefault, TextError } from '../../../components';
 import SearchModal from '../../../components/Modal/SearchModal/SearchModal';
-import { alignment, colors } from '../../../utilities';
+import { alignment, colors, textStyles } from '../../../utilities';
 import Card from './Card/Card';
 import styles from './styles';
+const GET_CATEGORIES = gql`${categories}`
 
 
 const COLORS = ['#ffd54d', '#6df8f3', '#ff7a7a', '#d5b09f', '#eccbcb']
@@ -97,6 +100,7 @@ function MainHome() {
   const [filters, setFilters] = useState('Sevice Society E11/2')
   const [modalVisible, setModalVisible] = useState(false);
   const [searchVisible, setSerachVisible] = useState(false);
+  const { loading: CategoryLoading, error: CategoryError, data: CategoryData } = useQuery(GET_CATEGORIES)
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -148,31 +152,33 @@ function MainHome() {
       <>
         <View style={styles.headerContainer}>
           {categoryHeader()}
-          <FlatList
-            data={category}
-            keyExtractor={item => item.id}
-            contentContainerStyle={styles.categoryContainer}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={styles.cardContainer}
-                onPress={() => navigation.navigate('SubCategories', { headerTitle: item.title })}>
-                <View style={styles.textViewContainer}>
-                  <View style={[styles.iconContainer, { backgroundColor: COLORS[index % 5] }]}>
-                    <Image
-                      style={styles.imgResponsive}
-                      source={item.image}
-                    />
+          {CategoryLoading ? <Spinner colors={colors.spinnerColor1} backColor={'transparent'} /> : CategoryError ? <TextError text={CategoryError.message} textColor={colors.fontThirdColor} style={textStyles.Light} /> :
+            <FlatList
+              data={CategoryData ? CategoryData.categories.slice(0, 5) : []}
+              keyExtractor={item => item._id}
+              contentContainerStyle={styles.categoryContainer}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  style={styles.cardContainer}
+                  onPress={() => navigation.navigate('SubCategories', { headerTitle: item.title })}>
+                  <View style={styles.textViewContainer}>
+                    <View style={[styles.iconContainer, { backgroundColor: COLORS[index % 5] }]}>
+                      <Image
+                        style={styles.imgResponsive}
+                        source={{ uri: item.image }}
+                      />
+                    </View>
+                    <TextDefault numberOfLines={1} uppercase small light>
+                      {item.title}
+                    </TextDefault>
                   </View>
-                  <TextDefault numberOfLines={1} uppercase small light>
-                    {item.title}
-                  </TextDefault>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
+                </TouchableOpacity>
+              )}
+            />
+          }
         </View>
         <View style={styles.spacer} />
         <View style={styles.headerTitle}>
