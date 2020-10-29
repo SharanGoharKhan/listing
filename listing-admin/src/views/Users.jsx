@@ -41,23 +41,18 @@ function Users() {
     {
       name: 'Followers',
       sortable: false,
-      selector: 'ads'
+      cell: row => row.followers.length
     },
     {
       name: 'Following',
       sortable: false,
-      selector: 'sold'
+      cell: row => row.following.length
     },
     {
-      name: 'Ads',
+      name: 'Favourites',
       sortable: false,
-      selector: 'sold'
+      cell: row => row.likes.length
     },
-    {
-      name: 'Sold',
-      sortable: false,
-      selector: 'sold'
-    }
   ]
 
   const hiddenData = (cell, column) => {

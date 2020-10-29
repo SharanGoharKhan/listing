@@ -1,6 +1,5 @@
 import Login from 'views/Login.jsx'
 import Category from 'views/Category.jsx'
-import SellingFrom from './views/SellingForm'
 import Ads from './views/Ads'
 import Configuration from './views/Configuration'
 import Users from './views/Users'
@@ -30,14 +29,6 @@ var routes = [
     name: 'Sub Category',
     icon: 'ni ni-chart-bar-32',
     component: SubCategory,
-    layout: '/admin',
-    appearInSidebar: true
-  },
-  {
-    path: '/selling-form',
-    name: 'Selling Form',
-    icon: 'ni ni-single-copy-04',
-    component: SellingFrom,
     layout: '/admin',
     appearInSidebar: true
   },

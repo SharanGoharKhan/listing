@@ -109,7 +109,7 @@ function Order(props) {
                           saveConfiguration({
                             variables: {
                               configurationInput: {
-                                orderPrefix: prefix
+                                itemPrefix: prefix
                               }
                             }
                           })

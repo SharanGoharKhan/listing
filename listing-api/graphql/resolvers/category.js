@@ -7,7 +7,7 @@ module.exports = {
     categories: async(_, args, context) => {
       console.log('categories: ')
       try {
-        const categories = await Category.find({ isActive: true })
+        const categories = await Category.find({ isActive: true }).sort('title')
         return categories.map(category => {
           return transformCategory(category)
         })

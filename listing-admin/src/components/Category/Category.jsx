@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
 import React, { useState } from 'react'
 import { validateFunc } from '../../constraints/constraints'
-
+import { useMutation, gql } from '@apollo/client'
+import { editCategory, createCategory, categories } from '../../apollo/server'
 // reactstrap components
 import {
   Button,
@@ -16,6 +17,18 @@ import {
   UncontrolledAlert
 } from 'reactstrap'
 import LoadingBtn from '../Loader/LoadingBtn'
+import { cloudinary_upload_url, cloudinary_categories } from '../../config/config'
+
+
+const CREATE_CATEGORY = gql`
+  ${createCategory}
+`
+const EDIT_CATEGORY = gql`
+  ${editCategory}
+`
+const GET_CATEGORIES = gql`
+  ${categories}
+`
 
 const loading = false
 const errorMessage = false
@@ -26,9 +39,17 @@ function Category(props) {
     props.category ? props.category.title : ''
   )
   const [imgMenu, imgMenuSetter] = useState(
-    props.category ? props.category.img_url : ''
+    props.category ? props.category.image : ''
   )
+  const [errorMessage, errorMessageSetter] = useState('')
+  const [successMessage, successMessageSetter] = useState('')
 
+  const mutation = props.category ? EDIT_CATEGORY : CREATE_CATEGORY
+  const [mutate, { loading }] = useMutation(mutation, {
+    onCompleted,
+    onError,
+    refetchQueries: [{ query: GET_CATEGORIES }]
+  })
   const [titleError, titleErrorSetter] = useState(null)
 
   const onBlur = (setter, field, state) => {
@@ -63,6 +84,59 @@ function Category(props) {
     }
     images = images.filter(image => image.name.match(/\.(jpg|jpeg|png|gif)$/))
     return images.length ? images[0] : undefined
+  }
+
+  const uploadImageToCloudinary = async () => {
+    if (imgMenu === '') {
+      return imgMenu
+    }
+    if (props.category && props.category.img_menu === imgMenu) {
+      return imgMenu
+    }
+
+    const apiUrl = cloudinary_upload_url
+    const data = {
+      file: imgMenu,
+      upload_preset: cloudinary_categories
+    }
+    try {
+      const result = await fetch(apiUrl, {
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'application/json'
+        },
+        method: 'POST'
+      })
+      const imageData = await result.json()
+      return imageData.secure_url
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  function onCompleted(data) {
+    const message = props.category
+      ? 'Category updated successfully'
+      : 'Category added successfully'
+    successMessageSetter(message)
+    errorMessageSetter('')
+    if (!props.category) clearFields()
+    setTimeout(hideMessage, 3000)
+  }
+  const clearFields = () => {
+    titleSetter('')
+    imgMenuSetter('')
+    titleErrorSetter(null)
+  }
+  function onError() {
+    const message = 'Action failed. Please Try again'
+    successMessageSetter('')
+    errorMessageSetter(message)
+    setTimeout(hideMessage, 3000)
+  }
+  const hideMessage = () => {
+    successMessageSetter('')
+    errorMessageSetter('')
   }
   return (
     <Row>
@@ -147,12 +221,13 @@ function Category(props) {
                       onClick={async e => {
                         e.preventDefault()
                         if (onSubmitValidaiton()) {
-                          // mutate({
-                          //   variables: {
-                          //     _id: props.category ? props.category._id : '',
-                          //     title: title
-                          //   }
-                          // })
+                          mutate({
+                            variables: {
+                              _id: props.category ? props.category._id : '',
+                              title: title,
+                              image: await uploadImageToCloudinary()
+                            }
+                          })
                         }
                       }}
                       size="md">

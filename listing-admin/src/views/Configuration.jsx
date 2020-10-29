@@ -39,7 +39,7 @@ const Configuration = props => {
             width={30}
             visible={loading}
           />
-          <OrderConfiguration prefix={data.configuration.orderPrefix} />
+          <OrderConfiguration prefix={data.configuration.itemPrefix} />
           <EmailConfiguration
             email={data.configuration.email}
             password={data.configuration.password}

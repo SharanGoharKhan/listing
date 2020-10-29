@@ -1,7 +1,14 @@
 /* eslint-disable camelcase */
 import React, { useState } from 'react'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import { validateFunc } from '../../constraints/constraints'
 import Loader from 'react-loader-spinner'
+import {
+  editSubCategory,
+  createSubCategory,
+  subCategories,
+  categories
+} from '../../apollo/server'
 
 // reactstrap components
 import {
@@ -17,6 +24,18 @@ import {
   UncontrolledAlert
 } from 'reactstrap'
 import LoadingBtn from '../Loader/LoadingBtn'
+const CREATE_SUB_CATEGORY = gql`
+  ${createSubCategory}
+`
+const EDIT_SUB_CATEGORY = gql`
+  ${editSubCategory}
+`
+const GET_CATEGORIES = gql`
+  ${categories}
+`
+const GET_SUB_CATEGORIES = gql`
+  ${subCategories}
+`
 
 function SubCategory(props) {
   const [title, titleSetter] = useState(
@@ -30,6 +49,15 @@ function SubCategory(props) {
   const [categoryError, categoryErrorSetter] = useState(null)
   const [titleError, titleErrorSetter] = useState(null)
   const [loader, loaderSetter] = useState(false)
+
+  const mutation = props.subCategory ? EDIT_SUB_CATEGORY : CREATE_SUB_CATEGORY
+  const [mutate] = useMutation(mutation, {
+    onCompleted,
+    onError,
+    refetchQueries: [{ query: GET_SUB_CATEGORIES }]
+  })
+
+  const { data, loading: loadingCategory, error } = useQuery(GET_CATEGORIES)
 
   const onBlur = (setter, field, state) => {
     setter(!validateFunc({ [field]: state }, field))
@@ -48,6 +76,35 @@ function SubCategory(props) {
     categoryErrorSetter(categoryError)
     titleErrorSetter(titleError)
     return titleError
+  }
+
+  const clearFields = () => {
+    titleSetter('')
+    titleErrorSetter(null)
+    categoryErrorSetter(null)
+  }
+
+  function onCompleted(data) {
+    const message = props.subCategory
+      ? 'Category updated successfully'
+      : 'Category added successfully'
+    successMessageSetter(message)
+    errorMessageSetter('')
+    loaderSetter(false)
+    if (!props.subCategory) clearFields()
+    setTimeout(hideMessage, 3000)
+  }
+  function onError() {
+    loaderSetter(false)
+    const message = 'Action failed. Please Try again'
+    successMessageSetter('')
+    errorMessageSetter(message)
+    setTimeout(hideMessage, 3000)
+  }
+
+  const hideMessage = () => {
+    successMessageSetter('')
+    errorMessageSetter('')
   }
   return (
     <Row>
@@ -104,6 +161,11 @@ function SubCategory(props) {
                       htmlFor="input-category">
                       {'Category'}
                     </label>
+                    {error ? (
+                      ' Error'
+                    ) : loadingCategory ? (
+                      ' Loading'
+                    ) : (
                     <FormGroup
                       className={
                         categoryError === null
@@ -124,11 +186,14 @@ function SubCategory(props) {
                         {!category && (
                           <option value={''}>{'Select'}</option>
                         )}
-                        <option value={category._id} key={category._id}>
-                          {'...loading'}
-                        </option>
+                        {data.categories.map(category => (
+                            <option value={category._id} key={category._id}>
+                              {category.title}
+                            </option>
+                          ))}
                       </Input>
                     </FormGroup>
+                    )}
                   </Col>
                 </Row>
                 <Row>
@@ -156,15 +221,15 @@ function SubCategory(props) {
                           errorMessageSetter('')
                           if (onSubmitValidaiton()) {
                             loaderSetter(true)
-                            // mutate({
-                            //   variables: {
-                            //     _id: props.subCategory
-                            //       ? props.subCategory._id
-                            //       : '',
-                            //     title: title,
-                            //     category: category
-                            //   }
-                            // })
+                            mutate({
+                              variables: {
+                                _id: props.subCategory
+                                  ? props.subCategory._id
+                                  : '',
+                                title: title,
+                                category: category
+                              }
+                            })
                           }
                         }}
                         size="md">

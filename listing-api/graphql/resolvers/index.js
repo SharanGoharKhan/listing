@@ -21,6 +21,9 @@ const rootResolver = {
     ...itemResolver.Mutation,
     ...categoryResolver.Mutation,
     ...subCategoryResolver.Mutation
+  },
+  Subscription: {
+    ...itemResolver.Subscription
   }
 }
 

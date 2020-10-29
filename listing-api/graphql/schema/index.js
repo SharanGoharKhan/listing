@@ -94,6 +94,11 @@ type Configuration {
     updatedAt: String!
   }
 
+  type SubscriptionCreateAd {
+    item: Item!
+    origin: String!
+  }
+
   input UserInput {
     phone: String
     email: String
@@ -157,11 +162,13 @@ type Configuration {
   type Query {  
     profile: User
     users(page: Int): [User!]
+    userCount: Int!
     categories: [Category!]!
     subCategories: [SubCategory!]!
     subCategoriesById(id: String!): [SubCategory!]!
     configuration: Configuration!
-    allItems(lat: Float!,long: Float!): [Item!]
+    nearByItems(lat: Float!,long: Float!): [Item!]
+    allItems: [Item!]
     itemsByCategory(subCategory: String!): [Item!]
     itemsByUser(user: String!): [Item!]
   }
@@ -209,6 +216,8 @@ type Configuration {
     ): Configuration!
     uploadToken(pushToken: String!): Configuration!
   }
-
+  type Subscription {
+    subscribeCreateAd: SubscriptionCreateAd!
+  }
 `
 module.exports = typeDefs
