@@ -1,3 +1,4 @@
+import { ScalarLeafsRule } from 'graphql'
 import { StyleSheet, Dimensions } from 'react-native'
 import { alignment, colors, scale } from '../../../utilities'
 const { height, width } = Dimensions.get('window')
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
         ...alignment.PLlarge,
         ...alignment.PRlarge,
         borderBottomColor: colors.horizontalLine,
-        borderBottomWidth: StyleSheet.hairlineWidth
+        borderBottomWidth: StyleSheet.hairlineWidth,
     },
     profileInfo: {
         width: '70%',
@@ -123,6 +124,24 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: scale(5)
+    },
+    line: {
+        width: '100%',
+        height: StyleSheet.hairlineWidth,
+        backgroundColor: colors.horizontalLine
+    },
+    mapContainer: {
+        flex: 1,
+        height: scale(200),
+        backgroundColor: 'orange'
+    },
+    mapMarker: {
+        height: scale(30),
+        width: scale(30),
+        borderRadius: scale(15),
+        borderColor: 'rgba(28, 115, 112, 0.7)',
+        borderWidth: 1,
+        backgroundColor: 'rgba(28, 115, 112, 0.4)'
     }
 })
 export default styles

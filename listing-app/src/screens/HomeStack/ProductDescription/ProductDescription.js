@@ -1,16 +1,19 @@
+import { Entypo, FontAwesome, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import * as Device from 'expo-device'
 import React, { useContext, useLayoutEffect, useState } from 'react'
-import { View, TouchableOpacity, ScrollView, Image, Linking, Share } from 'react-native'
+import { Image, Linking, Platform, ScrollView, Share, TouchableOpacity, View } from 'react-native'
+import { BorderlessButton } from 'react-native-gesture-handler'
+import MapView, { Circle, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from 'react-native-maps'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FlashMessage, LeftButton, ReportModal, RightButton, TextDefault } from '../../../components'
-import { alignment, colors, scale } from '../../../utilities'
-import styles from './style'
-import { FontAwesome, MaterialIcons, Entypo, SimpleLineIcons } from '@expo/vector-icons'
-import Swiper from 'react-native-swiper'
-import { BorderlessButton } from 'react-native-gesture-handler'
 import UserContext from '../../../context/user'
-import * as Device from 'expo-device';
+import { alignment, colors, scale } from '../../../utilities'
 import Slider from './Slider'
+import styles from './style'
+
+
+const title = 'Japanese 28 inches cycle'
 
 const IMG_LIST = [
     require('../../../assets/images/products/cycle.jpg'),
@@ -18,12 +21,23 @@ const IMG_LIST = [
     require('../../../assets/images/products/nord.jpg'),
 ]
 
+const LATITUDE = 33.7001019
+const LONGITUDE = 72.9735978
+const LATITUDE_DELTA = 0.0452
+const LONGITUDE_DELTA = 0.0451
 
 function ProductDescription() {
+    const location = null
     const navigation = useNavigation()
     const [isLike, isLikeSetter] = useState(false)
     const [reportModal, setReportModal] = useState(false);
     const { isLoggedIn } = useContext(UserContext)
+    const region = {
+        latitude: location ? location.latitude : LATITUDE,
+        latitudeDelta: LATITUDE_DELTA,
+        longitude: location ? location.longitude : LONGITUDE,
+        longitudeDelta: LONGITUDE_DELTA
+    }
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -108,7 +122,7 @@ function ProductDescription() {
                         </TouchableOpacity>
                     </View>
                     <TextDefault>
-                        {'Japanese 28 inches cycle'}
+                        {title}
                     </TextDefault>
                     <View style={styles.locationRow}>
                         <MaterialIcons name='location-on' size={scale(15)} color={colors.headerText} />
@@ -171,6 +185,40 @@ function ProductDescription() {
                     </View>
                     <Entypo name='chevron-small-right' size={scale(20)} color={colors.buttonbackground} />
                 </BorderlessButton>
+                <View style={styles.line} />
+                <View style={styles.conditionContainer}>
+                    <TextDefault bold H5 style={alignment.MBsmall}>
+                        {'Ad posted at'}
+                    </TextDefault>
+                    <View style={styles.mapContainer}>
+                        <MapView
+                            style={styles.flex}
+                            scrollEnabled={false}
+                            zoomEnabled={false}
+                            zoomControlEnabled={false}
+                            rotateEnabled={false}
+                            showsUserLocation={false}
+                            provider={Platform.select({
+                                ios: PROVIDER_DEFAULT,
+                                android: PROVIDER_GOOGLE
+                            })}
+                            initialRegion={region}
+                            onPress={() => {
+                                navigation.navigate('FullMap', {
+                                    title: title,
+                                    region: region
+                                })
+                            }}
+                        >
+                            <Circle center={region}
+                                radius={scale(250)}
+                                strokeColor={'rgba(28, 115, 112, 0.9)'}
+                                fillColor={'rgba(28, 115, 112, 0.4)'}
+                            />
+
+                        </MapView>
+                    </View>
+                </View>
                 <View style={styles.profileContainer}>
                     <TextDefault >
                         {'AD ID:10232142312'}
