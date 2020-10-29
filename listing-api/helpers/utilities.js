@@ -5,14 +5,14 @@ const User = require('../models/user')
 const https = require('https')
 const { createWriteStream } = require('fs')
 const admin = require('firebase-admin')
-// const serviceAccount = require('../serviceAccountKey.json')
+const serviceAccount = require('../serviceAccountKey.json')
 
 const expo = new Expo()
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: 'https://ecommero-1f0eb.firebaseio.com'
-// })
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://listing-app-51084.firebaseio.com'
+})
 // Upload image utility functions
 const storeUpload = async({ stream, filename }) => {
   const path = `./public/images/${filename}`

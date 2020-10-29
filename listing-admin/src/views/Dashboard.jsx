@@ -19,7 +19,7 @@ import {
 import Header from 'components/Headers/Header.jsx'
 import {
   getDashboardTotal,
-  getDashboardSales,
+  getDashboardUser,
   getDashboardOrders
 } from '../apollo/server'
 import { gql, useQuery } from '@apollo/client'
@@ -27,8 +27,8 @@ import { gql, useQuery } from '@apollo/client'
 const GET_DASHBOARD_TOTAL = gql`
   ${getDashboardTotal}
 `
-const GET_DASHBOARD_SALES = gql`
-  ${getDashboardSales}
+const GET_DASHBOARD_USERS = gql`
+  ${getDashboardUser}
 `
 const GET_DASHBOARD_ORDERS = gql`
   ${getDashboardOrders}
@@ -77,35 +77,40 @@ const Dashboard = props => {
   const [endingDate, setEndingDate] = useState(
     new Date().toISOString().substr(0, 10)
   )
-  const { data: dataToal, loading: loadingTotal, error: errorTotal } = useQuery(
-    GET_DASHBOARD_TOTAL,
-    {
-      variables: {
-        startingDate: startingDate.toString(),
-        endingDate: endingDate.toString()
-      }
-    }
-  )
+
+  const errorTotal = null
+  const errorOrder = null 
+  const errorSales = null
+  const loadingTotal = true
+  const loadingSales = true
+  const loadingOrder = true
+  const dataToal = null
+  const dataSales = null
+  const dataOrder = null
+  // const { data: dataToal, loading: loadingTotal, error: errorTotal } = useQuery(
+  //   GET_DASHBOARD_TOTAL,
+  //   {
+  //     variables: {
+  //       startingDate: startingDate.toString(),
+  //       endingDate: endingDate.toString()
+  //     }
+  //   }
+  // )
   const {
-    data: dataSales,
-    loading: loadingSales,
-    error: errorSales
-  } = useQuery(GET_DASHBOARD_SALES, {
-    variables: {
-      startingDate: startingDate.toString(),
-      endingDate: endingDate.toString()
-    }
-  })
-  const {
-    data: dataOrder,
-    loading: loadingOrder,
-    error: errorOrder
-  } = useQuery(GET_DASHBOARD_ORDERS, {
-    variables: {
-      startingDate: startingDate.toString(),
-      endingDate: endingDate.toString()
-    }
-  })
+    data: dataUser,
+    loading: loadingUser,
+    error: errorUser
+  } = useQuery(GET_DASHBOARD_USERS)
+  // const {
+  //   data: dataOrder,
+  //   loading: loadingOrder,
+  //   error: errorOrder
+  // } = useQuery(GET_DASHBOARD_ORDERS, {
+  //   variables: {
+  //     startingDate: startingDate.toString(),
+  //     endingDate: endingDate.toString()
+  //   }
+  // })
 
   return (
     <>
@@ -146,9 +151,9 @@ const Dashboard = props => {
                         {'Total Users'}
                       </CardTitle>
                       <span className="h2 font-weight-bold mb-0">
-                        {loadingTotal
+                        {loadingUser
                           ? '...'
-                          : dataToal.getDashboardTotal.total_users}
+                          : dataUser.userCount}
                       </span>
                     </div>
                     <Col className="col-auto">

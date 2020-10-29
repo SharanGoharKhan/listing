@@ -3,72 +3,17 @@ export const categories = `query categories
       categories{
           _id
           title
+          image
     }}`
 
-export const subscribePlaceOrder = `subscription SubscribePaceOrder{
-  subscribePlaceOrder{
-      order{
-        _id
-    orderId
-    paymentMethod
-    paymentStatus
-    status
-    orderStatus
-    orderAmount
-    reason
-    deliveryCharges
-    createdAt
-    deliveryAddress{
-      label
-      region
-      city
-      apartment
-      building
-      details
-    }
-    items{
-      _id
-      productId
-      product
-      price
-      quantity
-      selectedAttributes{
-        attributeId
-        title
-        option{
-          optionId
-          title
-          price
-        }
-      }
-      createdAt
-    }
-    user{
-      _id
-      name
-      phone
-      email
-    }
-    statusQueue{
-      pending
-      preparing
-      picked
-      delivered
-      cancelled
-    }
-    }
-    origin
-  }
-}`
-
 export const createCategory = `
-mutation CreateCategory($title:String!){
-  createCategory(category:{title:$title}){_id}
+mutation CreateCategory($title:String!,$image:String!){
+  createCategory(category:{title:$title,image:$image}){_id}
 }`
 
 export const editCategory = `
-      mutation EditCategory( $_id:String,$title:String!){
-        editCategory(category:{_id:$_id,title:$title}){_id}
+      mutation EditCategory( $_id:String,$title:String!,$image:String!){
+        editCategory(category:{_id:$_id,title:$title,,image:$image}){_id}
       }`
 
 export const deleteCategory = `
@@ -82,20 +27,19 @@ export const subCategories = `query subCategories
         subCategories{
             _id
             title
-            image
             category{
               _id
               title
             }
       }}`
 export const createSubCategory = `
-      mutation CreateSubCategory($title:String!,$image:String!,$category:String!){
-        createSubCategory(subCategory:{title:$title,image:$image,category:$category}){_id}
+      mutation CreateSubCategory($title:String!,$category:String!){
+        createSubCategory(subCategory:{title:$title,category:$category}){_id}
       }`
 
 export const editSubCategory = `
-            mutation EditSubCategory( $_id:String,$title:String!,$image:String!,$category:String!){
-              editSubCategory(subCategory:{_id:$_id,title:$title,image:$image,category:$category}){_id}
+            mutation EditSubCategory( $_id:String,$title:String!,$category:String!){
+              editSubCategory(subCategory:{_id:$_id,title:$title,category:$category}){_id}
             }`
 
 export const deleteSubCategory = `
@@ -104,235 +48,6 @@ export const deleteSubCategory = `
                 _id
               }
             }`
-
-export const attributes = `
-            query OptionGroups{
-              optionGroups{
-                _id
-                title
-                subCategory{
-                  _id
-                  title
-                }
-                options{
-                  _id
-                  title
-                }
-              }
-            }
-`
-
-export const getAttributesByCategory = `query GetOptionGroupsByCategory($subCategory:String!){
-  getOptionGroupsByCategory(subCategory:$subCategory){
-    _id
-    title
-    subCategory{
-      _id
-      title
-      category{
-        _id
-        title
-      }
-    }
-    options{
-      _id
-      title
-    }
-  }
-}`
-
-export const createAttributes = `
-            mutation CreateOptionGroup($optionGroupInput:OptionGroupInput!){
-              createOptionGroup(optionGroupInput:$optionGroupInput){
-                  _id
-                  title
-                  subCategory{
-                    _id
-                    title
-                  }
-                  options{
-                    _id
-                    title
-                  }
-              }
-            }
-`
-
-export const editAttributes = `
-            mutation EditOptionGroup($optionGroupInput:OptionGroupInput!){
-              editOptionGroup(optionGroupInput:$optionGroupInput){
-                  _id
-                  title
-                  subCategory{
-                    _id
-                    title
-                  }
-                  options{
-                    _id
-                    title
-                  }
-              }
-            }
-`
-
-export const deleteAttribute = `mutation DeleteOptionAttribute($id:String!){
-  deleteOptionGroup(id:$id)
-  }`
-
-export const getProducts = `query Products{
-  products{
-    _id
-    title
-    skuCode
-    description
-    subCategory{
-      _id
-      title
-      category{
-        _id
-        title
-      }
-    }
-    image
-    attributes{
-      _id
-      attributeId
-      title
-      options{
-        _id
-        optionId
-        title
-        price
-        stock
-      }
-    }
-    price
-    featured
-  }
-}`
-
-export const createProduct = `mutation CreateProduct($productInput:ProductInput!){
-    createProduct(productInput:$productInput){
-      _id
-    title
-    skuCode
-    description
-    subCategory{
-      _id
-      title
-      category{
-        _id
-        title
-      }
-    }
-    image
-    attributes{
-      _id
-      attributeId
-      title
-      options{
-        _id
-        optionId
-        title
-        price
-        stock
-      }
-    }
-    price
-    featured
-    }
-}`
-
-export const editProduct = `mutation EditProduct($productInput:ProductInput!){
-  editProduct(productInput:$productInput){
-    _id
-  title
-  skuCode
-  description
-  subCategory{
-    _id
-    title
-    category{
-      _id
-      title
-    }
-  }
-  image
-  attributes{
-    _id
-    attributeId
-    title
-    options{
-      _id
-      optionId
-      title
-      price
-      stock
-    }
-  }
-  price
-  featured
-  }
-}`
-
-export const deleteProduct = `mutation DeleteProduct($id:String!){
-  deleteProduct(id:$id){
-  _id
-  }
-}`
-
-export const getOrders = `query Orders($page:Int,$rows:Int,$search:String){
-  allOrders(page:$page,rows:$rows,search:$search){
-    _id
-    orderId
-    paymentMethod
-    paymentStatus
-    status
-    orderStatus
-    orderAmount
-    reason
-    deliveryCharges
-    createdAt
-    deliveryAddress{
-      label
-      region
-      city
-      apartment
-      building
-      details
-    }
-    items{
-      _id
-      productId
-      product
-      price
-      quantity
-      selectedAttributes{
-        attributeId
-        title
-        option{
-          optionId
-          title
-          price
-        }
-      }
-      createdAt
-    }
-    user{
-      _id
-      name
-      phone
-      email
-    }
-    statusQueue{
-      pending
-      preparing
-      picked
-      delivered
-      cancelled
-    }
-  }
-}`
 
 export const getDashboardTotal = `query GetDashboardTotal($startingDate: String, $endingDate: String){
   getDashboardTotal(starting_date: $startingDate, ending_date: $endingDate){
@@ -343,13 +58,8 @@ export const getDashboardTotal = `query GetDashboardTotal($startingDate: String,
     avg_ratings
   }
 }`
-export const getDashboardSales = `query GetDashboardSales($startingDate: String, $endingDate: String){
-  getDashboardSales(starting_date: $startingDate, ending_date: $endingDate){
-    orders{
-      day
-      amount
-    }
-  }
+export const getDashboardUser = `query UserCount{
+  userCount
 }`
 export const getDashboardOrders = `query GetDashboardOrders($startingDate: String, $endingDate: String){
   getDashboardOrders(starting_date: $startingDate, ending_date: $endingDate){
@@ -363,16 +73,10 @@ export const getDashboardOrders = `query GetDashboardOrders($startingDate: Strin
 export const getConfiguration = `query GetConfiguration{
   configuration{
     _id
-    orderPrefix
+    itemPrefix
     email
     password
     enableEmail
-    clientId
-    clientSecret
-    sandbox
-    publishableKey
-    secretKey
-    deliveryCharges
     currency
     currencySymbol
   }
@@ -381,7 +85,7 @@ export const getConfiguration = `query GetConfiguration{
 export const saveOrderConfiguration = `mutation SaveOrderConfiguration($configurationInput:OrderConfigurationInput!){
   saveOrderConfiguration(configurationInput:$configurationInput){
     _id
-    orderPrefix
+    itemPrefix
   }
 }`
 export const saveEmailConfiguration = `mutation SaveEmailConfiguration($configurationInput:EmailConfigurationInput!){
@@ -416,23 +120,6 @@ export const adminLogin = `mutation AdminLogin($email:String!,$password:String!)
   }
 }`
 
-export const updateOrderStatus = `mutation UpdateOrderStatus($id:String!,$status:String!,$reason:String){
-  updateOrderStatus(id:$id,status:$status,reason:$reason){
-    _id
-    orderStatus
-    paymentStatus
-  }
-}`
-
-export const updateStatus = `mutation UpdateStatus($id:String!,$status:Boolean!,$reason:String){
-  updateStatus(id:$id,status:$status,reason:$reason){
-    _id
-    status
-    reason
-  }
-}
-`
-
 export const uploadToken = `mutation UploadToken($pushToken:String!){
   uploadToken(pushToken:$pushToken){
     _id
@@ -446,34 +133,80 @@ export const getUsers = `query Users($page:Int){
     name
     email
     phone
-    addresses{
+    followers{
       _id
-      label
-      region
-      city
-      apartment
-      building
-      details
+    }
+    following{
+      _id
+    }
+    likes{
+      _id
     }
   }
 }`
 
-export const reviews = `query AllReviews($offset:Int){
-  allReviews(offset:$offset){
+export const allItems = `query AllItems{
+  allItems{
     _id
-    rating
+    itemId
+    title
     description
-    createdAt
-    product{
+    condition
+    subCategory{
+      _id
       title
     }
-    order{
-      orderId
-      user{
-        name
-        email
+    status
+    images
+    price
+    user{
+      _id
+      name
+      phone
+      email
+      showPhone
+    }
+    address{
+      _id
+      address
+      location{
+        coordinates
       }
-   }
+    }
+  }
+}`
+
+export const subscribeCreateAd = `subscription SubscribeCreateAd {
+  subscribeCreateAd{
+    item {
+        _id
+      itemId
+      title
+      description
+      condition
+      subCategory{
+        _id
+        title
+      }
+      status
+      images
+      price
+      user{
+        _id
+        name
+        phone
+        email
+        showPhone
+      }
+      address{
+        _id
+        address
+        location{
+          coordinates
+        }
+      }
+    }
+    origin
   }
 }`
 
@@ -482,54 +215,3 @@ export const resetPassword = `mutation ResetPassword($password:String!,$token:St
     result
   }
 }`
-
-export const orderCount = `
-query{
-  orderCount
-}`
-
-export const getOrderStatuses = `query{
-  getOrderStatuses
-}
-`
-
-export const getPaymentStatuses = `query{
-  getPaymentStatuses
-}`
-
-export const updatePaymentStatus = `mutation UpdatePaymentStatus($id:String!,$status:String!){
-  updatePaymentStatus(id:$id,status:$status){
-    _id
-    paymentStatus
-    paidAmount
-  }
-}`
-
-export const createCoupon = `mutation CreateCoupon($couponInput:CouponInput!){
-  createCoupon(couponInput:$couponInput){
-    _id
-    code
-    discount
-    enabled
-  }
-}`
-export const editCoupon = `mutation editCoupon($couponInput:CouponInput!){
-  editCoupon(couponInput:$couponInput){
-    _id
-    code
-    discount
-    enabled
-        }
-      }`
-export const deleteCoupon = `mutation DeleteCoupon($id:String!){
-        deleteCoupon(id:$id)
-      }`
-
-export const getCoupons = `query Coupons{
-        coupons {
-          _id
-          code
-          discount
-          enabled
-        }
-      }`

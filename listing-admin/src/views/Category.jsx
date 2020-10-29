@@ -54,7 +54,14 @@ const Category = props => {
     {
       name: 'Image',
       sortable: false,
-      selector: 'img_url'
+      cell: row => (
+        <>
+          {!!row.image && (
+            <img className="img-responsive" src={row.image} alt="img menu" />
+          )}
+          {!row.image && 'No Image'}
+        </>
+      ),
     },
     {
       name: 'Action',

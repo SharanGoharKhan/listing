@@ -37,6 +37,16 @@ module.exports = {
         console.log(err)
         throw err
       }
+    },
+    userCount: async (_, args, contex) => {
+      try {
+        const userCount = await User.find({
+          isActive: true
+        }).countDocuments()
+        return userCount
+      } catch (error) {
+        throw error
+      }
     }
   },
   Mutation: {
@@ -114,16 +124,16 @@ module.exports = {
         throw err
       }
     },
-    checkUserEmail: async (_, args, {req, res}) => {
+    checkUserEmail: async (_, args, { req, res }) => {
       console.log("checkUserEmail")
-      const userExist = await User.findOne({email:args.email})
-      if(userExist){
-        const randomCode = randomString(4,"n")
+      const userExist = await User.findOne({ email: args.email })
+      if (userExist) {
+        const randomCode = randomString(4, "n")
         userExist.confirmationCode = randomCode
         await userExist.save()
         sendEmail(args.email, 'Verification Code', verificationText(randomCode), verificationTemplate(randomCode))
         return true
-      } else{
+      } else {
         return false
       }
     },
@@ -159,7 +169,7 @@ module.exports = {
         if (followStatus) {
           console.log("UnfollowUser")
           const index = user.following.findIndex(el => el === userId)
-          user.following.splice(index,1)
+          user.following.splice(index, 1)
         } else {
           console.log("followUser")
           user.following.push(userId)

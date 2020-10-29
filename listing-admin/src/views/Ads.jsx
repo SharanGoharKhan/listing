@@ -3,12 +3,12 @@ import { Container, Row, Card, Modal } from 'reactstrap'
 import ImageComponent from '../components/Ad/Image'
 import AdsData from '../components/Ad/AdsData'
 import Header from 'components/Headers/Header.jsx'
-import { getOrders } from '../apollo/server'
+import { allItems } from '../apollo/server'
 import { useQuery, gql } from '@apollo/client'
 import MapComponent from '../components/Ad/Map'
 
-const GET_ORDERS = gql`
-  ${getOrders}
+const GET_ITEMS = gql`
+  ${allItems}
 `
 function Ads(props) {
   const [detailsModal, setDetailModal] = useState(false)
@@ -17,11 +17,10 @@ function Ads(props) {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const { data, loading, error, subscribeToMore } = useQuery(GET_ORDERS, {
+  const { data, loading, error, subscribeToMore } = useQuery(GET_ITEMS, {
     variables: {
-      page: page - 1,
-      rows: rowsPerPage,
-      search
+      lat: 0,
+      long:0
     }
   })
 
@@ -29,7 +28,8 @@ function Ads(props) {
     setOrder(order)
     setDetailModal(!detailsModal)
   }
-  const mapToggle = () => {
+  const mapToggle = (order) => {
+    setOrder(order)
     setMapModal(prev => !prev)
   }
   return (
@@ -49,7 +49,7 @@ function Ads(props) {
                 </tr>
               ) : (
                 <AdsData
-                  orders={data ? data.allOrders : []}
+                  ads={data? data.allItems: []}
                   toggleModal={toggleModal}
                   mapToggle={mapToggle}
                   subscribeToMore={subscribeToMore}
@@ -60,7 +60,7 @@ function Ads(props) {
                   page={setPage}
                   rows={setRowsPerPage}
                 />
-              )}
+               )}
             </Card>
           </div>
         </Row>
@@ -71,7 +71,7 @@ function Ads(props) {
           toggle={() => {
             toggleModal(null)
           }}>
-          <ImageComponent imgaes={null} />
+          <ImageComponent ads={order} />
         </Modal>
         {/* Map */}
         <Modal
@@ -81,7 +81,7 @@ function Ads(props) {
           toggle={() => {
             mapToggle(null)
           }}>
-          <MapComponent location={null} />
+          <MapComponent location={order} />
         </Modal>
       </Container>
     </>

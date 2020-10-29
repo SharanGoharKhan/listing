@@ -48,7 +48,6 @@ const transformCategory = category => {
 
 
 const transformUser = async user => {
-  console.log('user', user)
   return {
     ...user._doc,
     password: null,
