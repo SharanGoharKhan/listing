@@ -12,6 +12,7 @@ import { StackOptions, tabIcon, tabOptions, TopBarOptions } from './screenOption
 const Tabs = createBottomTabNavigator()
 const MainStack = createStackNavigator()
 const HomeStack = createStackNavigator()
+const ProductStack = createStackNavigator()
 const AccountStack = createStackNavigator()
 const EditAccountStack = createStackNavigator()
 const ChatStack = createStackNavigator()
@@ -146,6 +147,14 @@ function AccountTabs() {
         </AccountStack.Navigator>
     )
 }
+function ProdcutMap() {
+    return (
+        <ProductStack.Navigator initialRouteName='ProductDescription' screenOptions={StackOptions()}>
+            <ProductStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />
+            <ProductStack.Screen name='FullMap' component={HomeScreens.FullMap} />
+        </ProductStack.Navigator>
+    )
+}
 
 
 function BottomTabs() {
@@ -160,7 +169,7 @@ function BottomTabs() {
             }} />
             <Tabs.Screen name='Add' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Account' component={AccountTabs} />
-            <Tabs.Screen name='ProductDescription' component={HomeScreens.ProductDescription} options={{ tabBarButton: () => null, tabBarVisible: false }} />
+            <Tabs.Screen name='ProductDescription' component={ProdcutMap} options={{ tabBarButton: () => null, tabBarVisible: false }} />
         </Tabs.Navigator >
     )
 }
