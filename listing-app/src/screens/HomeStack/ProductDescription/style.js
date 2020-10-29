@@ -49,6 +49,11 @@ const styles = StyleSheet.create({
         borderRadius: scale(25),
         overflow: 'hidden'
     },
+    iconResponsive: {
+        backgroundColor: 'transparent',
+        width: scale(25),
+        height: scale(25)
+    },
     image: {
         width: undefined,
         height: undefined,
@@ -133,7 +138,7 @@ const styles = StyleSheet.create({
     mapContainer: {
         flex: 1,
         height: scale(200),
-        backgroundColor: 'orange'
+        backgroundColor: 'transparent'
     },
     mapMarker: {
         height: scale(30),

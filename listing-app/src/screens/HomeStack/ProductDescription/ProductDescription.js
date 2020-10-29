@@ -3,17 +3,20 @@ import { useNavigation } from '@react-navigation/native'
 import * as Device from 'expo-device'
 import React, { useContext, useLayoutEffect, useState } from 'react'
 import { Image, Linking, Platform, ScrollView, Share, TouchableOpacity, View } from 'react-native'
-import { BorderlessButton } from 'react-native-gesture-handler'
-import MapView, { Circle, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from 'react-native-maps'
+import { BorderlessButton, RectButton } from 'react-native-gesture-handler'
+import MapView, { Marker, Circle, PROVIDER_DEFAULT, PROVIDER_GOOGLE, } from 'react-native-maps'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FlashMessage, LeftButton, ReportModal, RightButton, TextDefault } from '../../../components'
 import UserContext from '../../../context/user'
 import { alignment, colors, scale } from '../../../utilities'
 import Slider from './Slider'
 import styles from './style'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import color from '../../../components/Text/TextDefault/styles'
 
 
 const title = 'Japanese 28 inches cycle'
+const mapIcon = require('../../../assets/icons/gMap.png')
 
 const IMG_LIST = [
     require('../../../assets/images/products/cycle.jpg'),
@@ -25,6 +28,15 @@ const LATITUDE = 33.7001019
 const LONGITUDE = 72.9735978
 const LATITUDE_DELTA = 0.0452
 const LONGITUDE_DELTA = 0.0451
+
+function linkToMapsApp({ latitude, longitude }) {
+    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' })
+    const latLng = `${latitude},${longitude}`
+    const url = `${scheme}${latLng}`
+
+    Linking.openURL(url)
+}
+
 
 function ProductDescription() {
     const location = null
@@ -217,6 +229,25 @@ function ProductDescription() {
                             />
 
                         </MapView>
+                        <RectButton
+                            onPress={() => {
+                                linkToMapsApp(region)
+                            }}
+                            style={{
+                                width: scale(35),
+                                height: scale(35),
+                                position: 'absolute',
+                                backgroundColor: colors.containerBox,
+                                bottom: 10,
+                                right: 10,
+                                zIndex: 0,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            <View style={styles.iconResponsive}>
+                                <Image source={mapIcon} style={styles.image} />
+                            </View>
+                        </RectButton>
                     </View>
                 </View>
                 <View style={styles.profileContainer}>
