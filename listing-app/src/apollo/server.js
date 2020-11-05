@@ -58,3 +58,76 @@ export const profile = `
         }
       }
   }`
+
+  export const updateUser = `mutation UpdateUser($userInput:UserInput!){
+    updateUser(userInput:$userInput){
+      _id
+      name
+      phone
+      email
+      notificationToken
+      showPhone
+      countryCode
+      callingCode
+      googleEmail
+      followers{
+        _id
+        name
+      }
+      following{
+        _id
+        name
+      }
+      likes{
+        _id
+        itemId
+        images
+        price
+        subCategory{
+          _id
+          title
+        }
+      }
+    }
+  }`
+
+  export const itemsByUser = `query{
+    itemsByUser{
+      _id
+      itemId
+      title
+      description
+      condition
+      subCategory{
+        _id
+        title
+      }
+      status
+      images
+      price
+      user{
+        _id
+        name
+        phone
+        showPhone
+        callingCode
+      }
+      address{
+        _id
+        address
+        location{
+          coordinates
+        }
+      }
+      createdAt
+    }
+  }`
+
+  export const getConfiguration = `query Configuration{
+    configuration{
+      _id
+      itemPrefix
+      currency
+      currencySymbol
+    }
+  }`

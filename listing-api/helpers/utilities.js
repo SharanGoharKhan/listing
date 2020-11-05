@@ -82,6 +82,7 @@ const sendNotification = async orderId => {
 // returns true if already used,false otherwise
 const checkPhoneAlreadyUsed = async(userId, phone) => {
   const user = await User.find({ phone })
+  console.log("check phone", phone)
   if (user.length === 0 || (user.length === 1 && user[0].id === userId)) {
     return false
   }

@@ -83,8 +83,12 @@ module.exports = {
         itemsByUser: async (_, args, context) => {
             console.log("itemsByUser")
             try {
+                let filters = {
+                    user:context.req.userId
+                }
+
                 const items = await Item.find({
-                    user: args.user,
+                    ...filters,
                     isActive: true
                 })
                 return items.map(transformItem)

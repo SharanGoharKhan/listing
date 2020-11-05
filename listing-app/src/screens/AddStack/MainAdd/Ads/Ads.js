@@ -1,10 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
+import { useQuery, gql } from '@apollo/client'
 import { Image, View, TouchableOpacity, FlatList, Modal } from 'react-native';
-import { AddFilter, EmptyButton, TextDefault } from '../../../../components';
+import { AddFilter, EmptyButton, TextDefault, Spinner } from '../../../../components';
 import { alignment, colors, scale } from '../../../../utilities';
 import styles from './styles';
 import { Feather, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons'
+import { itemsByUser } from '../../../../apollo/server'
+
+const ITEMS_BY_USER = gql`${itemsByUser}`
 
 import Card from './Card';
 
@@ -35,12 +39,18 @@ function Ads() {
     const navigation = useNavigation()
     const [visible, setVisible] = useState(false)
 
+    const { data, loading, error} = useQuery(ITEMS_BY_USER)
+
     function onModalToggle() {
         setVisible(prev => !prev)
     }
 
-    
-
+    if(error){
+        return <TextDefault>{JSON.stringify(error)}</TextDefault>
+    }
+    if(loading){
+        return <Spinner spinnerColor={colors.spinnerColor1} backColor={'transparent'} />
+    }
     function emptyView() {
         return (
             <View style={[styles.flex, styles.emptyContainer]}>
@@ -77,7 +87,7 @@ function Ads() {
     return (
         <View style={[styles.flex, styles.mainContainer]}>
             <FlatList
-                data={dataList}
+                data={data.itemsByUser? data.itemsByUser: []}
                 style={styles.flex}
                 contentContainerStyle={{ flexGrow: 1 }}
                 showsVerticalScrollIndicator={false}
