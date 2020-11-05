@@ -138,7 +138,7 @@ module.exports = {
       }
     },
     updateUser: async (_, args, { req, res }) => {
-      console.log(args.updateUserInput)
+      console.log('args',args)
       if (!req.isAuth) {
         throw new Error('Unauthenticated!')
       }
@@ -146,11 +146,14 @@ module.exports = {
       if (!user) throw new Error('Please logout and login again')
       // check if phone number is already associated with another account
       if (
-        !(await checkPhoneAlreadyUsed(req.userId, args.updateUserInput.phone))
+        !(await checkPhoneAlreadyUsed(req.userId, args.userInput.phone))
       ) {
         try {
-          user.name = args.updateUserInput.name
-          user.phone = args.updateUserInput.phone
+          user.name = args.userInput.name
+          user.phone = args.userInput.phone
+          user.showPhone = args.userInput.showPhone
+          user.countryCode = args.userInput.countryCode
+          user.callingCode = args.userInput.callingCode
           const result = await user.save()
           return transformUser(result)
         } catch (err) {

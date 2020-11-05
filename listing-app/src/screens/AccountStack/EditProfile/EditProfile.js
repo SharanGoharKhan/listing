@@ -1,15 +1,19 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState, useContext } from 'react'
+import { gql, useMutation } from '@apollo/client'
 import { Image, ScrollView, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
-import { BackButton, DisconnectButton, EmptyButton, LeftButton, RightButton, TextDefault } from '../../../components'
+import { LeftButton, RightButton, TextDefault, Spinner, FlashMessage } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
+import { updateUser } from '../../../apollo/server'
 import styles from './styles'
 import { Entypo, Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import UserContext from '../../../context/user';
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-
+const UPDATE_USER = gql`
+  ${updateUser}
+`
 
 function EditProfile() {
     const navigation = useNavigation()
@@ -23,9 +27,18 @@ function EditProfile() {
     const [phoneError, setPhoneError] = useState(null)
     const [margin, marginSetter] = useState(false)
     const [image, setImage] = useState(null)
+    const [mutate, { loading }] = useMutation(UPDATE_USER, { onError, onCompleted })
+
+    function onCompleted(data) {
+        FlashMessage({message:'Profile Updated!'})
+    }
+
+    function onError(error) {
+        console.log('edit profile error', JSON.stringify(error))
+    }
 
     const PHONE_DATA = {
-        number: profile.number ?? '',
+        number: profile.phone ?? '',
         callingCode: profile.callingCode ?? '92',
         countryCode: profile.countryCode ?? 'PK',
         showPhone: profile.showPhone ?? false
@@ -40,10 +53,25 @@ function EditProfile() {
         navigation.setOptions({
             title: null,
             headerLeft: () => <LeftButton icon='close' iconColor={colors.headerText} />,
-            headerRight: () => <RightButton iconColor={colors.headerText} icon='text' title='Save' onPress={validation}
+            headerRight: () => <RightButton iconColor={colors.headerText} icon='text' title={loading ? <Spinner spinnerColor={colors.spinnerColor1} backColor={'transparent'} /> : 'Save'} onPress={() => {
+                if (validation) {
+                    mutate({
+                        variables: {
+                            userInput: {
+                                name,
+                                description,
+                                countryCode: phoneData.countryCode,
+                                callingCode: phoneData.callingCode,
+                                phone: phoneData.number,
+                                showPhone: phoneData.showPhone
+                            }
+                        }
+                    })
+                }
+            }}
             />
         })
-    }, [navigation])
+    }, [navigation, phoneData,loading])
 
     useEffect(() => {
         if (!(phoneData.number.length <= 13 && phoneData.number.length >= 9))

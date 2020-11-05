@@ -1,17 +1,19 @@
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Image, Platform, TouchableOpacity, View } from 'react-native'
 import { BaseButton, BorderlessButton, RectButton } from 'react-native-gesture-handler'
 import { FlashMessage, TextDefault } from '../../../../components'
 import { alignment, colors, scale } from '../../../../utilities'
+import ConfigurationContext from '../../../../context/configuration'
 import styles from './styles'
+import moment from 'moment'
 
 function Card(props) {
     const navigation = useNavigation()
     const [deleteBox, setDeletebox] = useState(false)
     const [opacity, setopacity] = useState(1)
-
+    const configuration = useContext(ConfigurationContext)
     function onBoxToggle() {
         setDeletebox(prev => !prev)
     }
@@ -28,12 +30,22 @@ function Card(props) {
         onBoxToggle()
     }
 
+    function editAd(data){
+        navigation.navigate('SellingForm')
+    }
+
     function activeState(data) {
         if (data)
             setopacity(0.5)
         else
             setopacity(1)
     }
+
+    function getDate(date) {
+        const formatDate = moment(+date).format('DD MMM YYYY')
+        return formatDate
+    }
+
     return (
         <View
             style={[styles.adContainer, { borderLeftColor: props.status === 'PENDING' ? colors.horizontalLine : colors.activeLine }]}>
@@ -41,8 +53,8 @@ function Card(props) {
                 style={{ opacity: Platform.OS === 'ios' ? opacity : 1 }}>
                 <View style={[styles.dateRow, { flexDirection: "row", alignItems: "center", ...alignment.PTxSmall, ...alignment.PBxSmall }]}>
                     <TextDefault small textColor={colors.fontSecondColor} uppercase style={[styles.flex, alignment.PLsmall, {}]}>
-                        {'From: '} <TextDefault small bold>{props.postingDate}</TextDefault>
-                        {' -To: '} <TextDefault bold small>{props.endingDate}</TextDefault>
+                        {'From: '} <TextDefault small bold>{getDate(props.createdAt)}</TextDefault>
+                        {/* {' -To: '} <TextDefault bold small>{props.endingDate}</TextDefault> */}
                     </TextDefault>
                     <BorderlessButton style={alignment.PxSmall} onPress={onBoxToggle}>
                         <MaterialCommunityIcons name="dots-vertical" size={scale(20)} color="black" />
@@ -51,7 +63,7 @@ function Card(props) {
 
                 <View style={[styles.InfoContainer, { zIndex: 0 }]}>
                     <Image
-                        source={props.img}
+                        source={{ uri: props.images[0] }}
                         style={styles.imgResponsive}
                     />
                     <View style={[styles.flex, styles.descriptionContainer]}>
@@ -60,7 +72,7 @@ function Card(props) {
                                 {props.title}
                             </TextDefault>
                             <TextDefault style={alignment.PTxSmall}>
-                                {props.price}
+                                {configuration.currencySymbol} {props.price}
                             </TextDefault>
                         </View>
                         <View style={styles.locationRow}>
@@ -104,7 +116,7 @@ function Card(props) {
                         top: scale(30),
                         zIndex: 1
                     }}>
-                        <RectButton style={alignment.Psmall} onPress={adOptions}>
+                        <RectButton style={alignment.Psmall} onPress={()=>editAd(props)}>
                             <TextDefault H5 bold uppercase>
                                 {'Edit'}
                             </TextDefault>

@@ -7,6 +7,7 @@ import * as Permissions from 'expo-permissions'
 import { Notifications } from 'expo'
 import { ApolloProvider } from '@apollo/client'
 import { UserProvider } from './src/context/user';
+import { ConfigurationProvider } from './src/context/configuration'
 import AppContainer from './src/routes';
 import { colors } from './src/utilities';
 import { AppLoading } from 'expo';
@@ -65,14 +66,16 @@ export default function App() {
     }
   }
 
-  if (fontLoaded && client) { 
+  if (fontLoaded && client) {
     return (
       <ApolloProvider client={client}>
-        <UserProvider>
-          <AppContainer />
-          <StatusBar style="dark" backgroundColor={colors.buttonbackground} />
-          <FlashMessage position="top" />
-        </UserProvider>
+        <ConfigurationProvider>
+          <UserProvider>
+            <AppContainer />
+            <StatusBar style="dark" backgroundColor={colors.buttonbackground} />
+            <FlashMessage position="top" />
+          </UserProvider>
+        </ConfigurationProvider>
       </ApolloProvider>
     )
   } else {

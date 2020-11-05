@@ -16,39 +16,15 @@ const CONDITIONS = [
         title: 'Used'
     },
 ]
-const Type = [
-    {
-        value: 2,
-        title: 'Apple'
-    },
-    {
-        value: 3,
-        title: 'Danny Tabs'
-    },
-    {
-        value: 4,
-        title: 'Q Tabs'
-    },
-    {
-        value: 5,
-        title: 'Samsung'
-    },
-    {
-        value: 6,
-        title: 'Other Tablets'
-    },
-]
 
 function SellingForm() {
     const navigation = useNavigation()
-    const [type, setType] = useState(null)
     const [margin, marginSetter] = useState(false)
     const [condition, setCondition] = useState(null)
     const [adColor, setAdColor] = useState(colors.fontMainColor)
     const [descriptionColor, setDescriptionColor] = useState(colors.fontMainColor)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [typeError, setTypeError] = useState(null)
     const [titleError, setTitleError] = useState(null)
     const [conditionError, setConditionError] = useState(null)
     const [descriptionError, setDescriptionError] = useState(null)
@@ -85,10 +61,6 @@ function SellingForm() {
         }
         if (description.length < 1) {
             setDescriptionError('This is mandatory. Please complete the required field.')
-            result = false
-        }
-        if (type === null) {
-            setTypeError('This is mandatory. Please complete the required field.')
             result = false
         }
         if (condition === null) {
@@ -129,32 +101,6 @@ function SellingForm() {
                                 {conditionError &&
                                     <TextDefault textColor={colors.google} style={styles.width100}>
                                         {conditionError}
-                                    </TextDefault>
-                                }
-                            </View>
-                            <View style={styles.line} />
-                            <View style={[styles.width100, styles.subContainer]}>
-                                <TextDefault textColor={typeError ? colors.google : colors.fontMainColor} H5 bold style={styles.width100}>
-                                    {'Type *'}
-                                </TextDefault>
-                                <ScrollView
-                                    contentContainerStyle={styles.scrollviewContent}
-                                    horizontal={true}
-                                    showsHorizontalScrollIndicator={false}>
-                                    {Type.map((item, index) => (
-                                        <TouchableOpacity key={item.value}
-                                            style={[styles.typeBox, styles.boxContainer, item.value === type ? styles.selected : styles.notSelected]}
-                                            onPress={() => onChange(setType, setTypeError, item.value)}>
-                                            <TextDefault style={item.value === type ? styles.selectedText : styles.unSelectedText}>
-                                                {item.title}
-                                            </TextDefault>
-                                        </TouchableOpacity>
-                                    ))
-                                    }
-                                </ScrollView>
-                                {typeError &&
-                                    <TextDefault textColor={colors.google} style={styles.width100}>
-                                        {typeError}
                                     </TextDefault>
                                 }
                             </View>

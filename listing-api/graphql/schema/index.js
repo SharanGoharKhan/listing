@@ -103,6 +103,10 @@ type Configuration {
     phone: String
     email: String
     password: String
+    description: String
+    showPhone: Boolean
+    countryCode: String
+    callingCode: String
     name: String
     facebookId: String
     notificationToken: String
@@ -170,7 +174,7 @@ type Configuration {
     nearByItems(lat: Float!,long: Float!): [Item!]
     allItems: [Item!]
     itemsByCategory(subCategory: String!): [Item!]
-    itemsByUser(user: String!): [Item!]
+    itemsByUser: [Item!]
   }
 
   type Mutation {
@@ -186,7 +190,7 @@ type Configuration {
     adminLogin(email: String!, password: String!): Admin!
     createUser(userInput: UserInput): AuthData!
     checkUserEmail(email: String!): Boolean
-    updateUser(updateUserInput: UserInput!): User!
+    updateUser(userInput: UserInput!): User!
     followUser(followStatus:Boolean!, userId: String!): User!
     forgotPassword(email: String!): ForgotPassword!
     resetPassword(password: String!, token: String!): ForgotPassword!
