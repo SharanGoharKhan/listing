@@ -26,7 +26,7 @@ const {
     FACEBOOK_APP_ID } = getEnvVars()
 
 
-const icon = require('../../../assets/icon.png')
+const icon = require('../../../assets/Icon.png')
 
 function Registration() {
     const navigation = useNavigation()
