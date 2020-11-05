@@ -163,7 +163,7 @@ function MainHome() {
                 <TouchableOpacity
                   activeOpacity={0.5}
                   style={styles.cardContainer}
-                  onPress={() => navigation.navigate('SubCategories', { headerTitle: item.title })}>
+                  onPress={() => navigation.navigate('SubCategories', { headerTitle: item.title, categoryId: item._id })}>
                   <View style={styles.textViewContainer}>
                     <View style={[styles.iconContainer, { backgroundColor: COLORS[index % 5] }]}>
                       <Image

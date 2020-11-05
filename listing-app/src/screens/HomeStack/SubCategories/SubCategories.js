@@ -30,11 +30,16 @@ function SubCategories() {
         }
     }, [categoryId, route])
 
-    function navigateScreen(title) {
+    function navigateScreen(title, id) {
         if (screen === 'Filter')
             navigation.navigate('FilterModal', { search: title })
-        else
+        else if (id) {
+            navigation.navigate('ProductListing', { search: title, subCategory: id })
+        }
+        else {
             navigation.navigate('ProductListing', { search: title })
+        }
+
     }
 
     function emptyView() {
@@ -86,7 +91,7 @@ function SubCategories() {
                     <TouchableOpacity
                         activeOpacity={0.5}
                         style={styles.categoryRow}
-                        onPress={() => navigateScreen(item.title)}
+                        onPress={() => navigateScreen(item.title, item._id)}
                     >
                         <TextDefault light H5 style={styles.fontText}>
                             {item.title}

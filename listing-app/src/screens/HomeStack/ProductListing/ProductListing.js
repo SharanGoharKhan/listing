@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState, useEffect } from 'react'
 import { FlatList, TouchableOpacity, View } from 'react-native'
 import { FilterModal, TextDefault } from '../../../components'
 import SearchHeader from '../../../components/Header/SearchHeader/SearchHeader'
@@ -8,6 +8,10 @@ import { alignment, colors, scale } from '../../../utilities'
 import ProductCard from './ProductCard/ProductCard'
 import styles from './styles'
 import navigationOption from './navigationOption'
+import { gql, useLazyQuery } from '@apollo/client'
+import { itemsBySubCategory } from '../../../apollo/server'
+
+const PRODUCTS = gql`${itemsBySubCategory}`
 
 const data = [
     {
@@ -42,13 +46,25 @@ function ProductListing() {
     const navigation = useNavigation()
     const route = useRoute()
     const searchCategory = route.params?.search ?? null
+    const subCategory = route.params?.subCategory ?? null
     const [modalVisible, setModalVisible] = useState(false);
-
+    const [ fetchProducts, {called,data,loading, error}] = useLazyQuery(PRODUCTS, { variables: { subCategory: subCategory } })
     useLayoutEffect(() => {
         navigation.setOptions(
             navigationOption({ searchCategory: searchCategory })
         )
     }, [navigation])
+
+    useEffect(()=>{
+        let isProduct = true
+        if(!subCategory) return
+        ;(async ()=>{
+            isProduct && (await fetchProducts())
+        })()
+        return ()=>{
+            isProduct= false
+        }
+    },[subCategory])
 
     function toggleModal() {
         setModalVisible(prev => !prev)
@@ -70,12 +86,25 @@ function ProductListing() {
             </View>
         )
     }
+    if(error){
+    return <TextDefault>{JSON.stringify(error)}</TextDefault>
+    }
+    function emptyView(){
+        return (
+            <View style={{ alignContent: "center", alignItems: "center" }}>
+                <TextDefault>
+                    No Ads
+                </TextDefault>
+            </View>
+        )
+    }
     return (
         <View style={[styles.flex, styles.mainContainer]}>
             <FlatList
-                data={data}
+                data={ []}
                 style={styles.flex}
                 contentContainerStyle={{ flexGrow: 1, ...alignment.PBlarge }}
+                ListEmptyComponent={!loading && called  && emptyView}
                 ListHeaderComponent={headerView}
                 ItemSeparatorComponent={() => <View style={styles.spacer} />}
                 showsVerticalScrollIndicator={false}

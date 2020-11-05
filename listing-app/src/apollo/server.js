@@ -26,6 +26,42 @@ export const subCategories = `query SubCategoriesById($id: String!){
   }
 }`
 
+export const itemsBySubCategory = `query itemsByCategory($id: String!){
+  itemsByCategory(subCategory:$id){
+    _id
+    itemId
+    title
+    description
+    condition
+    subCategory{
+      _id
+      title
+      category{
+        _id
+        title
+      }
+    }
+    status
+    images
+    price
+    user{
+      _id
+      name
+      phone
+      callingCode
+      showPhone
+    }
+    address{
+      _id
+      location{
+        coordinates
+      }
+      address
+    }
+    createdAt
+  }
+}`
+
 export const profile = `
   query{
     profile{
