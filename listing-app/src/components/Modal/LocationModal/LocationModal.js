@@ -1,21 +1,41 @@
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import React from 'react';
-import { FlatList, Modal, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from 'react-native';
+import React, { useEffect } from 'react';
+import { FlatList, Modal, TextInput, TouchableOpacity, View, KeyboardAvoidingView, AsyncStorage } from 'react-native';
+import { useQuery, gql } from '@apollo/client'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alignment, colors, scale } from '../../../utilities';
+import { alignment, colors, scale, states } from '../../../utilities';
 import ModalHeader from '../../Header/ModalHeader/ModalHeader';
 import { TextDefault } from '../../Text';
 import styles from './styles';
+import { zones } from '../../../apollo/server'
+import Spinner from '../../Spinner/Spinner';
 
-const STATE = ['All in Pakistan', 'Azad Kashmir', 'Balochistan', 'Islamabad Capital territory', 'Khybar Pakhtunkha', 'Northen Area', 'Punjab', 'Sindh']
+const GET_ZONES = gql`${zones}`
+const STATE = states
 
 function LocationModal(props) {
     const inset = useSafeAreaInsets()
-    const loading = false
-
+    const { data, error, loading } = useQuery(GET_ZONES)
     function btnLocation(title) {
         props.setFilters(title)
         props.onModalToggle()
+    }
+    if (loading) {
+        return <Spinner />
+    }
+
+
+
+    async function storageLocation() {
+        const locationStr = await AsyncStorage.getItem('location')
+        const locationObj = JSON.parse(locationStr)
+        if (locationObj) {
+
+            const location = { title: locationObj.label, ...locationObj }
+            console.log(location)
+            props.setFilters(location)
+            props.onModalToggle()
+        }
     }
     return (
         <Modal
@@ -51,7 +71,7 @@ function LocationModal(props) {
                                         placeholder={'Search city, area or neighbour'}
                                     />
                                 </View>
-                                <TouchableOpacity style={styles.currentLocation} onPress={() => btnLocation('E11/2')}>
+                                <TouchableOpacity style={styles.currentLocation} onPress={() => storageLocation()}>
                                     <MaterialCommunityIcons name="target" size={scale(25)} color={colors.spinnerColor} />
                                     <View style={alignment.PLsmall}>
                                         <TextDefault textColor={colors.spinnerColor} H5 bold>
@@ -67,21 +87,22 @@ function LocationModal(props) {
                                 {'Choose State'}
                             </TextDefault>
                         </View>
-                        <FlatList
+
+                        {error ? <TextDefault>{error.message}</TextDefault> : <FlatList
                             contentContainerStyle={alignment.PBlarge}
                             showsVerticalScrollIndicator={false}
-                            data={STATE}
-                            keyExtractor={(item, index) => index.toString()}
+                            data={data.zones || []}
+                            keyExtractor={(item) => item._id}
                             renderItem={({ item, index }) => (
                                 <TouchableOpacity
                                     style={styles.stateBtn}
                                     onPress={() => btnLocation(item)} >
                                     <TextDefault style={styles.flex} >
-                                        {item}
+                                        {item.title}
                                     </TextDefault>
                                     <Entypo name="chevron-small-right" size={scale(20)} color={colors.fontMainColor} />
                                 </TouchableOpacity>
-                            )} />
+                            )} />}
                     </View>
                 </KeyboardAvoidingView>
             </SafeAreaView>

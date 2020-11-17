@@ -156,6 +156,14 @@ export const allItems = `query AllItems{
       _id
       title
     }
+    zone{
+      _id
+      title
+      description
+      location{
+        coordinates
+      }
+    }
     status
     images
     price
@@ -188,6 +196,14 @@ export const subscribeCreateAd = `subscription SubscribeCreateAd {
         _id
         title
       }
+      zone{
+        _id
+        title
+        description
+        location{
+          coordinates
+        }
+      }
       status
       images
       price
@@ -213,5 +229,45 @@ export const subscribeCreateAd = `subscription SubscribeCreateAd {
 export const resetPassword = `mutation ResetPassword($password:String!,$token:String!){
   resetPassword(password:$password,token:$token){
     result
+  }
+}`
+
+export const createZone = `mutation CreateZone($zone:ZoneInput!){
+  createZone(zone:$zone){
+    _id
+    title
+    description
+    location{coordinates}
+    isActive
+  }
+}`
+
+export const editZone = `mutation EditZone($zone:ZoneInput!){
+  editZone(zone:$zone){
+    _id
+    title
+    description
+    location{coordinates}
+    isActive
+  }
+}`
+
+export const getZones = `query Zones{
+    zones{
+    _id
+    title
+    description
+    location{coordinates}
+    isActive
+    }
+}`
+
+export const deleteZone = `mutation DeleteZone($id:String!){
+  deleteZone(id:$id){
+    _id
+    title
+    description
+    location{coordinates}
+    isActive
   }
 }`

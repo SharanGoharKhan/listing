@@ -1,13 +1,15 @@
 import { Entypo, FontAwesome, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import * as Device from 'expo-device'
 import React, { useContext, useLayoutEffect, useState } from 'react'
 import { Image, Linking, Platform, ScrollView, Share, TouchableOpacity, View } from 'react-native'
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler'
 import MapView, { Marker, Circle, PROVIDER_DEFAULT, PROVIDER_GOOGLE, } from 'react-native-maps'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { FlashMessage, LeftButton, ReportModal, RightButton, TextDefault } from '../../../components'
+import moment from 'moment'
+import { FlashMessage, LeftButton, ReportModal, RightButton, TextDefault, Spinner } from '../../../components'
 import UserContext from '../../../context/user'
+import ConfigurationContext from '../../../context/configuration'
 import { alignment, colors, scale } from '../../../utilities'
 import Slider from './Slider'
 import styles from './style'
@@ -18,14 +20,6 @@ import color from '../../../components/Text/TextDefault/styles'
 const title = 'Japanese 28 inches cycle'
 const mapIcon = require('../../../assets/icons/gMap.png')
 
-const IMG_LIST = [
-    require('../../../assets/images/products/cycle.jpg'),
-    require('../../../assets/images/products/cycle(1).jpg'),
-    require('../../../assets/images/products/nord.jpg'),
-]
-
-const LATITUDE = 33.7001019
-const LONGITUDE = 72.9735978
 const LATITUDE_DELTA = 0.0452
 const LONGITUDE_DELTA = 0.0451
 
@@ -38,16 +32,19 @@ function linkToMapsApp({ latitude, longitude }) {
 }
 
 
-function ProductDescription() {
-    const location = null
+function ProductDescription(props) {
+    const route = useRoute()
+    const product = route.params?.product
+    const location = product?.address?.location?.coordinates
     const navigation = useNavigation()
     const [isLike, isLikeSetter] = useState(false)
     const [reportModal, setReportModal] = useState(false);
-    const { isLoggedIn } = useContext(UserContext)
+    const { isLoggedIn, profile } = useContext(UserContext)
+    const configuration = useContext(ConfigurationContext)
     const region = {
-        latitude: location ? location.latitude : LATITUDE,
+        latitude: location ? Number(location[0]) : 0,
         latitudeDelta: LATITUDE_DELTA,
-        longitude: location ? location.longitude : LONGITUDE,
+        longitude: location ? Number(location[1]) : 0,
         longitudeDelta: LONGITUDE_DELTA
     }
 
@@ -61,12 +58,15 @@ function ProductDescription() {
         setReportModal(prev => !prev)
     }
     async function share() {
+        console.log('share')
         try {
+            alert("share")
             const result = await Share.share({
                 title: 'App link',
                 message:
                     'Install this app and enjoy your friend community',
             });
+            console.log("Share Action", result.action, Share.sharedAction)
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
                     // shared with activity type of result.activityType
@@ -82,6 +82,10 @@ function ProductDescription() {
         }
     }
 
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
     function dialCall() {
         if (!isLoggedIn)
             navigation.navigate('Registration')
@@ -89,26 +93,33 @@ function ProductDescription() {
             FlashMessage({ message: 'This function is not working on Simulator/Emulator', type: 'warning' })
         else {
             let phoneNumber = '';
-            if (Platform.OS === 'android') {
-                phoneNumber = 'tel:${1234567890}';
-            }
-            else {
-                phoneNumber = 'telprompt:${1234567890}';
-            }
+            if (product.user.showPhone) {
+                if (Platform.OS === 'android') {
+                    phoneNumber = `tel:+${product.user.callingCode}${product.user.phone}`;
+                }
+                else {
+                    phoneNumber = `telprompt:+${product.user.callingCode}${product.user.phone}`;
+                }
 
-            Linking.openURL(phoneNumber);
+                Linking.openURL(phoneNumber);
+            }
         }
     };
 
     function Sms() {
         if (!isLoggedIn)
             navigation.navigate('Registration')
-        else {
-            let url = `sms:1234567890${Platform.OS === "ios" ? "&" : "?"}body=${"This is sample text"}`
+        else if (product.user.showPhone) {
+            let url = `sms:+${product.user.callingCode}${product.user.phone}${Platform.OS === "ios" ? "&" : "?"}body=${"This is sample text"}`
 
             Linking.openURL(url);
         }
     };
+
+    function getDate(date) {
+        const formatDate = moment(+date).format('MMM YYYY')
+        return formatDate
+    }
 
     return (
         <SafeAreaView style={[styles.flex, styles.safeAreaview]}>
@@ -120,12 +131,12 @@ function ProductDescription() {
                 <ReportModal visible={reportModal} onModalToggle={toggleModal} />
 
                 <View style={styles.swiperContainer}>
-                    <Slider IMG_LIST={IMG_LIST} />
+                    <Slider IMG_LIST={product.images} />
                 </View>
                 <View style={styles.priceContainer}>
                     <View style={styles.priceRow}>
                         <TextDefault H4 bold>
-                            {'Rs 20,000'}
+                            {configuration.currencySymbol} {product.price}
                         </TextDefault>
                         <TouchableOpacity activeOpacity={0} onPress={() => isLikeSetter(prev => !prev)}>
                             {isLike ? <FontAwesome name="heart" size={scale(20)} color="black" /> :
@@ -134,15 +145,15 @@ function ProductDescription() {
                         </TouchableOpacity>
                     </View>
                     <TextDefault>
-                        {title}
+                        {product.title}
                     </TextDefault>
                     <View style={styles.locationRow}>
                         <MaterialIcons name='location-on' size={scale(15)} color={colors.headerText} />
                         <TextDefault numberOfLines={1} style={styles.locationText}>
-                            {'Peshawar Road, Rawalpindi, Punjab'}
+                            {product.address.address}
                         </TextDefault>
                         <TextDefault numberOfLines={1} uppercase>
-                            {'09 SEP'}
+                            {getDate(product.createdAt)}
                         </TextDefault>
                     </View>
                 </View>
@@ -155,15 +166,7 @@ function ProductDescription() {
                             {'Condition'}
                         </TextDefault>
                         <TextDefault bold style={alignment.MBsmall}>
-                            {'Used'}
-                        </TextDefault>
-                    </View>
-                    <View style={styles.row}>
-                        <TextDefault uppercase light style={{ ...alignment.MBsmall, width: '35%' }}>
-                            {'type'}
-                        </TextDefault>
-                        <TextDefault bold style={alignment.MBsmall}>
-                            {'Audio-Video'}
+                            {capitalize(product.condition)}
                         </TextDefault>
                     </View>
                 </View>
@@ -172,13 +175,17 @@ function ProductDescription() {
                         {'Description'}
                     </TextDefault>
                     <TextDefault >
-                        {"Condition Iike new \nShimano gears \nEach and Everything smoothly functional \nFor more details contact"}
+                        {product.description}
                     </TextDefault>
                 </View>
                 <BorderlessButton
                     borderless={false}
                     style={styles.profileContainer}
-                    onPress={() => navigation.navigate('UserProfile')}>
+                    onPress={() => {
+                        if (profile._id != product.user._id) {
+                            navigation.navigate('UserProfile')
+                        }
+                    }}>
                     <View style={styles.imageResponsive}>
                         <Image
                             style={styles.image}
@@ -186,16 +193,16 @@ function ProductDescription() {
                     </View>
                     <View style={styles.profileInfo}>
                         <TextDefault bold>
-                            {'Fatim'}
+                            {product.user.name}
                         </TextDefault>
                         <TextDefault light small>
-                            {'Member since Jan 2020'}
+                            {`Member since ${getDate(product.user.createdAt)}`}
                         </TextDefault>
-                        <TextDefault textColor={colors.spinnerColor} bold style={alignment.MTxSmall}>
+                        {(profile._id != product.user._id) && <TextDefault textColor={colors.spinnerColor} bold style={alignment.MTxSmall}>
                             {'SEE Profile'}
-                        </TextDefault>
+                        </TextDefault>}
                     </View>
-                    <Entypo name='chevron-small-right' size={scale(20)} color={colors.buttonbackground} />
+                    {(profile._id != product.user._id) && <Entypo name='chevron-small-right' size={scale(20)} color={colors.buttonbackground} />}
                 </BorderlessButton>
                 <View style={styles.line} />
                 <View style={styles.conditionContainer}>
@@ -223,7 +230,7 @@ function ProductDescription() {
                             }}
                         >
                             <Circle center={region}
-                                radius={scale(250)}
+                                radius={scale(1000)}
                                 strokeColor={'rgba(28, 115, 112, 0.9)'}
                                 fillColor={'rgba(28, 115, 112, 0.4)'}
                             />
@@ -252,7 +259,7 @@ function ProductDescription() {
                 </View>
                 <View style={styles.profileContainer}>
                     <TextDefault >
-                        {'AD ID:10232142312'}
+                        {`AD ID: ${product.itemId}`}
                     </TextDefault>
                     <TouchableOpacity activeOpacity={0.7} onPress={() => toggleModal()}>
                         <TextDefault textColor={colors.spinnerColor} uppercase bold>
@@ -268,7 +275,7 @@ function ProductDescription() {
                     <TouchableOpacity activeOpacity={0.7}>
                         {LeftButton({ iconColor: colors.white, icon: 'back' })}
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.7} onPress={share}>
+                    <TouchableOpacity activeOpacity={0.7} onPress={share} >
                         {RightButton({ iconColor: colors.white, icon: 'share' })}
                     </TouchableOpacity>
                 </View>
@@ -286,7 +293,7 @@ function ProductDescription() {
                     </TextDefault>
                 </TouchableOpacity>
 
-                <TouchableOpacity
+               {product.user.showPhone && <><TouchableOpacity
                     activeOpacity={0.7}
                     style={styles.button}
                     onPress={Sms}
@@ -306,7 +313,7 @@ function ProductDescription() {
                     <TextDefault textColor={colors.buttonText} uppercase bold style={alignment.PLsmall}>
                         {'CALL'}
                     </TextDefault>
-                </TouchableOpacity>
+                </TouchableOpacity></>}
             </View>
         </SafeAreaView >
     )

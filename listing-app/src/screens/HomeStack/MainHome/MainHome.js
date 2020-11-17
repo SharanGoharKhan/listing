@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
-import React, { useLayoutEffect, useState } from 'react';
-import { FlatList, Image, TouchableOpacity, View } from 'react-native';
+import React, { useLayoutEffect, useState, useEffect } from 'react';
+import { FlatList, Image, TouchableOpacity, View, AsyncStorage } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { categories } from '../../../apollo/server';
 import { LocationModal, MainHeader, Spinner, TextDefault, TextError } from '../../../components';
@@ -13,14 +13,6 @@ const GET_CATEGORIES = gql`${categories}`
 
 
 const COLORS = ['#ffd54d', '#6df8f3', '#ff7a7a', '#d5b09f', '#eccbcb']
-
-const category = [
-  { id: '0', title: 'Mobiles', image: require('../../../assets/icons/categoryIcon/mobile.png') },
-  { id: '1', title: 'Vehicles', image: require('../../../assets/icons/categoryIcon/car.png') },
-  { id: '2', title: 'Animals', image: require('../../../assets/icons/categoryIcon/pet(1).png') },
-  { id: '3', title: 'Kids', image: require('../../../assets/icons/categoryIcon/stroller.png') },
-  { id: '4', title: 'Jobs', image: require('../../../assets/icons/categoryIcon/work.png') },
-]
 
 const data = [
   {
@@ -95,16 +87,18 @@ const data = [
 ]
 
 function MainHome() {
+  
   const inset = useSafeAreaInsets()
   const navigation = useNavigation()
-  const [filters, setFilters] = useState('Sevice Society E11/2')
+  const [filters, setFilters] = useState({title:'Current Location11'})
   const [modalVisible, setModalVisible] = useState(false);
   const [searchVisible, setSerachVisible] = useState(false);
   const { loading: CategoryLoading, error: CategoryError, data: CategoryData } = useQuery(GET_CATEGORIES)
 
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      header: () => <MainHeader onModalToggle={toggleModal} toggleSearch={toggleSearch} locationText={filters} />
+      header: () => <MainHeader onModalToggle={toggleModal} toggleSearch={toggleSearch} locationText={filters.title} />
     })
   }, [navigation, filters])
 
@@ -172,7 +166,7 @@ function MainHome() {
                       />
                     </View>
                     <TextDefault numberOfLines={1} uppercase small light>
-                      {item.title}
+                      {item.title?? 'Current Location' }
                     </TextDefault>
                   </View>
                 </TouchableOpacity>

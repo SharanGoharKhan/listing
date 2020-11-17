@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const { addressSchema } = require('./address')
 
 const Schema = mongoose.Schema
-
 const itemSchema = new Schema(
     {
         itemId: {
@@ -25,6 +24,11 @@ const itemSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'SubCategory'
         },
+        zone: {
+            type: Schema.Types.ObjectId,
+            ref: 'Zone',
+            default: null
+          },
         user: {
             type: Schema.Types.ObjectId,
             ref: 'User'

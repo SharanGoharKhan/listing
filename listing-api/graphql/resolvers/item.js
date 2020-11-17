@@ -2,8 +2,8 @@ const Item = require('../../models/item')
 const Point = require('../../models/point')
 const Address = require('../../models/address')
 const Configuration = require('../../models/configuration')
+const Zone = require('../../models/zone')
 const { transformItem } = require('./merge')
-const Geo = require('geo-nearby');
 const { pubsub,
     publishToDashboard,
     CREATE_AD
@@ -30,21 +30,30 @@ module.exports = {
             console.log("nearByItems")
             try {
                 let items = []
-                if (args.lat && args.long) {
+                if (args.latitude && args.longitude) {
+                    const location = new Point({
+                        type: 'Point',
+                        coordinates: [Number(args.longitude), Number(args.latitude)]
+                    })
+                    const zones = await Zone.find({
+                        isActive: true,
+                        location: {
+                            $geoIntersects: { $geometry: location }
+                        }
+                    })
+                    if (!zones.length) return []
                     items = await Item.find({
-                        "address.location": {
-                            $near: {
-                                $maxDistance: 5000,
-                                $geometry: {
-                                    type: "Point",
-                                    coordinates: [33.700093, 72.973707]
-                                }
-                            }
-                        },
+                        zone: { $in: [zones.map(z => z.id)] },
                         isActive: true
                     })
-                } else {
-                    items = await Item.find({ isActive: true })
+                } else if (args.zone) {
+                    items = await Item.find({
+                        zone: zone,
+                        isActive: true
+                    })
+                }
+                else {
+                    return []
                 }
 
                 return items.map(transformItem)
@@ -71,6 +80,8 @@ module.exports = {
                         isActive: true
 
                     })
+                } else if (args.subCategory) {
+                    items = await Item.find({ isActive: true, subCategory: { $in: args.subCategory } })
                 } else {
                     items = await Item.find({ isActive: true })
                 }
@@ -84,7 +95,7 @@ module.exports = {
             console.log("itemsByUser")
             try {
                 let filters = {
-                    user:context.req.userId
+                    user: context.req.userId
                 }
 
                 const items = await Item.find({
@@ -130,6 +141,7 @@ module.exports = {
                     description: args.item.description,
                     condition: args.item.condition,
                     subCategory: args.item.subCategory,
+                    zone: args.item.zone,
                     images: args.item.images,
                     user: "5f9043a329ff207f691504c7",
                     price: args.item.price,
@@ -160,15 +172,16 @@ module.exports = {
                     location: location,
                     address: args.item.address.address
                 })
-                const item = await Item.findById(args.ItemInput._id)
-                item.title = args.ItemInput.title
-                item.description = args.ItemInput.description
-                item.condition = args.ItemInput.condition
-                item.subCategory = args.ItemInput.subCategory
+                const item = await Item.findById(args.item._id)
+                item.title = args.item.title
+                item.description = args.item.description
+                item.condition = args.item.condition
+                item.subCategory = args.item.subCategory
+                item.zone = args.item.zone
                 item.user = req.userId
-                item.price = args.ItemInput.price
+                item.price = args.item.price
                 item.address = address
-                item.images = args.ItemInput.images
+                item.images = args.item.images
                 const result = await item.save()
                 return transformItem(result)
             } catch (error) {

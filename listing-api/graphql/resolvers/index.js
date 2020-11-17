@@ -4,6 +4,7 @@ const userResolver = require('./user')
 const itemResolver = require('./item')
 const categoryResolver = require('./category')
 const subCategoryResolver = require('./subCategory')
+const zoneResolver = require('./zone')
 
 const rootResolver = {
   Query: {
@@ -12,7 +13,8 @@ const rootResolver = {
     ...userResolver.Query,
     ...itemResolver.Query,
     ...categoryResolver.Query,
-    ...subCategoryResolver.Query
+    ...subCategoryResolver.Query,
+    ...zoneResolver.Query
   },
   Mutation: {
     ...authResolver.Mutation,
@@ -20,7 +22,8 @@ const rootResolver = {
     ...userResolver.Mutation,
     ...itemResolver.Mutation,
     ...categoryResolver.Mutation,
-    ...subCategoryResolver.Mutation
+    ...subCategoryResolver.Mutation,
+    ...zoneResolver.Mutation
   },
   Subscription: {
     ...itemResolver.Subscription

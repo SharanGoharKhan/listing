@@ -53,6 +53,14 @@ function BackButton(props) {
         color={props.iconColor}
       />
     )
+  }else if (props.icon === 'target') {
+    return (
+      <MaterialIcons
+        name="my-location"
+        size={scale(20)}
+        color={props.iconColor}
+      />
+    )
   } else {
     return (
       <Ionicons
@@ -181,6 +189,21 @@ function RightButton(props) {
         </TextDefault>
       </BorderlessButton>
     )
+  }else if (props.icon === 'target') {
+    return (
+      <HeaderBackButton
+        pressColorAndroid={'#002f34'}
+        labelVisible={false}
+        backImage={() => (
+          <View style={[styles.rightContainer, { ...alignment.PRsmall }]}>
+            {BackButton({ iconColor: props.iconColor, icon: 'target' })}
+          </View>
+        )}
+        onPress={props.onPressRight}
+      />
+    )
+  } else {
+    return null
   }
 }
 

@@ -2,45 +2,16 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useLayoutEffect, useState, useEffect } from 'react'
 import { FlatList, TouchableOpacity, View } from 'react-native'
-import { FilterModal, TextDefault } from '../../../components'
+import { FilterModal, TextDefault, Spinner } from '../../../components'
 import SearchHeader from '../../../components/Header/SearchHeader/SearchHeader'
 import { alignment, colors, scale } from '../../../utilities'
 import ProductCard from './ProductCard/ProductCard'
 import styles from './styles'
 import navigationOption from './navigationOption'
 import { gql, useLazyQuery } from '@apollo/client'
-import { itemsBySubCategory } from '../../../apollo/server'
+import { itemsBySubCategory, subCategories } from '../../../apollo/server'
 
 const PRODUCTS = gql`${itemsBySubCategory}`
-
-const data = [
-    {
-        id: '10',
-        title: 'Japanese 28 inches cycle',
-        price: 'Rs: 22,900',
-        location: 'Peshawar Road, Rawalpindi, Punjab',
-        image: require('../../../assets/images/products/cycle.jpg'),
-        date: 'SEP 13',
-        featured: true
-    },
-    {
-        id: '11',
-        title: 'PS4 Pro 1TB With Nacon Controller',
-        price: 'Rs: 74,900',
-        location: 'Agha Shahi Avenue, Islamabad, Islamabad Capital Territory',
-        image: require('../../../assets/images/products/Ps4.jpg'),
-        date: 'SEP 23',
-        featured: true
-    },
-    {
-        id: '12',
-        title: 'OnePlus Nord Dual Sim Onyx Grey 8GB RAM 128GB 5G - Global Version',
-        price: 'Rs: 71,900',
-        location: 'Model Town Extension, Lahore, Punjab',
-        image: require('../../../assets/images/products/nord.jpg'),
-        date: 'AUG 13'
-    }
-]
 
 function ProductListing() {
     const navigation = useNavigation()
@@ -61,9 +32,6 @@ function ProductListing() {
         ;(async ()=>{
             isProduct && (await fetchProducts())
         })()
-        return ()=>{
-            isProduct= false
-        }
     },[subCategory])
 
     function toggleModal() {
@@ -73,9 +41,9 @@ function ProductListing() {
     function headerView() {
         return (
             <View style={styles.headingRow}>
-                <TextDefault >
-                    {'6,123 ads'}
-                </TextDefault>
+                {!loading && called &&<TextDefault >
+                    { `${data.itemsByCategory.length} ads` }
+                </TextDefault>}
                 <TouchableOpacity style={styles.filterBtn}
                     onPress={() => navigation.navigate('FilterModal', { visible: modalVisible, searchCategory: searchCategory })}>
                     <MaterialIcons name='tune' size={scale(20)} color={colors.buttonbackground} />
@@ -89,6 +57,9 @@ function ProductListing() {
     if(error){
     return <TextDefault>{JSON.stringify(error)}</TextDefault>
     }
+    if(loading){
+        return <Spinner spinnerColor={colors.spinnerColor1} backColor={'transparent'} />
+    }
     function emptyView(){
         return (
             <View style={{ alignContent: "center", alignItems: "center" }}>
@@ -101,15 +72,16 @@ function ProductListing() {
     return (
         <View style={[styles.flex, styles.mainContainer]}>
             <FlatList
-                data={ []}
+                data={ data?.itemsByCategory || []}
                 style={styles.flex}
                 contentContainerStyle={{ flexGrow: 1, ...alignment.PBlarge }}
                 ListEmptyComponent={!loading && called  && emptyView}
                 ListHeaderComponent={headerView}
                 ItemSeparatorComponent={() => <View style={styles.spacer} />}
                 showsVerticalScrollIndicator={false}
+                keyExtractor={item => item._id}
                 renderItem={({ item }) => (
-                    <ProductCard {...item} />
+                    <ProductCard  {...item} />
                 )}
             />
             {/* <FilterModal visible={modalVisible} onModalToggle={toggleModal} searchCategory={searchCategory} /> */}

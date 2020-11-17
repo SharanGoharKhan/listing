@@ -2,6 +2,7 @@ const User = require('../../models/user')
 const Category = require('../../models/category')
 const SubCategory = require('../../models/subCategory')
 const Item = require('../../models/item')
+const Zone = require('../../models/zone')
 // const { dateToString } = require('../../helpers/date')
 
 const user = async userId => {
@@ -58,7 +59,17 @@ const transformUser = async user => {
   }
 }
 
-
+const zone = async id => {
+  try {
+    const zone = await Zone.findById(id)
+    return {
+      ...zone._doc,
+      _id: zone.id
+    }
+  } catch (error) {
+    throw error
+  }
+}
 
 const populateCategory = async categoryId => {
   const category = await Category.findById(categoryId)
@@ -78,7 +89,8 @@ const transformItem = async (item) => {
     ...item._doc,
     _id: item.id,
     subCategory: subCategory.bind(this, item.subCategory),
-    user: user.bind(this, item.user)
+    user: user.bind(this, item.user),
+    zone: zone.bind(this, item.zone)
   }
 }
 
@@ -91,7 +103,15 @@ const populateItems = async itemIds => {
   }
 }
 
+const transformZone = async zone => {
+  return {
+    ...zone._doc,
+    _id: zone.id
+  }
+}
+
 exports.transformSubCategory = transformSubCategory
 exports.transformCategory = transformCategory
 exports.transformUser = transformUser
 exports.transformItem = transformItem
+exports.transformZone = transformZone

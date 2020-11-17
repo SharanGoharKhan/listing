@@ -13,6 +13,7 @@ import {
 } from '@apollo/client'
 import { WebSocketLink } from '@apollo/client/link/ws'
 import * as firebase from 'firebase/app'
+import { LoadScript } from '@react-google-maps/api'
 import 'firebase/messaging'
 import 'assets/vendor/nucleo/css/nucleo.css'
 import 'assets/vendor/@fortawesome/fontawesome-free/css/all.min.css'
@@ -128,7 +129,11 @@ messaging
 
 ReactDOM.render(
   <ApolloProvider client={client}>
+    <LoadScript
+      id="script-loader"
+      googleMapsApiKey="AIzaSyCzNP5qQql2a5y8lOoO-1yj1lj_tzjVImA">
     <App />
+    </LoadScript>
   </ApolloProvider>,
   document.getElementById('root')
 )

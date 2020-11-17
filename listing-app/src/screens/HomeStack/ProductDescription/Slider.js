@@ -10,7 +10,7 @@ function Slider(props) {
                 <View style={styles.slide} key={i}>
                     <Image
                         style={styles.image}
-                        source={item}
+                        source={{uri:item}}
                         resizeMode='cover'
                     />
                 </View>

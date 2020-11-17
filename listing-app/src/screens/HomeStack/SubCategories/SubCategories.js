@@ -34,10 +34,11 @@ function SubCategories() {
         if (screen === 'Filter')
             navigation.navigate('FilterModal', { search: title })
         else if (id) {
-            navigation.navigate('ProductListing', { search: title, subCategory: id })
+            navigation.navigate('ProductListing', { search: title, subCategory: [id] })
         }
         else {
-            navigation.navigate('ProductListing', { search: title })
+            const subCategory = data?.subCategoriesById ? data.subCategoriesById.map(({_id}) => _id) : []
+            navigation.navigate('ProductListing', { search: title, subCategory })
         }
 
     }

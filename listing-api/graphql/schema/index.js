@@ -56,6 +56,7 @@ type Configuration {
     description: String
     condition: String!
     subCategory: SubCategory!
+    zone: Zone!
     status: String!
     images: [String]
     price: Float!
@@ -99,6 +100,18 @@ type Configuration {
     origin: String!
   }
 
+  type Polygon {
+    coordinates: [[[Float!]]]
+  }
+
+  type Zone {
+    _id: String!
+    title: String!
+    description: String!
+    location: Polygon
+    isActive: Boolean!
+  }
+
   input UserInput {
     phone: String
     email: String
@@ -132,6 +145,7 @@ type Configuration {
     description: String!
     condition: String!
     subCategory: String!
+    zone: String!
     status: String
     images: [String]
     price: Float!
@@ -162,6 +176,13 @@ type Configuration {
     currencySymbol: String!
   }
 
+  input ZoneInput {
+    _id: String
+    title: String!
+    description: String!
+    coordinates: [[[Float!]]]
+  }
+
 
   type Query {  
     profile: User
@@ -171,10 +192,12 @@ type Configuration {
     subCategories: [SubCategory!]!
     subCategoriesById(id: String!): [SubCategory!]!
     configuration: Configuration!
-    nearByItems(lat: Float!,long: Float!): [Item!]
+    nearByItems(latitude: Float,longitude: Float, zone: String): [Item!]
     allItems: [Item!]
-    itemsByCategory(subCategory: String!): [Item!]
+    itemsByCategory(subCategory: [String!]): [Item!]
     itemsByUser: [Item!]
+    zones: [Zone!]
+    zone(id: String!): Zone!
   }
 
   type Mutation {
@@ -219,6 +242,9 @@ type Configuration {
       configurationInput: CurrencyConfigurationInput!
     ): Configuration!
     uploadToken(pushToken: String!): Configuration!
+    createZone(zone: ZoneInput!): Zone!
+    editZone(zone: ZoneInput!): Zone!
+    deleteZone(id: String!): Zone!
   }
   type Subscription {
     subscribeCreateAd: SubscriptionCreateAd!

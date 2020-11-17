@@ -32,6 +32,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: scale(5),
     ...alignment.Psmall
+  },
+  rightContainer: {
+    position: 'relative',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    ...alignment.PLxSmall
   }
 })
 

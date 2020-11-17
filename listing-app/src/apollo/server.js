@@ -26,8 +26,8 @@ export const subCategories = `query SubCategoriesById($id: String!){
   }
 }`
 
-export const itemsBySubCategory = `query itemsByCategory($id: String!){
-  itemsByCategory(subCategory:$id){
+export const itemsBySubCategory = `query ItemsByCategory($subCategory: [String!]){
+  itemsByCategory(subCategory:$subCategory){
     _id
     itemId
     title
@@ -41,6 +41,14 @@ export const itemsBySubCategory = `query itemsByCategory($id: String!){
         title
       }
     }
+    zone{
+      _id
+      title
+      description
+      location{
+        coordinates
+      }
+    }
     status
     images
     price
@@ -50,6 +58,52 @@ export const itemsBySubCategory = `query itemsByCategory($id: String!){
       phone
       callingCode
       showPhone
+      createdAt
+    }
+    address{
+      _id
+      location{
+        coordinates
+      }
+      address
+    }
+    createdAt
+  }
+}`
+
+export const nearByItems = `query NearByItems($latitude: Float,$longitude: Float, zone: String){
+  nearByItems(latitude: $latitude,longitude: $longitude,zone: $zone){
+    _id
+    itemId
+    title
+    description
+    condition
+    subCategory{
+      _id
+      title
+      category{
+        _id
+        title
+      }
+    }
+    zone{
+      _id
+      title
+      description
+      location{
+        coordinates
+      }
+    }
+    status
+    images
+    price
+    user{
+      _id
+      name
+      phone
+      callingCode
+      showPhone
+      createdAt
     }
     address{
       _id
@@ -138,6 +192,14 @@ export const profile = `
         _id
         title
       }
+      zone{
+        _id
+        title
+        description
+        location{
+          coordinates
+        }
+      }
       status
       images
       price
@@ -167,3 +229,14 @@ export const profile = `
       currencySymbol
     }
   }`
+
+  export const zones = `query{
+    zones{
+     _id
+     title
+     description
+     location{
+       coordinates
+     }
+   }
+   }`

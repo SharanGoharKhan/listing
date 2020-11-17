@@ -6,6 +6,7 @@ import Users from './views/Users'
 import ResetPassword from './views/ForgotPassword'
 import Dashboard from './views/Dashboard'
 import SubCategory from './views/SubCategory'
+import Zones from './views/Zone'
 
 var routes = [
   {
@@ -53,6 +54,14 @@ var routes = [
     name: 'Configuration',
     icon: 'ni ni-settings',
     component: Configuration,
+    layout: '/admin',
+    appearInSidebar: true
+  },
+  {
+    path: '/zone',
+    name: 'Zone',
+    icon: 'ni ni-square-pin',
+    component: Zones,
     layout: '/admin',
     appearInSidebar: true
   },

@@ -1,7 +1,9 @@
 import { Roboto_100Thin, Roboto_300Light, Roboto_400Regular, Roboto_500Medium, Roboto_700Bold, } from '@expo-google-fonts/roboto';
 import * as Font from 'expo-font'
+import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
+import { BackHandler, AsyncStorage } from 'react-native'
 import FlashMessage from 'react-native-flash-message';
 import * as Permissions from 'expo-permissions'
 import { Notifications } from 'expo'
@@ -12,14 +14,43 @@ import AppContainer from './src/routes';
 import { colors } from './src/utilities';
 import { AppLoading } from 'expo';
 import setupApolloClient from './src/apollo/index'
+import { LocationContext } from './src/context/Location'
+import { exitAlert } from './src/utilities/androidBackButton'
 
 export default function App() {
+  const [appIsReady, setAppIsReady] = useState(false)
+  const [location, setLocation] = useState(null)
   const [client, setupClient] = useState(null)
   const [fontLoaded, setFontLoaded] = useState(false)
 
   useEffect(() => {
-    loadAppData()
+    ; (async () => {
+      try {
+        await SplashScreen.preventAutoHideAsync()
+      } catch (e) {
+        console.warn(e)
+      }
+      loadAppData()
+    })()
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', exitAlert)
+    }
   }, [])
+
+  useEffect(() => {
+    if (!appIsReady) return
+      ; (async () => {
+        await SplashScreen.hideAsync()
+      })()
+  }, [appIsReady])
+
+  useEffect(() => {
+    if (!location) return
+      ; (async () => {
+        AsyncStorage.setItem('location', JSON.stringify(location))
+      })()
+  }, [location])
 
   async function loadAppData() {
     const client = await setupApolloClient()
@@ -33,8 +64,22 @@ export default function App() {
     })
     await permissionForPushNotificationsAsync()
     setFontLoaded(true)
+    await getActiveLocation()
+    BackHandler.addEventListener('hardwareBackPress', exitAlert)
+
+    setAppIsReady(true)
   }
 
+  async function getActiveLocation() {
+    try {
+      const locationStr = await AsyncStorage.getItem('location')
+      if (locationStr) {
+        setLocation(JSON.parse(locationStr))
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
 
   async function permissionForPushNotificationsAsync() {
@@ -66,17 +111,19 @@ export default function App() {
     }
   }
 
-  if (fontLoaded && client) {
+  if (appIsReady) {
     return (
       <ApolloProvider client={client}>
-        <ConfigurationProvider>
-          <UserProvider>
-            <AppContainer />
-            <StatusBar style="dark" backgroundColor={colors.buttonbackground} />
-            <FlashMessage position="top" />
-          </UserProvider>
-        </ConfigurationProvider>
-      </ApolloProvider>
+        <LocationContext.Provider value={{ location, setLocation }}>
+          <ConfigurationProvider>
+            <UserProvider>
+              <AppContainer />
+              <StatusBar style="dark" backgroundColor={colors.buttonbackground} />
+              <FlashMessage position="top" />
+            </UserProvider>
+          </ConfigurationProvider>
+        </LocationContext.Provider>
+      </ApolloProvider >
     )
   } else {
     return (
