@@ -84,7 +84,7 @@ function Card(props) {
                             </View>
                             <FontAwesome name="heart" size={scale(13)} color={colors.headerText} />
                             <TextDefault numberOfLines={1} small bold style={styles.locationText}>
-                                {'Likes:'} <TextDefault small light> {props.status === 'PENDING' ? '-' : props.likes}</TextDefault>
+                                {'Likes:'} <TextDefault small light> {props.status === 'PENDING' ? '-' : props.user.likes.length}</TextDefault>
                             </TextDefault>
                         </View>
                     </View>

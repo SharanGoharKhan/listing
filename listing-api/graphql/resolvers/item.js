@@ -1,9 +1,10 @@
 const Item = require('../../models/item')
 const Point = require('../../models/point')
 const Address = require('../../models/address')
+const User = require('../../models/user')
 const Configuration = require('../../models/configuration')
 const Zone = require('../../models/zone')
-const { transformItem } = require('./merge')
+const { transformItem, populateItems, transformUser } = require('./merge')
 const { pubsub,
     publishToDashboard,
     CREATE_AD
@@ -27,7 +28,7 @@ module.exports = {
             }
         },
         nearByItems: async (_, args, context) => {
-            console.log("nearByItems")
+            console.log("nearByItems", args)
             try {
                 let items = []
                 if (args.latitude && args.longitude) {
@@ -48,7 +49,7 @@ module.exports = {
                     })
                 } else if (args.zone) {
                     items = await Item.find({
-                        zone: zone,
+                        zone: args.zone,
                         isActive: true
                     })
                 }
@@ -107,6 +108,18 @@ module.exports = {
                 throw error
             }
         },
+        likes: async (_, args, { req, res }) => {
+            console.log('likes')
+            try {
+                const user = await User.findById(req.userId)
+                if (!user) throw new Error("User Unauthenticated")
+                if (user.likes.length) return []
+                return populateItems(user.likes)
+            } catch (error) {
+                console.log('likes error:', error)
+                throw error
+            }
+        }
     },
     Mutation: {
         createItem: async (_, args, { req, res }) => {
@@ -198,6 +211,23 @@ module.exports = {
                 return transformItem(result)
             } catch (error) {
                 throw error
+            }
+        },
+        addToFavourites: async (_, args, { req, res }) => {
+            console.log('addToFavourites')
+            try {
+                if (!req.isAuth) throw new Error('Unauthenticated')
+                const user = await User.findById(req.userId)
+                const index = user.likes.indexOf(args.item)
+                if (index < 0) {
+                    user.likes.push(args.item)
+                } else {
+                    user.likes.splice(index, 1)
+                }
+                await user.save()
+                return transformUser(user)
+            } catch (err) {
+                throw err
             }
         }
     }

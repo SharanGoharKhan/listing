@@ -33,6 +33,7 @@ function linkToMapsApp({ latitude, longitude }) {
 
 
 function ProductDescription(props) {
+
     const route = useRoute()
     const product = route.params?.product
     const location = product?.address?.location?.coordinates
@@ -47,6 +48,11 @@ function ProductDescription(props) {
         longitude: location ? Number(location[1]) : 0,
         longitudeDelta: LONGITUDE_DELTA
     }
+
+    if (product === null) {
+        navigation.goBack()
+        return null
+      }
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -120,7 +126,6 @@ function ProductDescription(props) {
         const formatDate = moment(+date).format('MMM YYYY')
         return formatDate
     }
-
     return (
         <SafeAreaView style={[styles.flex, styles.safeAreaview]}>
             <ScrollView style={[styles.flex, styles.mainContainer]}
@@ -183,7 +188,7 @@ function ProductDescription(props) {
                     style={styles.profileContainer}
                     onPress={() => {
                         if (profile._id != product.user._id) {
-                            navigation.navigate('UserProfile')
+                            navigation.navigate('UserProfile',{ user: product.user })
                         }
                     }}>
                     <View style={styles.imageResponsive}>
@@ -198,11 +203,11 @@ function ProductDescription(props) {
                         <TextDefault light small>
                             {`Member since ${getDate(product.user.createdAt)}`}
                         </TextDefault>
-                        {(profile._id != product.user._id) && <TextDefault textColor={colors.spinnerColor} bold style={alignment.MTxSmall}>
+                        {profile && (profile._id != product.user._id) && <TextDefault textColor={colors.spinnerColor} bold style={alignment.MTxSmall}>
                             {'SEE Profile'}
                         </TextDefault>}
                     </View>
-                    {(profile._id != product.user._id) && <Entypo name='chevron-small-right' size={scale(20)} color={colors.buttonbackground} />}
+                    {profile && (profile._id != product.user._id) && <Entypo name='chevron-small-right' size={scale(20)} color={colors.buttonbackground} />}
                 </BorderlessButton>
                 <View style={styles.line} />
                 <View style={styles.conditionContainer}>

@@ -198,6 +198,7 @@ type Configuration {
     itemsByUser: [Item!]
     zones: [Zone!]
     zone(id: String!): Zone!
+    likes:[Item!]
   }
 
   type Mutation {
@@ -225,6 +226,7 @@ type Configuration {
     deleteSubCategory(id: String!): SubCategory!
     createItem(item: ItemInput!): Item!
     editItem(item: ItemInput!): Item!
+    addToFavourites(item: String): User!
     updateOrderStatus(id: String!, status: String!): Item!
     pushToken(token: String): User!
     changePassword(oldPassword: String!, newPassword: String!): Boolean!

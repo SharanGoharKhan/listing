@@ -15,6 +15,15 @@ import getEnvVars from '../../environment'
 const { GRAPHQL_URL, WS_GRAPHQL_URL } = getEnvVars()
 
 const cache = new InMemoryCache({
+  typePolicies: {
+    User: {
+      fields: {
+        likes: {
+          merge: false
+        }
+      }
+    }
+  }
 })
 
 const httpLink = createHttpLink({

@@ -115,3 +115,4 @@ exports.transformCategory = transformCategory
 exports.transformUser = transformUser
 exports.transformItem = transformItem
 exports.transformZone = transformZone
+exports.populateItems = populateItems

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Image, View, FlatList, Share } from 'react-native'
+import UserContext from '../../../../context/user'
 import { EmptyButton, FlashMessage, TextDefault } from '../../../../components'
 import { alignment, colors } from '../../../../utilities'
 import Card from './Card'
@@ -19,7 +20,7 @@ const data = [
 ]
 
 function Followers() {
-
+    const { profile, loadingProfile, errorProfile} = useContext(UserContext)
     async function share() {
         try {
             const result = await Share.share({
@@ -83,10 +84,10 @@ function Followers() {
             <FlatList
                 style={styles.flex}
                 contentContainerStyle={[styles.mainContainer, { flexGrow: 1 }]}
-                data={data}
+                data={profile.followers || []}
                 ListEmptyComponent={emptyView()}
                 ListHeaderComponent={data.length > 0 && header()}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item, index) => item.id}
                 renderItem={({ item }) => (
                     <Card {...item} />
                 )}

@@ -5,6 +5,7 @@ const { checkPhoneAlreadyUsed, randomString } = require('../../helpers/utilities
 const sendEmail = require('../../helpers/email')
 const { transformUser } = require('./merge')
 const { signupTemplate, signupText, verificationTemplate, verificationText } = require('../../helpers/templates')
+const { auth } = require('firebase-admin')
 
 module.exports = {
   Query: {
@@ -138,7 +139,7 @@ module.exports = {
       }
     },
     updateUser: async (_, args, { req, res }) => {
-      console.log('args',args)
+      console.log('args', args)
       if (!req.isAuth) {
         throw new Error('Unauthenticated!')
       }
@@ -168,16 +169,22 @@ module.exports = {
     },
     followUser: async (_, { followStatus, userId }, { req, res }) => {
       try {
-        const user = await User.findById(req.userId)
+        const authUser = await User.findById(req.userId)
+        const user = await User.findById(userId)
         if (followStatus) {
           console.log("UnfollowUser")
-          const index = user.following.findIndex(el => el === userId)
-          user.following.splice(index, 1)
+          const index = authUser.following.findIndex(el => el === userId)
+          authUser.following.splice(index, 1)
+          const ind = user.followers.findIndex(i => i === req.userId)
+          user.followers.splice(index, 1)
         } else {
           console.log("followUser")
-          user.following.push(userId)
+          authUser.following.push(userId)
+          user.followers.push(req.userId)
         }
+        const authUserResult = await authUser.save()
         const result = await user.save()
+        return transformUser(authUserResult)
       } catch (error) {
         throw error
       }

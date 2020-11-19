@@ -59,6 +59,15 @@ export const itemsBySubCategory = `query ItemsByCategory($subCategory: [String!]
       callingCode
       showPhone
       createdAt
+      followers{
+        _id
+      }
+      following{
+        _id
+      }
+      likes{
+        _id
+      }
     }
     address{
       _id
@@ -71,7 +80,7 @@ export const itemsBySubCategory = `query ItemsByCategory($subCategory: [String!]
   }
 }`
 
-export const nearByItems = `query NearByItems($latitude: Float,$longitude: Float, zone: String){
+export const nearByItems = `query NearByItems($latitude: Float,$longitude: Float, $zone: String){
   nearByItems(latitude: $latitude,longitude: $longitude,zone: $zone){
     _id
     itemId
@@ -104,6 +113,126 @@ export const nearByItems = `query NearByItems($latitude: Float,$longitude: Float
       callingCode
       showPhone
       createdAt
+      followers{
+        _id
+      }
+      following{
+        _id
+      }
+      likes{
+        _id
+      }
+    }
+    address{
+      _id
+      location{
+        coordinates
+      }
+      address
+    }
+    createdAt
+  }
+}`
+
+export const addToFavourites = `mutation AddToFavourites($item: String){
+  addToFavourites(item:$item){
+    _id
+    likes{
+      _id
+    itemId
+    title
+    description
+    condition
+    subCategory{
+      _id
+      title
+      category{
+        _id
+        title
+      }
+    }
+    zone{
+      _id
+      title
+      description
+      location{
+        coordinates
+      }
+    }
+    status
+    images
+    price
+    user{
+      _id
+      name
+      phone
+      callingCode
+      showPhone
+      createdAt
+      followers{
+        _id
+      }
+      following{
+        _id
+      }
+      likes{
+        _id
+      }
+    }
+    address{
+      _id
+      location{
+        coordinates
+      }
+      address
+    }
+    createdAt
+    }
+  }
+}`
+
+export const likes = `query{
+  likes{
+    _id
+    itemId
+    title
+    description
+    condition
+    subCategory{
+      _id
+      title
+      category{
+        _id
+        title
+      }
+    }
+    zone{
+      _id
+      title
+      description
+      location{
+        coordinates
+      }
+    }
+    status
+    images
+    price
+    user{
+      _id
+      name
+      phone
+      callingCode
+      showPhone
+      createdAt
+      followers{
+        _id
+      }
+      following{
+        _id
+      }
+      likes{
+        _id
+      }
     }
     address{
       _id
@@ -128,6 +257,7 @@ export const profile = `
         countryCode
         callingCode
         googleEmail
+        createdAt
         followers{
           _id
           name
@@ -138,13 +268,54 @@ export const profile = `
         }
         likes{
           _id
-          itemId
-          images
-          price
-          subCategory{
-            _id
-            title
-          }
+    itemId
+    title
+    description
+    condition
+    subCategory{
+      _id
+      title
+      category{
+        _id
+        title
+      }
+    }
+    zone{
+      _id
+      title
+      description
+      location{
+        coordinates
+      }
+    }
+    status
+    images
+    price
+    user{
+      _id
+      name
+      phone
+      callingCode
+      showPhone
+      createdAt
+      followers{
+        _id
+      }
+      following{
+        _id
+      }
+      likes{
+        _id
+      }
+    }
+    address{
+      _id
+      location{
+        coordinates
+      }
+      address
+    }
+    createdAt
         }
       }
   }`
@@ -209,6 +380,16 @@ export const profile = `
         phone
         showPhone
         callingCode
+        createdAt
+        followers{
+          _id
+        }
+        following{
+          _id
+        }
+        likes{
+          _id
+        }
       }
       address{
         _id
@@ -240,3 +421,28 @@ export const profile = `
      }
    }
    }`
+
+
+   export const followUser = `mutation FollowUser($followStatus: Boolean!, $userId: String!){
+    followUser(followStatus:$followStatus,userId:$userId){
+      _id
+      followers{
+        _id
+        name
+        phone
+        email
+        showEmail
+        showPhone
+        callingCode
+      }
+      following{
+        _id
+        name
+        phone
+        email
+        showEmail
+        showPhone
+        callingCode
+      }
+    }
+  }`

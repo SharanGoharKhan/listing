@@ -16,8 +16,9 @@ const STATE = states
 function LocationModal(props) {
     const inset = useSafeAreaInsets()
     const { data, error, loading } = useQuery(GET_ZONES)
-    function btnLocation(title) {
-        props.setFilters(title)
+    function btnLocation(zone) {
+        console.log('zone',zone)
+        props.setFilters({zone:zone._id,title: zone.title,latitude:null,longitude:null})
         props.onModalToggle()
     }
     if (loading) {
@@ -30,11 +31,11 @@ function LocationModal(props) {
         const locationStr = await AsyncStorage.getItem('location')
         const locationObj = JSON.parse(locationStr)
         if (locationObj) {
-
-            const location = { title: locationObj.label, ...locationObj }
+            const location = { title: locationObj.label, ...locationObj, zone: null }
             console.log(location)
             props.setFilters(location)
             props.onModalToggle()
+
         }
     }
     return (

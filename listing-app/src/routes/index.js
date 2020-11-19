@@ -5,7 +5,7 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import React, { useContext } from 'react';
 import UserContext from '../context/user';
 import { LocationContext } from '../context/Location'
-import { AccountScreens, AddScreens, ChatScreens, HomeScreens, SellScreens,CurrentLocation, SelectedLocation } from '../screens';
+import { AccountScreens, AddScreens, ChatScreens, HomeScreens, SellScreens, CurrentLocation, SelectedLocation } from '../screens';
 // import CurrentLocation from '../screens/CurrentLocation'
 import { colors, scale } from '../utilities';
 import { StackOptions, tabIcon, tabOptions, TopBarOptions } from './screenOptions';
@@ -120,6 +120,8 @@ function AddTabs() {
                     backgroundColor: colors.headerbackground,
                 },
             }} />
+            <AddStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />
+
         </AddStack.Navigator>
     )
 }
@@ -182,16 +184,16 @@ function BottomTabs() {
 
 function LocationStack() {
     return (
-      <Location.Navigator>
-        <Location.Screen
-          name="CurrentLocation"
-          component={CurrentLocation}
-          options={{ header: () => null }}
-        />
-        <Location.Screen name="SelectLocation" component={SelectedLocation} />
-      </Location.Navigator>
+        <Location.Navigator>
+            <Location.Screen
+                name="CurrentLocation"
+                component={CurrentLocation}
+                options={{ header: () => null }}
+            />
+            <Location.Screen name="SelectLocation" component={SelectedLocation} />
+        </Location.Navigator>
     )
-  }
+}
 
 
 function AppContainer() {

@@ -1,29 +1,60 @@
 import { FontAwesome, SimpleLineIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useMutation, gql } from '@apollo/client'
 import { Image, TouchableOpacity, View } from 'react-native';
-import { TextDefault } from '../../../../components';
+import { addToFavourites } from '../../../../apollo/server'
+import { TextDefault, Spinner } from '../../../../components';
 import { colors, scale } from '../../../../utilities';
 import styles from '../styles';
+import UserContext from '../../../../context/user'
+
+const ADD_TO_FAVOURITES = gql`${addToFavourites}`
+
 
 function Card(props) {
     const navigation = useNavigation()
+    const { isLoggedIn, profile } = useContext(UserContext)
     const [isLike, isLikeSetter] = useState(false)
+    const [mutate, { loading: loadingMutation }] = useMutation(ADD_TO_FAVOURITES)
+    useEffect(() => {
+        if (isLoggedIn) {
+            isLikeSetter(
+                profile.likes
+                    ? !!profile.likes.find(like => like._id === props._id)
+                    : false
+            )
+        } else {
+            isLikeSetter(false)
+        }
+    }, [profile, isLoggedIn])
     return (
         <TouchableOpacity activeOpacity={1}
             style={styles.productCardContainer}
-            onPress={() => navigation.navigate('ProductDescription')}>
+            onPress={() => navigation.navigate('ProductDescription', { product: props })}>
             <View style={styles.topCardContainer}>
                 <Image
-                    source={props.image}
+                    source={{ uri: props.images[0] }}
                     resizeMode="cover"
                     style={styles.imgResponsive}
                 />
                 <TouchableOpacity activeOpacity={0}
-                    onPress={() => isLikeSetter(prev => !prev)}
+                    onPress={() => {
+                        if (isLoggedIn) {
+                            mutate({
+                                variables: {
+                                    item: props._id
+                                }
+                            })
+                            isLikeSetter(prev => !prev)
+                        } else {
+                            navigation.navigate('Registration')
+                        }
+                    }}
                     style={styles.heartContainer}>
-                    {isLike ? <FontAwesome name="heart" size={scale(18)} color={colors.black} /> :
-                        <FontAwesome name="heart-o" size={scale(18)} color={colors.horizontalLine} />
+                    {loadingMutation && <Spinner size='small' spinnerColor={colors.spinnerColor1} backColor={'transparent'} />}
+                    {(isLike && !loadingMutation) && <FontAwesome name="heart" size={scale(18)} color={colors.black} />}
+                    {(!isLike && !loadingMutation) && <FontAwesome name="heart-o" size={scale(18)} color={colors.horizontalLine} />
                     }
                 </TouchableOpacity>
             </View>
@@ -39,7 +70,7 @@ function Card(props) {
                 <View style={styles.locationBottom}>
                     <SimpleLineIcons name="location-pin" size={scale(15)} color={colors.buttonbackground} />
                     <TextDefault textColor={colors.fontSecondColor} numberOfLines={1} light small style={styles.locationText}>
-                        {props.location}
+                        {props.address.address}
                     </TextDefault>
                 </View>
             </View>
