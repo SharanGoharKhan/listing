@@ -188,7 +188,7 @@ function ProductDescription(props) {
                     style={styles.profileContainer}
                     onPress={() => {
                         if (profile._id != product.user._id) {
-                            navigation.navigate('UserProfile',{ user: product.user })
+                            navigation.navigate('UserProfile',{ user: product.user._id })
                         }
                     }}>
                     <View style={styles.imageResponsive}>

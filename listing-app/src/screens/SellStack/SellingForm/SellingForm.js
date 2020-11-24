@@ -1,11 +1,14 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { View, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Keyboard } from 'react-native'
+import { View, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Keyboard, Platform } from 'react-native'
+import DropDownPicker from 'react-native-dropdown-picker';
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { EmptyButton, TextDefault } from '../../../components'
+import { EmptyButton, TextDefault, Spinner, TextError } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
+import { zones } from '../../../apollo/server'
+import { gql, useQuery } from '@apollo/client'
 import styles from './styles'
-
+const GET_ZONES = gql`${zones}`
 const CONDITIONS = [
     {
         value: 0,
@@ -17,17 +20,26 @@ const CONDITIONS = [
     },
 ]
 
+const items = [
+    { label: 'Item 1', value: 'item1' },
+    { label: 'Item 2', value: 'item2' },
+]
+
 function SellingForm() {
     const navigation = useNavigation()
     const [margin, marginSetter] = useState(false)
     const [condition, setCondition] = useState(null)
     const [adColor, setAdColor] = useState(colors.fontMainColor)
     const [descriptionColor, setDescriptionColor] = useState(colors.fontMainColor)
+    const [locationColor, setLocationColor] = useState(colors.fontMainColor)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
+    const [location, setLocation] = useState('');
+    const [locationError, setLocationError] = useState(null)
     const [titleError, setTitleError] = useState(null)
     const [conditionError, setConditionError] = useState(null)
     const [descriptionError, setDescriptionError] = useState(null)
+    const { error, loading, data } = useQuery(GET_ZONES)
 
     useEffect(() => {
         Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -67,7 +79,26 @@ function SellingForm() {
             setConditionError('This is mandatory. Please complete the required field.')
             result = false
         }
+        if (location === '') {
+            console.log('test location', location)
+            setLocationError('This is mandatory. Please complete the required field.')
+            result = false
+        }
         return result
+    }
+
+    if (loading) {
+        return <Spinner spinnerColor={colors.spinnerColor1} backColor={'transparent'} />
+    }
+
+    if (error) {
+        return <TextError text={error.message} />
+    }
+
+    let zone = []
+
+    if (data) {
+        zone = []
     }
 
     return (
@@ -161,13 +192,35 @@ function SellingForm() {
                                     </TextDefault>
                                 }
                             </View>
+                            <View style={styles.line} />
+                            <View style={styles.subContainer}>
+                                <TextDefault textColor={locationError ? colors.google : locationColor} H5 bold style={styles.width100}>
+                                    {'Location *'}
+                                </TextDefault>
+                                <DropDownPicker
+                                    style={[styles.textContainer, { borderColor: locationColor }]}
+                                    items={data?.zones.map(z => {
+                                        return { value: z._id, label: z.title }
+                                    })}
+                                    selectedValue={location}
+                                    onChangeItem={(itemValue, itemIndex) => {
+                                        setLocation(itemValue)
+                                        setLocationError(null)
+                                        setLocationColor(colors.selectedText)
+                                    }}
+                                    defaultIndex={0}
+                                    dropDownStyle={styles.locationOptionContainer}
+                                    onBlur={() => setLocationColor(colors.fontMainColor)}
+                                    itemStyle={items.length - 1 ? styles.locationItemStyle : ''}
+                                />
+                            </View>
                         </View>
                         <View style={styles.buttonView}>
                             <EmptyButton
                                 title='Next'
                                 onPress={() => {
                                     if (validate())
-                                        navigation.navigate('UploadImage')
+                                        navigation.navigate('UploadImage', { formData: { location, description, title, condition }})
                                 }} />
                         </View>
                     </View>

@@ -1,9 +1,9 @@
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FlatList, Modal, TextInput, TouchableOpacity, View, KeyboardAvoidingView, AsyncStorage } from 'react-native';
 import { useQuery, gql } from '@apollo/client'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { alignment, colors, scale, states } from '../../../utilities';
+import { alignment, colors, scale } from '../../../utilities';
 import ModalHeader from '../../Header/ModalHeader/ModalHeader';
 import { TextDefault } from '../../Text';
 import styles from './styles';
@@ -11,7 +11,6 @@ import { zones } from '../../../apollo/server'
 import Spinner from '../../Spinner/Spinner';
 
 const GET_ZONES = gql`${zones}`
-const STATE = states
 
 function LocationModal(props) {
     const inset = useSafeAreaInsets()

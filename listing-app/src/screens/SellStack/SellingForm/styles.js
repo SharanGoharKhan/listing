@@ -82,6 +82,17 @@ const styles = StyleSheet.create({
         height: scale(70),
         ...alignment.MTsmall
     },
+    locationOptionContainer: {
+        backgroundColor: colors.themeBackground,
+        borderWidth: StyleSheet.hairlineWidth * 2,
+        borderRadius: scale(50),
+        height: scale(70),
+        ...alignment.MTsmall
+    },
+    locationItemStyle: {
+        borderBottomColor: colors.headerbackground,
+        borderBottomWidth: 1
+    },
     inputText: {
         flex: 1,
         ...textStyles.H4,

@@ -2,19 +2,21 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useLayoutEffect } from 'react';
 import { FlatList, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TextDefault } from '../../../components';
+import { gql, useQuery } from '@apollo/client';
+import { TextDefault, Spinner, TextError } from '../../../components';
+import { colors } from '../../../utilities';
+import { subCategories } from '../../../apollo/server';
 import styles from './styles';
 
-const SubCategory = [
-    { id: '0', title: 'Tablets' },
-    { id: '1', title: 'Accessories' },
-    { id: '2', title: 'Mobile Phones' }
-]
+const GET_SUB_CATEGORIES = gql`${subCategories}`
+
 
 function SubCategories() {
     const navigation = useNavigation()
     const route = useRoute()
     const headerTitle = route?.params?.headerTitle ?? null
+    const categoryId = route.params?.categoryId ?? null
+    const { loading, error, data } = useQuery(GET_SUB_CATEGORIES, { variables: { id: categoryId } })
 
 
     useLayoutEffect(() => {
@@ -25,24 +27,27 @@ function SubCategories() {
     return (
         <SafeAreaView edges={['bottom']} style={[styles.flex, styles.safeAreaview]}>
             <View style={[styles.flex, styles.container]}>
-                <FlatList
-                    data={SubCategory}
-                    style={styles.flatList}
-                    contentContainerStyle={styles.categoryContainer}
-                    showsHorizontalScrollIndicator={false}
-                    ItemSeparatorComponent={() => <View style={styles.line} />}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            activeOpacity={0.5}
-                            style={styles.categoryRow}
-                            onPress={() => navigation.navigate('SellingForm')}
-                        >
-                            <TextDefault light H5 style={styles.fontText}>
-                                {item.title}
-                            </TextDefault>
-                        </TouchableOpacity>
-                    )}
-                />
+                {loading ? <Spinner spinnerColor={colors.spinnerColor1} backColor={'transparent'} /> : error ? <TextError text={error.message} /> :
+                    <FlatList
+                        data={data ? data.subCategoriesById : []}
+                        style={styles.flatList}
+                        contentContainerStyle={styles.categoryContainer}
+                        showsHorizontalScrollIndicator={false}
+                        keyExtractor={item => item._id}
+                        ItemSeparatorComponent={() => <View style={styles.line} />}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                activeOpacity={0.5}
+                                style={styles.categoryRow}
+                                onPress={() => navigation.navigate('SellingForm')}
+                            >
+                                <TextDefault light H5 style={styles.fontText}>
+                                    {item.title}
+                                </TextDefault>
+                            </TouchableOpacity>
+                        )}
+                    />
+                }
             </View>
         </SafeAreaView>
     );

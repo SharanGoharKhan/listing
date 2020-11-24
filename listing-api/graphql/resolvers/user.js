@@ -23,6 +23,16 @@ module.exports = {
         throw err
       }
     },
+    user: async (_, args, context) => {
+      console.log('getuser')
+      try{
+        const user = await User.findById(args.id)
+        return transformUser(user)
+      }
+      catch (err) {
+        throw err
+      }
+    },
     users: async (_, args, context) => {
       console.log('users')
       try {
@@ -176,7 +186,7 @@ module.exports = {
           const index = authUser.following.findIndex(el => el === userId)
           authUser.following.splice(index, 1)
           const ind = user.followers.findIndex(i => i === req.userId)
-          user.followers.splice(index, 1)
+          user.followers.splice(ind, 1)
         } else {
           console.log("followUser")
           authUser.following.push(userId)

@@ -245,6 +245,24 @@ export const likes = `query{
   }
 }`
 
+export const getUser = `query User($id: String!){
+  user(id:$id){
+    _id
+    name
+    phone
+    email
+    createdAt
+    followers{
+      _id
+      name
+    }
+    following{
+      _id
+      name
+    }
+  }
+}` 
+
 export const profile = `
   query{
     profile{

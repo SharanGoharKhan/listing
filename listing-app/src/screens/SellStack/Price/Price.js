@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Keyboard, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import ConfigurationContext from '../../../context/configuration'
 import { EmptyButton, TextDefault } from '../../../components'
 import { alignment, colors, scale, textStyles } from '../../../utilities'
 import styles from './styles'
@@ -12,6 +13,7 @@ function Price() {
     const [price, serPrice] = useState('')
     const [focus, setFocus] = useState(false)
     const [adColor, setAdColor] = useState(colors.fontPlaceholder)
+    const configuration = useContext(ConfigurationContext)
 
     useEffect(() => {
         navigation.setOptions({
@@ -45,7 +47,7 @@ function Price() {
                         <View style={[styles.inputBorder, { borderBottomColor: adColor }]}>
                             <View style={styles.leftText}>
                                 <TextDefault textColor={colors.fontSecondColor} H5 >
-                                    {'RS'}
+                                    {configuration.currency ?? 'RS'}
                                 </TextDefault>
                             </View>
                             <TextInput style={[styles.flex, { ...textStyles.H4 }]}

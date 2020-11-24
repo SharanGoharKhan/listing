@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Image, Platform, TouchableOpacity, View } from 'react-native'
 import styles from './styles'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { EmptyButton, FlashMessage, TextDefault } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
@@ -11,6 +11,8 @@ import * as Device from 'expo-device';
 
 function UploadImages() {
     const navigation = useNavigation()
+    const route = useRoute()
+    const formData = route?.params?.formData ?? null
     const [image, setImage] = useState(null)
     useEffect(() => {
         navigation.setOptions({
@@ -20,7 +22,7 @@ function UploadImages() {
 
     useEffect(() => {
     }, [])
-
+    console.log('formData', formData)
     async function PickImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -29,6 +31,7 @@ function UploadImages() {
         if (!result.cancelled) {
             setImage(result.uri)
         }
+        
     }
     async function CaptureImage() {
         if (!Device.isDevice) {
@@ -95,6 +98,7 @@ function UploadImages() {
                         disabled={!image}
                         title='Next'
                         onPress={() => {
+                            console.log('image', image)
                             navigation.navigate('Price')
                         }} />
                 </View>

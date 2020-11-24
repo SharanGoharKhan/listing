@@ -6,18 +6,6 @@ import { alignment, colors } from '../../../../utilities'
 import Card from './Card'
 import styles from './styles'
 
-const data = [
-    {
-        img: require('../../../../assets/images/avatar.png'),
-        name: 'John',
-        following: false
-    },
-    {
-        img: require('../../../../assets/images/avatar.png'),
-        name: 'Doe',
-        following: false
-    },
-]
 
 function Followers() {
     const { profile, loadingProfile, errorProfile} = useContext(UserContext)
@@ -86,8 +74,8 @@ function Followers() {
                 contentContainerStyle={[styles.mainContainer, { flexGrow: 1 }]}
                 data={profile.followers || []}
                 ListEmptyComponent={emptyView()}
-                ListHeaderComponent={data.length > 0 && header()}
-                keyExtractor={(item, index) => item.id}
+                ListHeaderComponent={profile?.followers?.length > 0 && header()}
+                keyExtractor={(item, index) => item._id}
                 renderItem={({ item }) => (
                     <Card {...item} />
                 )}

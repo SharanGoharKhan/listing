@@ -20,6 +20,12 @@ const cache = new InMemoryCache({
       fields: {
         likes: {
           merge: false
+        },
+        followers: {
+          merge: false
+        },
+        following: {
+           merge: false
         }
       }
     }

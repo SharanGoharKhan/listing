@@ -1,28 +1,19 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, {useContext} from 'react'
 import { FlatList, Image, Share, View } from 'react-native'
 import { EmptyButton, FlashMessage, TextDefault } from '../../../../components'
 import { alignment, colors } from '../../../../utilities'
+import UserContext from '../../../../context/user'
 import Card from './Card'
 import styles from './styles'
 
-const empty = false
+// const empty = false
 
-const data = [
-    {
-        img: require('../../../../assets/images/avatar.png'),
-        name: 'Merchant Ali',
-        following: true
-    },
-    {
-        img: require('../../../../assets/images/avatar.png'),
-        name: 'Saad Javed',
-        following: true
-    },
-]
 function Following() {
+    
     const navigation = useNavigation()
-
+    const { profile } = useContext(UserContext)
+    console.log('following',profile.following)
 
     async function share() {
         try {
@@ -83,18 +74,16 @@ function Following() {
             </View>
         )
     }
-
     return (
         <View style={[styles.flex, styles.mainContainer]}>
             <FlatList
                 style={styles.flex}
                 contentContainerStyle={[styles.mainContainer, { flexGrow: 1 }]}
-                data={data}
+                data={profile.following || []}
                 ListEmptyComponent={emptyView()}
-                ListHeaderComponent={data.length > 0 && header()}
-                keyExtractor={(item, index) => index.toString()}
+                ListHeaderComponent={profile?.following?.length > 0 && header()}
+                keyExtractor={(item, index) => item._id}
                 renderItem={({ item }) => (
-                    item.following &&
                     < Card {...item} />
                 )}
             />

@@ -187,6 +187,7 @@ type Configuration {
   type Query {  
     profile: User
     users(page: Int): [User!]
+    user(id: String!): User!
     userCount: Int!
     categories: [Category!]!
     subCategories: [SubCategory!]!

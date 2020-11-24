@@ -6,7 +6,7 @@ import styles from './styles'
 
 function UnfollowModal(props) {
     function CallOk() {
-        props.onFollowing()
+        props.unFollow()
         props.onModalToggle()
     }
     return (
