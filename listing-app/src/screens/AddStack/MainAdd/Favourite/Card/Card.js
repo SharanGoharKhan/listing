@@ -13,7 +13,7 @@ function Card(props) {
     return (
         <TouchableOpacity activeOpacity={1}
             style={styles.productCardContainer}
-            onPress={() => navigation.navigate('ProductDescription',  { product: props })}>
+            onPress={() => navigation.navigate('ProductDescription', { screen: 'ProductDescription', params: { product: props } })}>
             <View style={styles.topCardContainer}>
                 <Image
                     source={{ uri: props.images[0] }}

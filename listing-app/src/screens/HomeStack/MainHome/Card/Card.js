@@ -8,6 +8,7 @@ import { TextDefault, Spinner } from '../../../../components';
 import { colors, scale } from '../../../../utilities';
 import styles from '../styles';
 import UserContext from '../../../../context/user'
+import ConfigurationContext from '../../../../context/configuration'
 
 const ADD_TO_FAVOURITES = gql`${addToFavourites}`
 
@@ -15,6 +16,7 @@ const ADD_TO_FAVOURITES = gql`${addToFavourites}`
 function Card(props) {
     const navigation = useNavigation()
     const { isLoggedIn, profile } = useContext(UserContext)
+    const configuration = useContext(ConfigurationContext)
     const [isLike, isLikeSetter] = useState(false)
     const [mutate, { loading: loadingMutation }] = useMutation(ADD_TO_FAVOURITES)
     useEffect(() => {
@@ -31,7 +33,8 @@ function Card(props) {
     return (
         <TouchableOpacity activeOpacity={1}
             style={styles.productCardContainer}
-            onPress={() => navigation.navigate('ProductDescription', { product: props })}>
+            onPress={() => navigation.navigate('ProductDescription',
+                { screen: 'ProductDescription', params: { product: props } })}>
             <View style={styles.topCardContainer}>
                 <Image
                     source={{ uri: props.images[0] }}
@@ -61,7 +64,7 @@ function Card(props) {
             <View style={styles.botCardContainer}>
                 <View>
                     <TextDefault textColor={colors.fontMainColor} H5 bolder>
-                        {props.price}
+                        {configuration.currencySymbol} {props.price}
                     </TextDefault>
                     <TextDefault textColor={colors.fontSecondColor} numberOfLines={1}>
                         {props.title}

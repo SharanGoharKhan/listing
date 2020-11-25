@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     subContainer: {
         ...alignment.Psmall,
     },
+    locationContainer:{
+        ...alignment.Psmall,
+    },
     line: {
         borderBottomColor: colors.horizontalLine,
         borderBottomWidth: StyleSheet.hairlineWidth
@@ -86,12 +89,15 @@ const styles = StyleSheet.create({
         backgroundColor: colors.themeBackground,
         borderWidth: StyleSheet.hairlineWidth * 2,
         borderRadius: scale(50),
-        height: scale(70),
-        ...alignment.MTsmall
+        height: scale(80),
+        
+        
     },
     locationItemStyle: {
         borderBottomColor: colors.headerbackground,
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
+        ...alignment.PTmedium,
+        ...alignment.PBmedium
     },
     inputText: {
         flex: 1,

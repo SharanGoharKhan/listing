@@ -75,7 +75,7 @@ function HomeTabs() {
             <HomeStack.Screen name='ProductListing' component={HomeScreens.ProductListing} />
             <HomeStack.Screen name='Notifications' component={HomeScreens.Notifications} />
             <HomeStack.Screen name='UserProfile' component={HomeScreens.UserProfile} />
-            <HomeStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />
+            <HomeStack.Screen name='ProductDescription' component={ProdcutMap} />
 
         </HomeStack.Navigator>
     )
@@ -108,6 +108,7 @@ function SellTabs() {
             <SellStack.Screen name='Price' component={SellScreens.Price} />
             <SellStack.Screen name='LocationConfirm' component={SellScreens.LocationConfirm} />
             <SellStack.Screen name='AdPosting' component={SellScreens.AdPosting} />
+            <SellStack.Screen name='FullMap' component={HomeScreens.FullMap} />
         </SellStack.Navigator>
     )
 }
@@ -120,7 +121,7 @@ function AddTabs() {
                     backgroundColor: colors.headerbackground,
                 },
             }} />
-            <AddStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />
+            <AddStack.Screen name='ProductDescription' component={ProdcutMap} />
 
         </AddStack.Navigator>
     )
@@ -155,6 +156,7 @@ function AccountTabs() {
     )
 }
 function ProdcutMap() {
+    console.log('ProdcutMap')
     return (
         <ProductStack.Navigator initialRouteName='ProductDescription' screenOptions={StackOptions()}>
             <ProductStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />
@@ -176,7 +178,7 @@ function BottomTabs() {
             }} />
             <Tabs.Screen name='Add' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Account' component={AccountTabs} />
-            <Tabs.Screen name='ProductDescription' component={ProdcutMap} options={{ tabBarButton: () => null, tabBarVisible: false }} />
+            {/* <Tabs.Screen name='ProductDescription' component={ProdcutMap} options={{ tabBarButton: () => null, tabBarVisible: false }} /> */}
         </Tabs.Navigator >
     )
 }

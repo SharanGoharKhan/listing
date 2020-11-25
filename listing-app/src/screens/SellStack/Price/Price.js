@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect, useState, useContext } from 'react'
-import { Keyboard, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Platform } from 'react-native'
+import { Keyboard, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Platform, AsyncStorage } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ConfigurationContext from '../../../context/configuration'
 import { EmptyButton, TextDefault } from '../../../components'
@@ -9,6 +9,8 @@ import styles from './styles'
 
 function Price() {
     const navigation = useNavigation()
+    const route = useRoute()
+    const formData = route?.params?.formData ?? null
     const [margin, marginSetter] = useState(false)
     const [price, serPrice] = useState('')
     const [focus, setFocus] = useState(false)
@@ -72,9 +74,13 @@ function Price() {
                         <EmptyButton
                             disabled={!price}
                             title='Next'
-                            onPress={() => {
-                                if (!!price)
+                            onPress={async () => {
+                                if (!!price) {
+                                    const formStr = await AsyncStorage.getItem('formData')
+                                    const formObj = JSON.parse(formStr)
+                                    await AsyncStorage.setItem('formData', { ...formObj, price })
                                     navigation.navigate('LocationConfirm')
+                                }
                             }} />
                     </View>
                 </TouchableOpacity>

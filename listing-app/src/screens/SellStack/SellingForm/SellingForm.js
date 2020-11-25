@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { View, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Keyboard, Platform } from 'react-native'
+import { View, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Keyboard, Platform, AsyncStorage } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { EmptyButton, TextDefault, Spinner, TextError } from '../../../components'
@@ -11,11 +11,11 @@ import styles from './styles'
 const GET_ZONES = gql`${zones}`
 const CONDITIONS = [
     {
-        value: 0,
+        value: 'new',
         title: 'New'
     },
     {
-        value: 1,
+        value: 'used',
         title: 'Used'
     },
 ]
@@ -95,10 +95,12 @@ function SellingForm() {
         return <TextError text={error.message} />
     }
 
-    let zone = []
-
     if (data) {
         zone = []
+    }
+
+    async function setFormData() {
+        await AsyncStorage.setItem('formData', { location, description, title, condition })
     }
 
     return (
@@ -193,7 +195,7 @@ function SellingForm() {
                                 }
                             </View>
                             <View style={styles.line} />
-                            <View style={styles.subContainer}>
+                            <View style={styles.locationContainer}>
                                 <TextDefault textColor={locationError ? colors.google : locationColor} H5 bold style={styles.width100}>
                                     {'Location *'}
                                 </TextDefault>
@@ -211,16 +213,24 @@ function SellingForm() {
                                     defaultIndex={0}
                                     dropDownStyle={styles.locationOptionContainer}
                                     onBlur={() => setLocationColor(colors.fontMainColor)}
-                                    itemStyle={items.length - 1 ? styles.locationItemStyle : ''}
+                                    itemStyle={styles.locationItemStyle}
+                                    containerStyle={{ marginBottom: 50 * data?.zones.length }}
                                 />
+                                {locationError &&
+                                    <TextDefault textColor={colors.google} style={styles.width100}>
+                                        {locationError}
+                                    </TextDefault>
+                                }
                             </View>
                         </View>
                         <View style={styles.buttonView}>
                             <EmptyButton
                                 title='Next'
-                                onPress={() => {
-                                    if (validate())
-                                        navigation.navigate('UploadImage', { formData: { location, description, title, condition }})
+                                onPress={async () => {
+                                    if (validate()) {
+                                        await setFormData()
+                                        navigation.navigate('UploadImage')
+                                    }
                                 }} />
                         </View>
                     </View>
