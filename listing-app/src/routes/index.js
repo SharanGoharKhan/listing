@@ -75,7 +75,7 @@ function HomeTabs() {
             <HomeStack.Screen name='ProductListing' component={HomeScreens.ProductListing} />
             <HomeStack.Screen name='Notifications' component={HomeScreens.Notifications} />
             <HomeStack.Screen name='UserProfile' component={HomeScreens.UserProfile} />
-            <HomeStack.Screen name='ProductDescription' component={ProdcutMap} />
+            <HomeStack.Screen name='ProductDescription' component={ProdcutMap} options={{headerShown:false}} />
 
         </HomeStack.Navigator>
     )
@@ -121,7 +121,7 @@ function AddTabs() {
                     backgroundColor: colors.headerbackground,
                 },
             }} />
-            <AddStack.Screen name='ProductDescription' component={ProdcutMap} />
+            <AddStack.Screen name='ProductDescription' component={ProdcutMap} options={{headerShown:false}} />
 
         </AddStack.Navigator>
     )

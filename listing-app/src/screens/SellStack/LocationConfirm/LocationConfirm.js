@@ -1,8 +1,10 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import { View, KeyboardAvoidingView, ScrollView, AsyncStorage } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { EmptyButton, FlashMessage } from '../../../components'
+import { gql, useMutation } from '@apollo/client'
+import UserContext from '../../../context/user'
+import { EmptyButton, FlashMessage, TextError, TextDefault } from '../../../components'
 import { scale, fontStyles, verticalScale } from '../../../utilities'
 import { OutlinedTextField } from 'react-native-material-textfield';
 import styles from './styles'
@@ -10,7 +12,12 @@ import MapView, { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permission from 'expo-permissions';
 import CustomMarker from '../../../assets/SVG/imageComponents/CustomMarker'
+import getEnvir from '../../../../environment'
+import { createAd } from '../../../apollo/server'
 
+const { CLOUDINARY_URL } = getEnvir()
+const CLOUDINARY_ADS = 'azqr6fp4'
+const CREATE_AD = gql`${createAd}`
 
 const label_values = [
     {
@@ -34,17 +41,32 @@ const LONGITUDE_DELTA = 0.0021
 
 function LocationConfirm() {
     const addressRef = useRef();
-
     const [delivery_address, setDeliveryAddress] = useState('')
-    const [delivery_details, setDeliveryDetails] = useState('')
+    const [loader, setLoader] = useState(false)
     const [delivery_address_error, setDeliveryAddressError] = useState(null)
-    const [delivery_details_error, setDeliveryDetailsError] = useState(null)
+    const { profile } = useContext(UserContext)
     const [region, setRegion] = useState({
         latitude: LATITUDE,
         latitudeDelta: LATITUDE_DELTA,
         longitude: LONGITUDE,
         longitudeDelta: LONGITUDE_DELTA
     })
+
+    const [mutate, { error, data }] = useMutation(CREATE_AD, {
+        onCompleted,
+        onError
+    })
+
+    function onCompleted(data) {
+        setLoader(false)
+        AsyncStorage.setItem('formData', null)
+        navigation.navigate('AdPosting',{item: data.createItem})
+    }
+
+    function onError(error) {
+        console.log(error)
+    }
+
     useEffect(() => {
         _getLocationAsync();
     }, [])
@@ -57,6 +79,31 @@ function LocationConfirm() {
             title: 'Confirm your location'
         })
     }, [])
+
+    const uploadImageToCloudinary = async (image) => {
+        if (image === '') {
+            return image
+        }
+        const apiUrl = CLOUDINARY_URL
+        const data = {
+            file: image,
+            upload_preset: CLOUDINARY_ADS
+        }
+        try {
+            const result = await fetch(apiUrl, {
+                body: JSON.stringify(data),
+                headers: {
+                    'content-type': 'application/json'
+                },
+                method: 'POST'
+            })
+            const imageData = await result.json()
+            console.log('imageData', imageData)
+            return imageData.secure_url
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
     useEffect(() => {
         if (regionObj !== null) regionChange(regionObj)
@@ -100,6 +147,12 @@ function LocationConfirm() {
             .catch(error => {
                 console.log(error)
             })
+    }
+
+
+    if (error) {
+        // return <TextError text={error.message} />
+        return <TextDefault>{JSON.stringify(error)}</TextDefault>
     }
 
     return (
@@ -178,24 +231,7 @@ function LocationConfirm() {
                                         }}
                                     />
                                     <View style={{ marginTop: verticalScale(20) }}></View>
-                                    <OutlinedTextField
-                                        error={delivery_details_error}
-                                        value={delivery_details}
-                                        label={'Delivery Details'}
-                                        labelFontSize={scale(12)}
-                                        fontSize={scale(12)}
-                                        textAlignVertical='top'
-                                        multiline={false}
-                                        baseColor='rgb(0, 0, 0)'
-                                        maxLength={30}
-                                        labelOffset={{ y1: -5 }}
-                                        tintColor={!delivery_details_error ? 'rgb(255, 85, 10)' : 'red'}
-                                        labelTextStyle={{ fontFamily: fontStyles.MuseoSans300, fontSize: scale(12), paddingTop: scale(1) }}
-                                        onChangeText={(text) => { setDeliveryDetails(text) }}
-                                        onBlur={() => {
-                                            setDeliveryDetailsError(!delivery_details.trim().length ? 'Delivery details is required' : null)
-                                        }}
-                                    />
+
                                 </View>
 
                             </View>
@@ -208,17 +244,35 @@ function LocationConfirm() {
 
             <View style={styles.buttonView}>
                 <EmptyButton
-                    title='Next'
+                    loading={loader}
+                    title='Save Ad'
                     onPress={async () => {
+                        setLoader(true)
                         const formStr = await AsyncStorage.getItem('formData')
                         const formObj = JSON.parse(formStr)
+                        const imageUrl = await uploadImageToCloudinary(formObj.image)
                         const address = {
-                            latitude: region.latitude,
-                            longitude: region.longitude,
-                            address: delivery_address 
+                            latitude: region.latitude.toString(),
+                            longitude: region.longitude.toString(),
+                            address: delivery_address
                         }
-                        await AsyncStorage.setItem('formData', null)
-                        navigation.navigate('AdPosting')
+                        if (!!formObj) {
+                            mutate({
+                                variables: {
+                                    item: {
+                                        zone: formObj.location.value,
+                                        user: profile._id,
+                                        address: address,
+                                        images: [imageUrl],
+                                        title: formObj.title,
+                                        description: formObj.description,
+                                        condition: formObj.condition,
+                                        subCategory: formObj.subCategory,
+                                        price: Number(formObj.price)
+                                    }
+                                }
+                            })
+                        }
                     }} />
             </View>
 

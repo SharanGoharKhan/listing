@@ -39,7 +39,7 @@ function SubCategories() {
                             <TouchableOpacity
                                 activeOpacity={0.5}
                                 style={styles.categoryRow}
-                                onPress={() => navigation.navigate('SellingForm')}
+                                onPress={() => navigation.navigate('SellingForm', {subCategory: item._id})}
                             >
                                 <TextDefault light H5 style={styles.fontText}>
                                     {item.title}

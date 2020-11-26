@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { View, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Keyboard, Platform, AsyncStorage } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -27,6 +27,8 @@ const items = [
 
 function SellingForm() {
     const navigation = useNavigation()
+    const route = useRoute()
+    const subCategory = route?.params?.subCategory ?? null
     const [margin, marginSetter] = useState(false)
     const [condition, setCondition] = useState(null)
     const [adColor, setAdColor] = useState(colors.fontMainColor)
@@ -51,6 +53,12 @@ function SellingForm() {
             Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
         };
     }, []);
+
+    useEffect(()=>{
+        (async ()=>{
+            await AsyncStorage.setItem('formData', null)
+        })
+    },[])
 
     function _keyboardDidShow() {
         marginSetter(true)
@@ -100,7 +108,8 @@ function SellingForm() {
     }
 
     async function setFormData() {
-        await AsyncStorage.setItem('formData', { location, description, title, condition })
+        console.log('formData', { location, description, title, condition })
+        return 
     }
 
     return (
@@ -227,8 +236,8 @@ function SellingForm() {
                             <EmptyButton
                                 title='Next'
                                 onPress={async () => {
-                                    if (validate()) {
-                                        await setFormData()
+                                    if (validate() && subCategory) {
+                                        await AsyncStorage.setItem('formData', JSON.stringify({ location, description, title, condition, subCategory }))
                                         navigation.navigate('UploadImage')
                                     }
                                 }} />

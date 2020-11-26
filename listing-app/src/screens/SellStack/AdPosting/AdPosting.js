@@ -1,5 +1,5 @@
 import { SimpleLineIcons } from '@expo/vector-icons'
-import { StackActions, useNavigation } from '@react-navigation/native'
+import { StackActions, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect } from 'react'
 import { Image, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'

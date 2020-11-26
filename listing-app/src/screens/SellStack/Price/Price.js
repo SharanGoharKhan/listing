@@ -78,7 +78,7 @@ function Price() {
                                 if (!!price) {
                                     const formStr = await AsyncStorage.getItem('formData')
                                     const formObj = JSON.parse(formStr)
-                                    await AsyncStorage.setItem('formData', { ...formObj, price })
+                                    await AsyncStorage.setItem('formData', JSON.stringify({ ...formObj, price }))
                                     navigation.navigate('LocationConfirm')
                                 }
                             }} />

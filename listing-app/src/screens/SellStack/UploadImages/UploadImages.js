@@ -12,7 +12,6 @@ import * as Device from 'expo-device';
 function UploadImages() {
     const navigation = useNavigation()
     const route = useRoute()
-    const [formData, setFormData] = useState(null)
     const [image, setImage] = useState(null)
     useEffect(() => {
         navigation.setOptions({
@@ -21,18 +20,20 @@ function UploadImages() {
     }, [])
 
     useEffect(() => {
-    }, [])
-    console.log('formData', formData)
+    }, []) 
+
     async function PickImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            quality: 1
+            quality: 1,
+            base64: true
         })
         if (!result.cancelled) {
-            setImage(result.uri)
+            setImage(`data:image/jpg;base64,${result.base64}`)
         }
         
     }
+
     async function CaptureImage() {
         if (!Device.isDevice) {
             FlashMessage({
@@ -61,10 +62,11 @@ function UploadImages() {
 
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            quality: 1
+            quality: 1,
+            base64:true
         })
         if (!result.cancelled) {
-            setImage(result.uri)
+            setImage(`data:image/jpg;base64,${result.base64}`)
         }
     }
     return (
@@ -100,7 +102,7 @@ function UploadImages() {
                         onPress={async() => {
                             const formStr = await AsyncStorage.getItem('formData') 
                             const formObj = JSON.parse(formStr)
-                            await AsyncStorage.setItem('formData',{...formObj,image})
+                            await AsyncStorage.setItem('formData',JSON.stringify({...formObj,image}))
                             navigation.navigate('Price')
                         }} />
                 </View>
