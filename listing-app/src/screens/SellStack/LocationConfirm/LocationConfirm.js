@@ -78,6 +78,7 @@ function LocationConfirm() {
     async function didFocus() {
         const formStr = await AsyncStorage.getItem('formData')
         const formObj = JSON.parse(formStr)
+        console.log('formObj',formObj)
         setMutation(formObj.editStatus?EDIT_AD:CREATE_AD)
         setFormData(formObj)
     }
@@ -260,7 +261,7 @@ function LocationConfirm() {
             <View style={styles.buttonView}>
                 <EmptyButton
                     loading={loader}
-                    title={formData.editStatus? 'Update Ad' : 'Save Ad'}
+                    title={formData?.editStatus? 'Update Ad' : 'Save Ad'}
                     onPress={async () => {
                         setLoader(true)
                         let imageUrl = formData.image
