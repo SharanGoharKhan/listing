@@ -10,11 +10,11 @@ import styles from './styles'
 function Price() {
     const navigation = useNavigation()
     const route = useRoute()
-    const formData = route?.params?.formData ?? null
     const [margin, marginSetter] = useState(false)
-    const [price, serPrice] = useState('')
+    const [price, setPrice] = useState('')
     const [focus, setFocus] = useState(false)
     const [adColor, setAdColor] = useState(colors.fontPlaceholder)
+    const [formData, setFormData] = useState(null)
     const configuration = useContext(ConfigurationContext)
 
     useEffect(() => {
@@ -22,6 +22,17 @@ function Price() {
             title: 'Set a price'
         })
     }, [])
+
+    useEffect(() => {
+        didFocus()
+    }, [])
+
+    async function didFocus() {
+        const formStr = await AsyncStorage.getItem('formData')
+        const formObj = JSON.parse(formStr)
+        setPrice(formObj.price)
+        setFormData(formObj)
+    }
 
     useEffect(() => {
         Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -56,7 +67,7 @@ function Price() {
                                 textAlignVertical='center'
                                 placeholder={focus ? '' : 'Price'}
                                 placeholderTextColor={colors.fontThirdColor}
-                                value={price}
+                                defaultValue={price.toString()}
                                 keyboardType={'phone-pad'}
                                 onFocus={() => {
                                     setFocus(true)
@@ -66,7 +77,7 @@ function Price() {
                                     setFocus(false)
                                     setAdColor(colors.fontThirdColor)
                                 }}
-                                onChangeText={text => serPrice(text)}
+                                onChangeText={text => setPrice(text)}
                             />
                         </View>
                     </View>
@@ -76,9 +87,8 @@ function Price() {
                             title='Next'
                             onPress={async () => {
                                 if (!!price) {
-                                    const formStr = await AsyncStorage.getItem('formData')
-                                    const formObj = JSON.parse(formStr)
-                                    await AsyncStorage.setItem('formData', JSON.stringify({ ...formObj, price }))
+
+                                    await AsyncStorage.setItem('formData', JSON.stringify({ ...formData, price }))
                                     navigation.navigate('LocationConfirm')
                                 }
                             }} />

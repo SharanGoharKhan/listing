@@ -219,12 +219,17 @@ module.exports = {
                 if (!req.isAuth) throw new Error('Unauthenticated')
                 const user = await User.findById(req.userId)
                 const index = user.likes.indexOf(args.item)
+                const item = await Item.findById(args.item)
+                const itemIndex = item.likes.indexOf(req.userId)
                 if (index < 0) {
                     user.likes.push(args.item)
+                    item.likes.push(req.userId)
                 } else {
                     user.likes.splice(index, 1)
+                    item.likes.splice(itemIndex, 1)
                 }
                 await user.save()
+                await item.save()
                 return transformUser(user)
             } catch (err) {
                 throw err

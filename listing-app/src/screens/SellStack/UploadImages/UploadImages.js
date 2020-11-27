@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image,  TouchableOpacity, View, AsyncStorage } from 'react-native'
+import { Image, TouchableOpacity, View, AsyncStorage } from 'react-native'
 import styles from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -13,6 +13,8 @@ function UploadImages() {
     const navigation = useNavigation()
     const route = useRoute()
     const [image, setImage] = useState(null)
+    const [newImage, setNewImage] = useState(false)
+    const [formData, setFormData] = useState(null)
     useEffect(() => {
         navigation.setOptions({
             title: 'Upload your photos'
@@ -20,7 +22,15 @@ function UploadImages() {
     }, [])
 
     useEffect(() => {
-    }, []) 
+        didFocus()
+    }, [])
+
+    async function didFocus() {
+        const formStr = await AsyncStorage.getItem('formData')
+        const formObj = JSON.parse(formStr)
+        setImage(formObj.image??nul)
+        setFormData(formObj)
+    }
 
     async function PickImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -29,9 +39,10 @@ function UploadImages() {
             base64: true
         })
         if (!result.cancelled) {
+            setNewImage(true)
             setImage(`data:image/jpg;base64,${result.base64}`)
         }
-        
+
     }
 
     async function CaptureImage() {
@@ -63,9 +74,10 @@ function UploadImages() {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             quality: 1,
-            base64:true
+            base64: true
         })
         if (!result.cancelled) {
+            setNewImage(true)
             setImage(`data:image/jpg;base64,${result.base64}`)
         }
     }
@@ -99,10 +111,8 @@ function UploadImages() {
                     <EmptyButton
                         disabled={!image}
                         title='Next'
-                        onPress={async() => {
-                            const formStr = await AsyncStorage.getItem('formData') 
-                            const formObj = JSON.parse(formStr)
-                            await AsyncStorage.setItem('formData',JSON.stringify({...formObj,image}))
+                        onPress={async () => {
+                            await AsyncStorage.setItem('formData', JSON.stringify({ ...formData, image, newImage }))
                             navigation.navigate('Price')
                         }} />
                 </View>

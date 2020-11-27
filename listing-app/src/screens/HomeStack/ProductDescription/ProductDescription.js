@@ -48,7 +48,7 @@ function ProductDescription(props) {
         longitude: location ? Number(location[1]) : 0,
         longitudeDelta: LONGITUDE_DELTA
     }
-
+    console.log('product')
     if (product === null) {
         navigation.goBack()
         return null

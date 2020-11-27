@@ -514,3 +514,53 @@ export const profile = `
       createdAt
     }
   }`
+
+  export const editAd = `mutation EditItem($item:ItemInput!){
+    editItem(item:$item){
+      _id
+      itemId
+      title
+      description
+      condition
+      subCategory{
+        _id
+        title
+      }
+      zone{
+        _id
+        title
+        description
+        location{
+          coordinates
+        }
+      }
+      status
+      images
+      price
+      user{
+        _id
+        name
+        phone
+        showPhone
+        callingCode
+        createdAt
+        followers{
+          _id
+        }
+        following{
+          _id
+        }
+        likes{
+          _id
+        }
+      }
+      address{
+        _id
+        address
+        location{
+          coordinates
+        }
+      }
+      createdAt
+    }
+  }`

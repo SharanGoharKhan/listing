@@ -28,18 +28,24 @@ const itemSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Zone',
             default: null
-          },
+        },
         user: {
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
+        likes: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ],
         status: {
             type: String,
-            default:"PENDING"
+            default: "PENDING"
         },
         images: [String],
-        address: { 
-            type: addressSchema 
+        address: {
+            type: addressSchema
         },
         price: {
             type: Number,
@@ -52,5 +58,5 @@ const itemSchema = new Schema(
     },
     { timestamps: true }
 )
-itemSchema.index({"address.location":"2dsphere"})
+itemSchema.index({ "address.location": "2dsphere" })
 module.exports = mongoose.model('Item', itemSchema)

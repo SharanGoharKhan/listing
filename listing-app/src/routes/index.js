@@ -109,6 +109,7 @@ function SellTabs() {
             <SellStack.Screen name='LocationConfirm' component={SellScreens.LocationConfirm} />
             <SellStack.Screen name='AdPosting' component={SellScreens.AdPosting} />
             <SellStack.Screen name='FullMap' component={HomeScreens.FullMap} />
+            <SellStack.Screen name='ProductDescription' component={ProdcutMap} options={{headerShown:false}}  />
         </SellStack.Navigator>
     )
 }
@@ -122,6 +123,7 @@ function AddTabs() {
                 },
             }} />
             <AddStack.Screen name='ProductDescription' component={ProdcutMap} options={{headerShown:false}} />
+            <AddStack.Screen name='SellingForm' component={SellTabs} options={{headerShown:false, tabBarVisible: false }} />
 
         </AddStack.Navigator>
     )

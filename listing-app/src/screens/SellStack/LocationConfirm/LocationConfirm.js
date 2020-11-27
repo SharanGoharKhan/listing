@@ -13,11 +13,12 @@ import * as Location from 'expo-location';
 import * as Permission from 'expo-permissions';
 import CustomMarker from '../../../assets/SVG/imageComponents/CustomMarker'
 import getEnvir from '../../../../environment'
-import { createAd } from '../../../apollo/server'
+import { createAd, editAd } from '../../../apollo/server'
 
 const { CLOUDINARY_URL } = getEnvir()
 const CLOUDINARY_ADS = 'azqr6fp4'
 const CREATE_AD = gql`${createAd}`
+const EDIT_AD = gql`${editAd}`
 
 const label_values = [
     {
@@ -45,6 +46,8 @@ function LocationConfirm() {
     const [loader, setLoader] = useState(false)
     const [delivery_address_error, setDeliveryAddressError] = useState(null)
     const { profile } = useContext(UserContext)
+    const [formData, setFormData] = useState(null)
+    const [mutation, setMutation] = useState(CREATE_AD)
     const [region, setRegion] = useState({
         latitude: LATITUDE,
         latitudeDelta: LATITUDE_DELTA,
@@ -52,19 +55,31 @@ function LocationConfirm() {
         longitudeDelta: LONGITUDE_DELTA
     })
 
-    const [mutate, { error, data }] = useMutation(CREATE_AD, {
+    const [mutate, { error, data }] = useMutation(mutation, {
         onCompleted,
         onError
     })
 
     function onCompleted(data) {
         setLoader(false)
+        const item = data.createItem?? data.editItem
         AsyncStorage.setItem('formData', null)
-        navigation.navigate('AdPosting',{item: data.createItem})
+        navigation.navigate('AdPosting', { item: item })
     }
 
     function onError(error) {
         console.log(error)
+    }
+
+    useEffect(()=>{
+        didFocus()
+    },[])
+
+    async function didFocus() {
+        const formStr = await AsyncStorage.getItem('formData')
+        const formObj = JSON.parse(formStr)
+        setMutation(formObj.editStatus?EDIT_AD:CREATE_AD)
+        setFormData(formObj)
     }
 
     useEffect(() => {
@@ -245,30 +260,32 @@ function LocationConfirm() {
             <View style={styles.buttonView}>
                 <EmptyButton
                     loading={loader}
-                    title='Save Ad'
+                    title={formData.editStatus? 'Update Ad' : 'Save Ad'}
                     onPress={async () => {
                         setLoader(true)
-                        const formStr = await AsyncStorage.getItem('formData')
-                        const formObj = JSON.parse(formStr)
-                        const imageUrl = await uploadImageToCloudinary(formObj.image)
+                        let imageUrl = formData.image
+                        if(formData.newImage){
+                            imageUrl = await uploadImageToCloudinary(formData.image)
+                        }
                         const address = {
                             latitude: region.latitude.toString(),
                             longitude: region.longitude.toString(),
                             address: delivery_address
                         }
-                        if (!!formObj) {
+                        if (!!formData) {
                             mutate({
                                 variables: {
                                     item: {
-                                        zone: formObj.location.value,
+                                        _id: formData.id,
+                                        zone: formData.location.value,
                                         user: profile._id,
                                         address: address,
                                         images: [imageUrl],
-                                        title: formObj.title,
-                                        description: formObj.description,
-                                        condition: formObj.condition,
-                                        subCategory: formObj.subCategory,
-                                        price: Number(formObj.price)
+                                        title: formData.title,
+                                        description: formData.description,
+                                        condition: formData.condition,
+                                        subCategory: formData.subCategory,
+                                        price: Number(formData.price)
                                     }
                                 }
                             })

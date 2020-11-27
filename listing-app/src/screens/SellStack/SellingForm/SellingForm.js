@@ -5,7 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { EmptyButton, TextDefault, Spinner, TextError } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'
-import { zones } from '../../../apollo/server'
+import { zones, editAd } from '../../../apollo/server'
 import { gql, useQuery } from '@apollo/client'
 import styles from './styles'
 const GET_ZONES = gql`${zones}`
@@ -28,7 +28,7 @@ const items = [
 function SellingForm() {
     const navigation = useNavigation()
     const route = useRoute()
-    const subCategory = route?.params?.subCategory ?? null
+    const editProduct = route?.params?.editProduct ?? null
     const [margin, marginSetter] = useState(false)
     const [condition, setCondition] = useState(null)
     const [adColor, setAdColor] = useState(colors.fontMainColor)
@@ -41,7 +41,31 @@ function SellingForm() {
     const [titleError, setTitleError] = useState(null)
     const [conditionError, setConditionError] = useState(null)
     const [descriptionError, setDescriptionError] = useState(null)
+    const [editStatus, setEditStatus] = useState(false)
+    const [id, setId] = useState('')
+    const [price, setPrice] = useState('')
+    const [image, setImage] = useState('')
+    const [subCategory, setSubCategory] = useState(route?.params?.subCategory ?? null)
     const { error, loading, data } = useQuery(GET_ZONES)
+
+    useEffect(() => {
+        if (!!editProduct) {
+            didFocus()
+        }
+    }, [])
+
+    async function didFocus() {
+        console.log('edit', editProduct.zone)
+        setTitle(editProduct.title)
+        setDescription(editProduct.description)
+        setLocation({value:editProduct.zone._id, label: editProduct.zone.title})
+        setCondition(editProduct.condition)
+        setSubCategory(editProduct.subCategory._id)
+        setId(editProduct._id)
+        setPrice(editProduct.price)
+        setImage(editProduct.images[0])
+        setEditStatus(true)
+    }
 
     useEffect(() => {
         Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -54,11 +78,11 @@ function SellingForm() {
         };
     }, []);
 
-    useEffect(()=>{
-        (async ()=>{
+    useEffect(() => {
+        (async () => {
             await AsyncStorage.setItem('formData', null)
         })
-    },[])
+    }, [])
 
     function _keyboardDidShow() {
         marginSetter(true)
@@ -102,14 +126,9 @@ function SellingForm() {
     if (error) {
         return <TextError text={error.message} />
     }
-
+    let zone = null
     if (data) {
         zone = []
-    }
-
-    async function setFormData() {
-        console.log('formData', { location, description, title, condition })
-        return 
     }
 
     return (
@@ -159,6 +178,7 @@ function SellingForm() {
                                             setTitleError(null)
                                             setAdColor(colors.selectedText)
                                         }}
+                                        defaultValue={title}
                                         onBlur={() => setAdColor(colors.fontMainColor)}
                                         onChangeText={text => setTitle(text)}
                                         placeholderTextColor={colors.fontSecondColor}
@@ -184,6 +204,7 @@ function SellingForm() {
                                         style={styles.inputText}
                                         maxLength={4096}
                                         multiline={true}
+                                        defaultValue={description}
                                         onFocus={() => {
                                             setDescriptionError(null)
                                             setDescriptionColor(colors.selectedText)
@@ -213,12 +234,13 @@ function SellingForm() {
                                     items={data?.zones.map(z => {
                                         return { value: z._id, label: z.title }
                                     })}
-                                    selectedValue={location}
+                                    // selectedValue={location}
                                     onChangeItem={(itemValue, itemIndex) => {
                                         setLocation(itemValue)
                                         setLocationError(null)
                                         setLocationColor(colors.selectedText)
                                     }}
+                                    defaultValue={location.value}
                                     defaultIndex={0}
                                     dropDownStyle={styles.locationOptionContainer}
                                     onBlur={() => setLocationColor(colors.fontMainColor)}
@@ -237,7 +259,7 @@ function SellingForm() {
                                 title='Next'
                                 onPress={async () => {
                                     if (validate() && subCategory) {
-                                        await AsyncStorage.setItem('formData', JSON.stringify({ location, description, title, condition, subCategory }))
+                                        await AsyncStorage.setItem('formData', JSON.stringify({ id, location, description, title, condition, subCategory, editStatus, price, image }))
                                         navigation.navigate('UploadImage')
                                     }
                                 }} />
