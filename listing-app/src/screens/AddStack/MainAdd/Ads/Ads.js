@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { Image, View, TouchableOpacity, FlatList, Modal } from 'react-native';
 import { AddFilter, EmptyButton, TextDefault, Spinner } from '../../../../components';
@@ -11,6 +11,7 @@ import { itemsByUser } from '../../../../apollo/server'
 const ITEMS_BY_USER = gql`${itemsByUser}`
 
 import Card from './Card';
+import { search } from 'react-native-country-picker-modal/lib/CountryService';
 
 const dataList = [
     {
@@ -35,22 +36,43 @@ const dataList = [
     }
 ]
 
+
 function Ads() {
     const navigation = useNavigation()
     const [visible, setVisible] = useState(false)
-
-    const { data, loading, error} = useQuery(ITEMS_BY_USER)
+    const [filter, setFilter] = useState({
+        value: 'ALL',
+        title: 'View All'
+    })
+    const { data, loading, error } = useQuery(ITEMS_BY_USER)
 
     function onModalToggle() {
         setVisible(prev => !prev)
     }
 
-    if(error){
+    function search(filter) {
+        const queryData = data?.itemsByUser
+        if (filter.value === 'ALL') {
+            return (queryData)
+        } else {
+            const ads = queryData.filter(item => {
+                if (item.status === filter.value) {
+                    return item
+                }
+            })
+            return (ads)
+        }
+    }
+
+    if (error) {
         return <TextDefault>{JSON.stringify(error)}</TextDefault>
     }
-    if(loading){
+    if (loading) {
         return <Spinner spinnerColor={colors.spinnerColor1} backColor={'transparent'} />
     }
+
+    
+    const filteredData=data?.itemsByUser ? search(filter):[]
     function emptyView() {
         return (
             <View style={[styles.flex, styles.emptyContainer]}>
@@ -75,32 +97,36 @@ function Ads() {
     function header() {
         return (
             <TouchableOpacity style={styles.smallContainer}
-                onPress={onModalToggle}>
+                onPress={onModalToggle}
+            >
                 <TextDefault bolder H5 style={alignment.PRsmall}>
-                    {`View All (${dataList.length})`}
+                    {`${filter.title} (${filteredData.length})`}
                 </TextDefault>
                 <Feather name="chevron-down" size={scale(15)} color={colors.fontSecondColor} />
             </TouchableOpacity>
         )
     }
-
+    
     return (
         <View style={[styles.flex, styles.mainContainer]}>
             <FlatList
-                data={data.itemsByUser? data.itemsByUser: []}
+                data={filteredData}
                 style={styles.flex}
                 contentContainerStyle={{ flexGrow: 1 }}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={emptyView}
                 ListHeaderComponent={header}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item, index) => item._id}
                 stickyHeaderIndices={[0]}
                 renderItem={({ item, index }) => (
                     <Card {...item} />
                 )}
             />
 
-            <AddFilter visible={visible} onModalToggle={onModalToggle} active={dataList.length} />
+            <AddFilter visible={visible}
+                onModalToggle={onModalToggle}
+                setFilter={setFilter}
+                />
         </View>
     )
 }

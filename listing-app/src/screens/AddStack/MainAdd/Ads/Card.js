@@ -80,12 +80,12 @@ return (
                         <View style={styles.Vline}>
                             <MaterialCommunityIcons name="eye-outline" size={scale(15)} color={colors.headerText} />
                             <TextDefault numberOfLines={1} small bold style={styles.locationText}>
-                                {'View:'} <TextDefault small light> {props.status === 'PENDING' ? '-' : props.views}</TextDefault>
+                                {'Views:'} <TextDefault small light> {props.status === 'PENDING' ? '-' : props.views}</TextDefault>
                             </TextDefault>
                         </View>
                         <FontAwesome name="heart" size={scale(13)} color={colors.headerText} />
                         <TextDefault numberOfLines={1} small bold style={styles.locationText}>
-                            {'Likes:'} <TextDefault small light> {props.user.likes.length}</TextDefault>
+                            {'Likes:'} <TextDefault small light> {props.likesCount}</TextDefault>
                         </TextDefault>
                     </View>
                 </View>

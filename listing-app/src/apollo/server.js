@@ -50,6 +50,7 @@ export const itemsBySubCategory = `query ItemsByCategory($subCategory: [String!]
       }
     }
     status
+    likesCount
     images
     price
     user{
@@ -104,6 +105,7 @@ export const nearByItems = `query NearByItems($latitude: Float,$longitude: Float
       }
     }
     status
+    likesCount
     images
     price
     user{
@@ -160,6 +162,7 @@ export const addToFavourites = `mutation AddToFavourites($item: String){
       }
     }
     status
+    likesCount
     images
     price
     user{
@@ -215,6 +218,7 @@ export const likes = `query{
       }
     }
     status
+    likesCount
     images
     price
     user{
@@ -307,6 +311,7 @@ export const profile = `
       }
     }
     status
+    likesCount
     images
     price
     user{
@@ -390,6 +395,7 @@ export const profile = `
         }
       }
       status
+      likesCount
       images
       price
       user{
@@ -485,6 +491,7 @@ export const profile = `
         }
       }
       status
+      likesCount
       images
       price
       user{
@@ -535,6 +542,7 @@ export const profile = `
         }
       }
       status
+      likesCount
       images
       price
       user{

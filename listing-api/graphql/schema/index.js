@@ -58,6 +58,7 @@ type Configuration {
     subCategory: SubCategory!
     zone: Zone!
     status: String!
+    likesCount: Float
     images: [String]
     price: Float!
     user: User!

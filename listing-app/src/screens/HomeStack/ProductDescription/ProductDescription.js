@@ -1,20 +1,22 @@
 import { Entypo, FontAwesome, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import * as Device from 'expo-device'
-import React, { useContext, useLayoutEffect, useState } from 'react'
+import { useMutation, gql } from '@apollo/client'
+import React, { useContext, useLayoutEffect, useState, useEffect } from 'react'
 import { Image, Linking, Platform, ScrollView, Share, TouchableOpacity, View } from 'react-native'
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler'
-import MapView, { Marker, Circle, PROVIDER_DEFAULT, PROVIDER_GOOGLE, } from 'react-native-maps'
+import MapView, { Circle, PROVIDER_DEFAULT, PROVIDER_GOOGLE, } from 'react-native-maps'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import moment from 'moment'
 import { FlashMessage, LeftButton, ReportModal, RightButton, TextDefault, Spinner } from '../../../components'
 import UserContext from '../../../context/user'
+import { addToFavourites } from '../../../apollo/server'
 import ConfigurationContext from '../../../context/configuration'
 import { alignment, colors, scale } from '../../../utilities'
 import Slider from './Slider'
 import styles from './style'
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import color from '../../../components/Text/TextDefault/styles'
+
+const ADD_TO_FAVOURITES = gql`${addToFavourites}`
 
 
 const title = 'Japanese 28 inches cycle'
@@ -37,11 +39,12 @@ function ProductDescription(props) {
     const route = useRoute()
     const product = route.params?.product
     const location = product?.address?.location?.coordinates
+    const { isLoggedIn, profile } = useContext(UserContext)
     const navigation = useNavigation()
     const [isLike, isLikeSetter] = useState(false)
     const [reportModal, setReportModal] = useState(false);
-    const { isLoggedIn, profile } = useContext(UserContext)
     const configuration = useContext(ConfigurationContext)
+    const [mutate, { loading: loadingMutation }] = useMutation(ADD_TO_FAVOURITES)
     const region = {
         latitude: location ? Number(location[0]) : 0,
         latitudeDelta: LATITUDE_DELTA,
@@ -52,7 +55,19 @@ function ProductDescription(props) {
     if (product === null) {
         navigation.goBack()
         return null
-      }
+    }
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            isLikeSetter(
+                profile.likes
+                    ? !!profile.likes.find(like => like._id === product._id)
+                    : false
+            )
+        } else {
+            isLikeSetter(false)
+        }
+    }, [profile, isLoggedIn])
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -143,9 +158,23 @@ function ProductDescription(props) {
                         <TextDefault H4 bold>
                             {configuration.currencySymbol} {product.price}
                         </TextDefault>
-                        <TouchableOpacity activeOpacity={0} onPress={() => isLikeSetter(prev => !prev)}>
-                            {isLike ? <FontAwesome name="heart" size={scale(20)} color="black" /> :
-                                <FontAwesome name="heart-o" size={scale(20)} color="black" />
+                        <TouchableOpacity activeOpacity={0} onPress={
+                            () => {
+                                if (isLoggedIn) {
+                                    mutate({
+                                        variables: {
+                                            item: props._id
+                                        }
+                                    })
+                                    isLikeSetter(prev => !prev)
+                                } else {
+                                    navigation.navigate('Registration')
+                                }
+                            }
+                        }>
+                            {loadingMutation && <Spinner size='small' spinnerColor={colors.spinnerColor1} backColor={'transparent'} />}
+                            {(isLike && !loadingMutation) && <FontAwesome name="heart" size={scale(18)} color={colors.black} />}
+                            {(!isLike && !loadingMutation) && <FontAwesome name="heart-o" size={scale(18)} color={colors.horizontalLine} />
                             }
                         </TouchableOpacity>
                     </View>
@@ -188,7 +217,7 @@ function ProductDescription(props) {
                     style={styles.profileContainer}
                     onPress={() => {
                         if (profile._id != product.user._id) {
-                            navigation.navigate('UserProfile',{ user: product.user._id })
+                            navigation.navigate('UserProfile', { user: product.user._id })
                         }
                     }}>
                     <View style={styles.imageResponsive}>
@@ -298,7 +327,7 @@ function ProductDescription(props) {
                     </TextDefault>
                 </TouchableOpacity>
 
-               {product.user.showPhone && <><TouchableOpacity
+                {product.user.showPhone && <><TouchableOpacity
                     activeOpacity={0.7}
                     style={styles.button}
                     onPress={Sms}
@@ -309,16 +338,16 @@ function ProductDescription(props) {
                     </TextDefault>
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                    activeOpacity={0.7}
-                    style={styles.button}
-                    onPress={dialCall}
-                >
-                    <SimpleLineIcons name='phone' size={scale(20)} color={colors.white} />
-                    <TextDefault textColor={colors.buttonText} uppercase bold style={alignment.PLsmall}>
-                        {'CALL'}
-                    </TextDefault>
-                </TouchableOpacity></>}
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={styles.button}
+                        onPress={dialCall}
+                    >
+                        <SimpleLineIcons name='phone' size={scale(20)} color={colors.white} />
+                        <TextDefault textColor={colors.buttonText} uppercase bold style={alignment.PLsmall}>
+                            {'CALL'}
+                        </TextDefault>
+                    </TouchableOpacity></>}
             </View>
         </SafeAreaView >
     )

@@ -7,42 +7,38 @@ import styles from './styles';
 
 const OPTIONS = [
     {
-        value: 0,
-        title: 'View all (2)'
+        value: 'ALL',
+        title: 'View all'
     },
     {
-        value: 1,
-        title: 'Active Ads (0)'
+        value: 'ACTIVE',
+        title: 'Active Ads'
     },
     {
-        value: 2,
-        title: 'Inactive Ads (0)'
+        value: 'INACTIVE',
+        title: 'Inactive Ads'
     },
     {
-        value: 3,
-        title: 'Pending Ads (0)'
-    },
-    {
-        value: 4,
-        title: 'Moderated Ads (0)'
+        value: 'PENDING',
+        title: 'Pending Ads'
     },
 ]
 
-function AddFilter(props) {
+function AddFilter({visible, onModalToggle, setFilter}) {
     const inset = useSafeAreaInsets()
 
     return (
         <Modal
             animationType="slide"
             transparent={true}
-            visible={props.visible}
+            visible={visible}
         >
             <View style={[
                 styles.safeAreaViewStyles,
                 styles.flex,
-                { paddingTop: inset.top, paddingBottom: inset.bottom }]}>
+                { paddingBottom: inset.bottom }]}>
                 <View style={[styles.flex, styles.mainContainer]}>
-                    <ModalHeader closeModal={props.onModalToggle} title={'Filters'} />
+                    <ModalHeader closeModal={onModalToggle} title={'Filters'} />
                     <FlatList
                         data={OPTIONS}
                         contentContainerStyle={{ flexGrow: 1 }}
@@ -52,7 +48,10 @@ function AddFilter(props) {
                         renderItem={({ item, index }) => (
                             <TouchableOpacity
                                 style={styles.stateBtn}
-                                onPress={props.onModalToggle}>
+                                onPress={() => {
+                                    onModalToggle()
+                                    setFilter(item)
+                                }}>
                                 <TextDefault style={[styles.flex, styles.font]} H5>
                                     {item.title}
                                 </TextDefault>

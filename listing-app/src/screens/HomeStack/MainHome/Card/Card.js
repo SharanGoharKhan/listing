@@ -12,7 +12,6 @@ import ConfigurationContext from '../../../../context/configuration'
 
 const ADD_TO_FAVOURITES = gql`${addToFavourites}`
 
-
 function Card(props) {
     const navigation = useNavigation()
     const { isLoggedIn, profile } = useContext(UserContext)

@@ -151,7 +151,7 @@ function MainHome() {
         <View style={styles.spacer} />
         <View style={styles.headerTitle}>
           <TextDefault H5 bold>
-            {'Fresh Recommendations'}
+            {'All Ads'}
           </TextDefault>
         </View>
       </>
@@ -166,7 +166,7 @@ function MainHome() {
           data={data.nearByItems || []}
           style={[styles.flex, styles.flatList]}
           contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.containerBox, ...alignment.PBlarge }}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={emptyView}
           ListHeaderComponent={renderHeader}

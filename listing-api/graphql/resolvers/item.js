@@ -220,13 +220,12 @@ module.exports = {
                 const user = await User.findById(req.userId)
                 const index = user.likes.indexOf(args.item)
                 const item = await Item.findById(args.item)
-                const itemIndex = item.likes.indexOf(req.userId)
                 if (index < 0) {
                     user.likes.push(args.item)
-                    item.likes.push(req.userId)
+                    item.likesCount = item.likesCount +1
                 } else {
                     user.likes.splice(index, 1)
-                    item.likes.splice(itemIndex, 1)
+                    item.likesCount = item.likesCount -1
                 }
                 await user.save()
                 await item.save()
