@@ -1,40 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useQuery, gql } from '@apollo/client'
-import { Image, View, TouchableOpacity, FlatList, Modal } from 'react-native';
+import { Image, View, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import { AddFilter, EmptyButton, TextDefault, Spinner } from '../../../../components';
 import { alignment, colors, scale } from '../../../../utilities';
 import styles from './styles';
-import { Feather, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
 import { itemsByUser } from '../../../../apollo/server'
 
 const ITEMS_BY_USER = gql`${itemsByUser}`
 
 import Card from './Card';
-import { search } from 'react-native-country-picker-modal/lib/CountryService';
-
-const dataList = [
-    {
-        status: 'ACTIVE',
-        title: 'Japanese 28 inches cycle',
-        price: 'RS: 20,000',
-        img: require('../../../../assets/images/products/cycle.jpg'),
-        views: 9,
-        likes: 0,
-        postingDate: '29 Sep 2020',
-        endingDate: '29 OCT 2020'
-    },
-    {
-        status: 'PENDING',
-        title: 'Japanese 28 inches cycle',
-        price: 'RS: 20,000',
-        img: require('../../../../assets/images/products/cycle.jpg'),
-        views: 0,
-        likes: 0,
-        postingDate: '29 Sep 2020',
-        endingDate: '29 OCT 2020'
-    }
-]
 
 
 function Ads() {
@@ -44,7 +20,7 @@ function Ads() {
         value: 'ALL',
         title: 'View All'
     })
-    const { data, loading, error } = useQuery(ITEMS_BY_USER)
+    const { data, refetch, networkStatus, loading, error } = useQuery(ITEMS_BY_USER)
 
     function onModalToggle() {
         setVisible(prev => !prev)
@@ -54,7 +30,16 @@ function Ads() {
         const queryData = data?.itemsByUser
         if (filter.value === 'ALL') {
             return (queryData)
-        } else {
+        }
+        else if (filter.value ==='INACTIVE'){
+            const ads = queryData.filter(item => {
+                if (item.status === 'SOLD' || item.status ==='DEACTIVATED') {
+                    return item
+                }
+            })
+            return (ads)
+        }
+        else {
             const ads = queryData.filter(item => {
                 if (item.status === filter.value) {
                     return item
@@ -118,6 +103,17 @@ function Ads() {
                 ListHeaderComponent={header}
                 keyExtractor={(item, index) => item._id}
                 stickyHeaderIndices={[0]}
+                refreshControl={
+                    <RefreshControl
+                      // colors={colors.spinnerColor1}
+                      refreshing={networkStatus === 4}
+                      onRefresh={() => {
+                        if (networkStatus === 7) {
+                          refetch()
+                        }
+                      }}
+                    />
+                  }
                 renderItem={({ item, index }) => (
                     <Card {...item} />
                 )}

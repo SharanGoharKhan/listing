@@ -1,3 +1,4 @@
+const { Expo } = require('expo-server-sdk')
 const Item = require('../../models/item')
 const Point = require('../../models/point')
 const Address = require('../../models/address')
@@ -5,6 +6,7 @@ const User = require('../../models/user')
 const Configuration = require('../../models/configuration')
 const Zone = require('../../models/zone')
 const { transformItem, populateItems, transformUser } = require('./merge')
+const { sendNotificationMobile } = require('../../helpers/utilities')
 const { pubsub,
     publishToDashboard,
     CREATE_AD
@@ -17,7 +19,7 @@ module.exports = {
         },
     },
     Query: {
-        allItems: async (_, args, context) => {
+        allItems: async (_, args, {req,res}) => {
             console.log("allItems")
             try {
 
@@ -201,13 +203,39 @@ module.exports = {
                 throw error
             }
         },
-        updateOrderStatus: async (_, args, context) => {
-            console.log("updateOrderStatus")
+        updateItemStatus: async (_, args, { req, res }) => {
+            console.log("updateItemStatus")
             try {
                 const item = await Item.findById(args.id)
                 if (!item) throw new Error("Item not found")
                 item.status = args.status
                 const result = await item.save()
+                if (!req.userId || (req.userId != result.user)) {
+                    User.findById(result.user)
+                        .then(user => {
+                            if (user.notificationToken) {
+                                const messages = []
+                                if (Expo.isExpoPushToken(user.notificationToken)) {
+                                    console.log('valid token')
+                                    messages.push({
+                                        to: user.notificationToken,
+                                        sound: 'default',
+                                        body: 'Your AD ' + result.itemId + ' status updated to ' + result.status,
+                                        channelId: 'default',
+                                        data: {
+                                            _id: result._id,
+                                            order: result.itemId,
+                                            status: result.status
+                                        }
+                                    })
+                                    sendNotificationMobile(messages)
+                                }
+                            }
+                        })
+                        .catch(() => {
+                            console.log('an error occured while sending notifications')
+                        })
+                }
                 return transformItem(result)
             } catch (error) {
                 throw error
@@ -220,12 +248,13 @@ module.exports = {
                 const user = await User.findById(req.userId)
                 const index = user.likes.indexOf(args.item)
                 const item = await Item.findById(args.item)
+                console.log('item', args.item)
                 if (index < 0) {
                     user.likes.push(args.item)
-                    item.likesCount = item.likesCount +1
+                    item.likesCount = item.likesCount + 1
                 } else {
                     user.likes.splice(index, 1)
-                    item.likesCount = item.likesCount -1
+                    item.likesCount = item.likesCount - 1
                 }
                 await user.save()
                 await item.save()

@@ -116,17 +116,6 @@ function MainHome() {
               contentContainerStyle={styles.categoryContainer}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
-              refreshControl={
-                <RefreshControl
-                  // colors={colors.spinnerColor1}
-                  refreshing={networkStatus === 4}
-                  onRefresh={() => {
-                    if (networkStatus === 7) {
-                      refetch()
-                    }
-                  }}
-                />
-              }
               renderItem={({ item, index }) => (
                 <TouchableOpacity
                   activeOpacity={0.5}
@@ -171,6 +160,17 @@ function MainHome() {
           ListEmptyComponent={emptyView}
           ListHeaderComponent={renderHeader}
           numColumns={2}
+          refreshControl={
+            <RefreshControl
+              // colors={colors.spinnerColor1}
+              refreshing={networkStatus === 4}
+              onRefresh={() => {
+                if (networkStatus === 7) {
+                  refetch()
+                }
+              }}
+            />
+          }
           renderItem={({ item }) => (
             <Card {...item} />
           )}

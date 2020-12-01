@@ -20,8 +20,7 @@ function ProductCard(props) {
     return (
         <TouchableOpacity
             style={styles.searchCard}
-            onPress={() => navigation.navigate('ProductDescription', { product: props }
-            )}>
+            onPress={() => navigation.navigate('ProductDescription', { screen: 'ProductDescription', params: { product: props } })}>
             <Image
                 source={{ uri: props.images[0] }}
                 style={styles.imgResponsive}

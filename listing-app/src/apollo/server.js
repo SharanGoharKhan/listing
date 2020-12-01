@@ -572,3 +572,59 @@ export const profile = `
       createdAt
     }
   }`
+
+
+  const updateItemStatus = `mutation UpdateItemStatus($id: String!, $status: String!){
+    updateItemStatus(id:$id,status:$status){
+      _id
+    itemId
+    title
+    description
+    condition
+    subCategory{
+      _id
+      title
+      category{
+        _id
+        title
+      }
+    }
+    zone{
+      _id
+      title
+      description
+      location{
+        coordinates
+      }
+    }
+    status
+    likesCount
+    images
+    price
+    user{
+      _id
+      name
+      phone
+      callingCode
+      showPhone
+      createdAt
+      followers{
+        _id
+      }
+      following{
+        _id
+      }
+      likes{
+        _id
+      }
+    }
+    address{
+      _id
+      location{
+        coordinates
+      }
+      address
+    }
+    createdAt
+    }
+  }`

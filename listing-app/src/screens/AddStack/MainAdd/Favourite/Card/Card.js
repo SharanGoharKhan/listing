@@ -1,15 +1,37 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useMutation, gql } from '@apollo/client'
 import { Image, TouchableOpacity, View } from 'react-native';
-import { TextDefault } from '../../../../../components';
+import { TextDefault, Spinner } from '../../../../../components';
 import { colors, scale } from '../../../../../utilities';
 import ConfigurationContext from '../../../../../context/configuration'
+import UserContext from '../../../../../context/user'
+import { addToFavourites } from '../../../../../apollo/server'
 import styles from '../styles';
+
+const ADD_TO_FAVOURITES = gql`${addToFavourites}`
+
 
 function Card(props) {
     const navigation = useNavigation()
     const configuration = useContext(ConfigurationContext)
+    const { profile, isLoggedIn } = useContext(UserContext)
+    const [isLike, isLikeSetter] = useState(false)
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            isLikeSetter(
+                profile.likes
+                    ? !!profile.likes.find(like => like._id === props._id)
+                    : false
+            )
+        } else {
+            isLikeSetter(false)
+        }
+    }, [profile, isLoggedIn])
+
+    const [mutate, { loading: loadingMutation }] = useMutation(ADD_TO_FAVOURITES)
     return (
         <TouchableOpacity activeOpacity={1}
             style={styles.productCardContainer}
@@ -22,7 +44,25 @@ function Card(props) {
                 />
                 <View activeOpacity={0}
                     style={styles.heartContainer}>
-                    <FontAwesome name="heart" size={scale(20)} color={colors.buttonbackground} />
+                    <TouchableOpacity activeOpacity={0} onPress={
+                        () => {
+                            if (isLoggedIn) {
+                                mutate({
+                                    variables: {
+                                        item: props._id
+                                    }
+                                })
+                                isLikeSetter(prev => !prev)
+                            } else {
+                                navigation.navigate('Registration')
+                            }
+                        }
+                    }>
+                        {loadingMutation && <Spinner size='small' spinnerColor={colors.spinnerColor1} backColor={'transparent'} />}
+                        {(isLike && !loadingMutation) && <FontAwesome name="heart" size={scale(18)} color={colors.black} />}
+                        {(!isLike && !loadingMutation) && <FontAwesome name="heart-o" size={scale(18)} color={colors.horizontalLine} />
+                        }
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.botCardContainer}>

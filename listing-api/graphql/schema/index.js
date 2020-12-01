@@ -229,7 +229,7 @@ type Configuration {
     createItem(item: ItemInput!): Item!
     editItem(item: ItemInput!): Item!
     addToFavourites(item: String): User!
-    updateOrderStatus(id: String!, status: String!): Item!
+    updateItemStatus(id: String!, status: String!): Item!
     pushToken(token: String): User!
     changePassword(oldPassword: String!, newPassword: String!): Boolean!
     checkVerificationCode(email: String!, verificationCode: String!): AuthData!

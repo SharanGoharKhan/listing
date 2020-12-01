@@ -95,8 +95,14 @@ const styles = StyleSheet.create({
     activeStatus: {
         backgroundColor: colors.activeLine,
     },
+    deactivateStatus: {
+        backgroundColor: colors.google,
+    },
     pendingStatus: {
         backgroundColor: colors.horizontalLine,
+    },
+    soldStatus: {
+        backgroundColor: colors.selectedText,
     }
 })
 export default styles

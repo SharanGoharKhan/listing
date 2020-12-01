@@ -163,7 +163,7 @@ function ProductDescription(props) {
                                 if (isLoggedIn) {
                                     mutate({
                                         variables: {
-                                            item: props._id
+                                            item: product._id
                                         }
                                     })
                                     isLikeSetter(prev => !prev)

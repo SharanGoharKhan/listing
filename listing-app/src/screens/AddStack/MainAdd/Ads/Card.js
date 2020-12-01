@@ -49,7 +49,7 @@ function getDate(date) {
 
 return (
     <View
-        style={[styles.adContainer, { borderLeftColor: props.status === 'PENDING' ? colors.horizontalLine : colors.activeLine }]}>
+        style={[styles.adContainer, { borderLeftColor: props.status === 'DEACTIVATED'? colors.google: props.status === 'ACTIVE' ? colors.activeLine: props.status === 'SOLD'? colors.selectedText : colors.horizontalLine }]}>
         <BaseButton onPress={navigateScreen} activeOpacity={0.04} onActiveStateChange={activeState}
             style={{ opacity: Platform.OS === 'ios' ? opacity : 1 }}>
             <View style={[styles.dateRow, { flexDirection: "row", alignItems: "center", ...alignment.PTxSmall, ...alignment.PBxSmall }]}>
@@ -91,13 +91,13 @@ return (
                 </View>
             </View>
             <View style={styles.statusContainer}>
-                <View style={[styles.statusBox, props.status === 'PENDING' ? styles.pendingStatus : styles.activeStatus]}>
-                    <TextDefault textColor={props.status === 'PENDING' ? colors.white : colors.fontMainColor} uppercase small bolder>
+                <View style={[styles.statusBox, props.status === 'DEACTIVATED'? styles.deactivateStatus: props.status === 'ACTIVE' ? styles.activeStatus: props.status === 'SOLD'? styles.soldStatus : styles.pendingStatus]}>
+                    <TextDefault textColor={(props.status === 'PENDING' || props.status === 'SOLD') ? colors.white : colors.fontMainColor} uppercase small bolder>
                         {props.status}
                     </TextDefault>
                 </View>
                 <TextDefault style={alignment.MTxSmall}>
-                    {props.status === 'PENDING' ? 'This ad is being processed and it will be live soon' : 'This ad is currently live'}
+                    {props.status === 'DEACTIVATED'? 'This ad is currently deactivated': props.status === 'ACTIVE' ?'This ad is currently live' : 'This ad is being processed and it will be live soon' }
                 </TextDefault>
             </View>
             {deleteBox &&
@@ -129,7 +129,7 @@ return (
                     </RectButton>
                     <RectButton style={alignment.Psmall} onPress={adOptions}>
                         <TextDefault H5 bold uppercase>
-                            {'Deactivate'}
+                        {props.status ==='DEACTIVATED' ? 'Activate' : 'Deactivate'}
                         </TextDefault>
                     </RectButton>
                     <RectButton style={alignment.Psmall} onPress={adOptions}>
