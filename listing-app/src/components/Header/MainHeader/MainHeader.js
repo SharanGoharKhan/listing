@@ -32,9 +32,10 @@ function MainHeader(props) {
                     <TextDefault
                         textColor={colors.fontSecondColor}
                         style={styles.searchBar}
+                        value
                         light
                     >
-                        {'Find Cars, Mobile Phone and more...'}
+                        {props.search ? props.search : 'Find Cars, Mobile Phone and more...'}
                     </TextDefault>
                 </TouchableOpacity>
                 <BorderlessButton style={styles.bellBtn}

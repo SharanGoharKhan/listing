@@ -33,7 +33,13 @@ module.exports = {
             console.log("nearByItems", args)
             try {
                 let items = []
-                if (args.latitude && args.longitude) {
+                if (args.zone) {
+                    items = await Item.find({
+                        zone: args.zone,
+                        isActive: true
+                    })
+                }
+                else if (args.latitude && args.longitude) {
                     const location = new Point({
                         type: 'Point',
                         coordinates: [Number(args.longitude), Number(args.latitude)]
@@ -47,11 +53,6 @@ module.exports = {
                     if (!zones.length) return []
                     items = await Item.find({
                         zone: { $in: [zones.map(z => z.id)] },
-                        isActive: true
-                    })
-                } else if (args.zone) {
-                    items = await Item.find({
-                        zone: args.zone,
                         isActive: true
                     })
                 }

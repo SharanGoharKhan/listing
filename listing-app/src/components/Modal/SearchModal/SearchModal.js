@@ -1,20 +1,24 @@
 import { Ionicons, SimpleLineIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, scale } from '../../../utilities';
 import { TextDefault } from '../../Text';
 import styles from './styles';
 
-const CATEGORY = ['Mobile', 'Vehicle', 'Property For Sale']
 
 function SearchModal(props) {
     const inset = useSafeAreaInsets()
-    const navigation = useNavigation()
+    const [text, setText] = useState('')
 
     function navigate(item) {
-        navigation.navigate('ProductListing', { search: item ?? 'View All' })
+        if (!!item) {
+            props.setSearch(item)
+        } else {
+            console.log(text)
+            props.setSearch(text)
+        }
         props.onModalToggle()
     }
 
@@ -38,6 +42,12 @@ function SearchModal(props) {
                             style={styles.inputText}
                             placeholderTextColor={colors.fontSecondColor}
                             placeholder={'Find Cars, Mobile, Phone and more...'}
+                            value={text}
+                            onChange={
+                                (e) => {
+                                    setText(e.nativeEvent.text)
+                                }
+                            }
                         />
                         <TouchableOpacity
                             onPress={() => navigate()}
@@ -50,7 +60,7 @@ function SearchModal(props) {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={styles.headerContents}>
+                {/* <View style={styles.headerContents}>
                     <View style={styles.closeBtn}>
                         <TouchableOpacity
                             onPress={() => navigate()}
@@ -67,7 +77,7 @@ function SearchModal(props) {
                             placeholder={'Search city, area or neighbour'}
                         />
                     </View>
-                </View>
+                </View> */}
             </View >
         )
     }
@@ -80,17 +90,16 @@ function SearchModal(props) {
         >
             <View style={[
                 styles.safeAreaViewStyles,
-                styles.flex,
-                { paddingTop: inset.top, paddingBottom: inset.bottom }]}>
+                styles.flex]}>
                 <View style={[styles.flex, styles.mainContainer]}>
                     {header()}
                     <View style={styles.body}>
                         <TextDefault textColor={colors.fontSecondColor} light uppercase>
                             {'Popular categories'}
                         </TextDefault>
-                        {CATEGORY.map((item, index) => (
+                        {props.categories.map((item, index) => (
                             <TouchableOpacity
-                                onPress={() => navigate(item)}
+                                onPress={() => navigate(item.title)}
                                 style={styles.category}
                                 key={index}>
                                 <Ionicons
@@ -99,7 +108,7 @@ function SearchModal(props) {
                                     color={colors.buttonbackground}
                                 />
                                 <TextDefault textColor={colors.fontSecondColor} H5 style={styles.fontText}>
-                                    {item}
+                                    {item.title}
                                 </TextDefault>
                             </TouchableOpacity>
                         )

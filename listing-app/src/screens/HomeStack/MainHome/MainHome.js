@@ -21,6 +21,7 @@ function MainHome() {
   const inset = useSafeAreaInsets()
   const navigation = useNavigation()
   const [filters, setFilters] = useState({ title: 'Current' })
+  const [search, setSearch] = useState('')
   const [modalVisible, setModalVisible] = useState(false);
   const [searchVisible, setSerachVisible] = useState(false);
   const { loading: CategoryLoading, error: CategoryError, data: CategoryData } = useQuery(GET_CATEGORIES)
@@ -41,15 +42,18 @@ function MainHome() {
 
   }
 
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      header: () => <MainHeader onModalToggle={toggleModal} toggleSearch={toggleSearch} locationText={filters.title} />
+      header: () => <MainHeader search={search} onModalToggle={toggleModal} toggleSearch={toggleSearch} locationText={filters.title} />
     })
-  }, [navigation, filters])
+  }, [navigation, filters,search])
 
   useEffect(() => {
     storageLocation()
   }, [])
+
+
 
   async function storageLocation() {
     const locationStr = await AsyncStorage.getItem('location')
@@ -104,6 +108,31 @@ function MainHome() {
     )
   }
 
+  const items = data?.nearByItems ?? []
+
+  const searchRestaurants = searchText => {
+    const data = []
+    items.forEach(item => {
+      const regex = new RegExp(
+        searchText.replace(/[\\[\]()+?.*]/g, c => '\\' + c),
+        'i'
+      )
+      const result = item.title.search(regex)
+      if (result < 0) {
+        const result = item.subCategory.title.search(regex)
+        if(result < 0){
+          const result = item.subCategory.category.title.search(regex)
+          if(result >-1) data.push(item)
+          return 
+        }
+        data.push(item)
+          return 
+      }
+      data.push(item)
+    })
+    return data
+  }
+
   function renderHeader() {
     return (
       <>
@@ -152,7 +181,7 @@ function MainHome() {
       {/* Browswer Container */}
       {error ? <TextError text={error.message} textColor={colors.fontThirdColor} style={textStyles.Light} /> :
         <FlatList
-          data={data.nearByItems || []}
+          data={search ? searchRestaurants(search) : items}
           style={[styles.flex, styles.flatList]}
           contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.containerBox, ...alignment.PBlarge }}
           keyExtractor={item => item._id}
@@ -162,7 +191,7 @@ function MainHome() {
           numColumns={2}
           refreshControl={
             <RefreshControl
-              // colors={colors.spinnerColor1}
+              colors={colors.spinnerColor1}
               refreshing={networkStatus === 4}
               onRefresh={() => {
                 if (networkStatus === 7) {
@@ -180,7 +209,7 @@ function MainHome() {
       {/* Modal */}
       <LocationModal visible={modalVisible} onModalToggle={toggleModal}
         setFilters={setFilters} />
-      <SearchModal visible={searchVisible} onModalToggle={toggleSearch} />
+      <SearchModal categories={CategoryData.categories ?? []} setSearch={setSearch} visible={searchVisible} onModalToggle={toggleSearch} />
     </View>
   );
 }
