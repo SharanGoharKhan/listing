@@ -1,36 +1,22 @@
 import React, { useState } from 'react'
 import { Container, Row, Card, Modal } from 'reactstrap'
-import ImageComponent from '../components/Ad/Image'
+import AdDetails from '../components/Ad/AdDetails'
 import AdsData from '../components/Ad/AdsData'
 import Header from 'components/Headers/Header.jsx'
 import { allItems } from '../apollo/server'
 import { useQuery, gql } from '@apollo/client'
-import MapComponent from '../components/Ad/Map'
 
 const GET_ITEMS = gql`
   ${allItems}
 `
-function Ads(props) {
+function Ads() {
   const [detailsModal, setDetailModal] = useState(false)
-  const [mapModal, setMapModal] = useState(false)
-  const [order, setOrder] = useState(null)
-  const [search, setSearch] = useState('')
-  const [page, setPage] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const { data, loading, error, subscribeToMore } = useQuery(GET_ITEMS, {
-    variables: {
-      lat: 0,
-      long:0
-    }
-  })
+  const [ad, setAd] = useState(null)
+  const { data, loading, error, subscribeToMore } = useQuery(GET_ITEMS)
 
-  const toggleModal = order => {
-    setOrder(order)
-    setDetailModal(!detailsModal)
-  }
-  const mapToggle = (order) => {
-    setOrder(order)
-    setMapModal(prev => !prev)
+  const toggleModal = ad => {
+    setAd(ad)
+    setDetailModal(prev => !prev)
   }
   return (
     <>
@@ -49,18 +35,13 @@ function Ads(props) {
                 </tr>
               ) : (
                 <AdsData
-                  ads={data? data.allItems: []}
+                  ads={data ? data.allItems : []}
                   toggleModal={toggleModal}
-                  mapToggle={mapToggle}
                   subscribeToMore={subscribeToMore}
                   loading={loading}
-                  selected={order}
-                  updateSelected={setOrder}
-                  search={setSearch}
-                  page={setPage}
-                  rows={setRowsPerPage}
-                />
-               )}
+                  selected={ad}
+                  updateSelected={setAd}
+                />)}
             </Card>
           </div>
         </Row>
@@ -71,17 +52,7 @@ function Ads(props) {
           toggle={() => {
             toggleModal(null)
           }}>
-          <ImageComponent ads={order} />
-        </Modal>
-        {/* Map */}
-        <Modal
-          className="modal-dialog-centered"
-          size="lg"
-          isOpen={mapModal}
-          toggle={() => {
-            mapToggle(null)
-          }}>
-          <MapComponent location={order} />
+          <AdDetails ads={ad} />
         </Modal>
       </Container>
     </>

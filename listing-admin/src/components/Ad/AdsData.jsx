@@ -34,7 +34,6 @@ const AdsData = props => {
   const handleSort = (column, sortDirection) =>
     console.log(column.selector, sortDirection)
 
-
   const columns = [
     {
       name: 'Ad ID',
@@ -47,10 +46,9 @@ const AdsData = props => {
     {
       name: 'Image',
       center: true,
-      grow: -1,
-      cell: row => <>{<a href='#' onClick={() => props.toggleModal(row)} >
+      grow: 0,
+      cell: row => <>{
         <img src={row.images[0]} className='img-fluid img-thumbnail' />
-      </a>
       }</>
     },
     {
@@ -63,28 +61,19 @@ const AdsData = props => {
     },
     {
       name: 'Title',
-      cell: row => <>{row.title}</>,
-      grow: 2
+      cell: row => <>{row.title}</>
     },
     {
       name: 'Description',
       selector: 'description',
-      grow: -1,
       center: true
     },
     {
       name: 'Condition',
       selector: 'condition',
-      grow: -1,
+      grow: 0,
       center: true
     },
-    // {
-    //   name: 'Map',
-    //   center: true,
-    //   grow: -1,
-    //   cell: row => <>{<a href='#' onClick={() => props.mapToggle(row)}><i className="fas fa-map-marked-alt fa-2x p-3"></i></a>
-    //   }</>
-    // },
     {
       name: 'Address',
       cell: row => (
@@ -98,7 +87,7 @@ const AdsData = props => {
       document: SUBSCRICE_CREATE_ITEM,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev
-        console.log("data subscribe", JSON.stringify(subscriptionData))
+        // console.log("data subscribe", JSON.stringify(subscriptionData))
         if (subscriptionData.data.subscribeCreateAd.origin === 'new') {
           return {
             allItems: [
@@ -121,7 +110,6 @@ const AdsData = props => {
     })
   }, [])
 
-
   useEffect(() => {
     if (selected) {
       const item = props.ads.find(o => o._id === selected._id)
@@ -134,12 +122,13 @@ const AdsData = props => {
       title={'Ads'}
       columns={columns}
       data={props.ads}
-      // onRowClicked={props.mapToggle}
+      onRowClicked={props.toggleModal}
       progressPending={props.loading}
       progressComponent={<CustomLoader />}
       onSort={handleSort}
       sortFunction={customSort}
       pagination
+      pointerOnHover
     />
   )
 }
