@@ -18,20 +18,12 @@ import {
 
 import Header from 'components/Headers/Header.jsx'
 import {
-  getDashboardTotal,
   getDashboardUser,
-  getDashboardOrders
 } from '../apollo/server'
 import { gql, useQuery } from '@apollo/client'
 
-const GET_DASHBOARD_TOTAL = gql`
-  ${getDashboardTotal}
-`
 const GET_DASHBOARD_USERS = gql`
   ${getDashboardUser}
-`
-const GET_DASHBOARD_ORDERS = gql`
-  ${getDashboardOrders}
 `
 
 const dataLine = {
@@ -87,30 +79,13 @@ const Dashboard = props => {
   const dataToal = null
   const dataSales = null
   const dataOrder = null
-  // const { data: dataToal, loading: loadingTotal, error: errorTotal } = useQuery(
-  //   GET_DASHBOARD_TOTAL,
-  //   {
-  //     variables: {
-  //       startingDate: startingDate.toString(),
-  //       endingDate: endingDate.toString()
-  //     }
-  //   }
-  // )
+
   const {
     data: dataUser,
     loading: loadingUser,
     error: errorUser
   } = useQuery(GET_DASHBOARD_USERS)
-  // const {
-  //   data: dataOrder,
-  //   loading: loadingOrder,
-  //   error: errorOrder
-  // } = useQuery(GET_DASHBOARD_ORDERS, {
-  //   variables: {
-  //     startingDate: startingDate.toString(),
-  //     endingDate: endingDate.toString()
-  //   }
-  // })
+
 
   return (
     <>

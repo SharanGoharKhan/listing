@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import { alignment, colors, scale, textStyles } from '../../../utilities'
+const { height } = Dimensions.get('window')
+
 
 const styles = StyleSheet.create({
     flex: {
@@ -14,8 +16,17 @@ const styles = StyleSheet.create({
     mainContainer: {
         backgroundColor: colors.themeBackground
     },
+    headerContainer: {
+        width: '100%',
+        height: height * 0.07,
+        backgroundColor: 'transparent',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: 'transparent'
+    },
     headerContents: {
-        width: "95%",
+        width: "90%",
         alignItems: "center",
         justifyContent: 'center',
         alignSelf: "center",
@@ -61,10 +72,10 @@ const styles = StyleSheet.create({
     },
     trackStyle: {
         height: scale(3),
-        backgroundColor:colors.selected
+        backgroundColor: colors.selected
     },
-    trackLine:{
-        backgroundColor:colors.buttonbackground
+    trackLine: {
+        backgroundColor: colors.buttonbackground
     },
     markerStyle: {
         borderWidth: scale(8),
@@ -116,7 +127,7 @@ const styles = StyleSheet.create({
         height: scale(45),
         justifyContent: "center",
         alignItems: "center",
-        borderRadius:scale(5)
+        borderRadius: scale(5)
     }
 })
 

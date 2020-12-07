@@ -196,7 +196,7 @@ type Configuration {
     configuration: Configuration!
     nearByItems(latitude: Float,longitude: Float, zone: String): [Item!]
     allItems: [Item!]
-    itemsByCategory(subCategory: [String!]): [Item!]
+    itemsByCategory(subCategory: [String!],min: Float,max: Float,sort: String,condition: String): [Item!]
     itemsByUser: [Item!]
     zones: [Zone!]
     zone(id: String!): Zone!

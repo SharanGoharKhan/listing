@@ -28,6 +28,13 @@ const cache = new InMemoryCache({
            merge: false
         }
       }
+    },
+    Item: {
+      fields: {
+        status: {
+          merge: false
+        }
+      }
     }
   }
 })

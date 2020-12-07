@@ -271,3 +271,10 @@ export const deleteZone = `mutation DeleteZone($id:String!){
     isActive
   }
 }`
+
+export const updateItemStatus = `mutation UpdateItemStatus($id:String!,$status:String!){
+  updateItemStatus(id:$id,status:$status){
+    _id
+    status
+  }
+}`

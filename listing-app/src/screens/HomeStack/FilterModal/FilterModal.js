@@ -2,7 +2,7 @@ import { Entypo } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, Modal } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LeftButton, TextDefault } from '../../../components';
@@ -11,43 +11,35 @@ import styles from './styles';
 
 const CONDITIONS = [
     {
-        value: 0,
+        value: '',
         title: 'Any'
     },
     {
-        value: 1,
+        value: 'new',
         title: 'New'
     },
     {
-        value: 2,
+        value: 'used',
         title: 'Used'
     }
 ]
 
 const SORT = [
     {
-        value: 3,
+        value: 'latest',
         title: 'Newly Listed'
     },
     {
-        value: 4,
-        title: 'Most Relevant'
-    },
-    {
-        value: 5,
+        value: 'priceLow',
         title: 'Lowest Price'
     },
     {
-        value: 6,
+        value: 'priceHigh',
         title: 'Highest Price'
-    },
-    {
-        value: 7,
-        title: 'Nearest to me'
     }
 ]
 
-function FilterModal() {
+function FilterModal(props) {
     const inset = useSafeAreaInsets()
     const navigation = useNavigation()
     const route = useRoute()
@@ -60,119 +52,126 @@ function FilterModal() {
         setPriceSliderValue(values)
     }
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: 'Filter',
-            headerLeft: () => <LeftButton icon='close' iconColor={colors.headerText} />
-        })
-    }, [navigation])
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //         title: 'Filter',
+    //         headerLeft: () => <LeftButton icon='close' iconColor={colors.headerText} />
+    //     })
+    // }, [navigation])
 
 
     return (
-        <SafeAreaView edges={['bottom']} style={[
-            styles.safeAreaViewStyles,
-            styles.flex]}>
+        // <SafeAreaView edges={['bottom']} style={[
+        //     styles.safeAreaViewStyles,
+        //     styles.flex]}>
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={props.visible}
+        >
             <View style={[styles.flex, styles.mainContainer]}>
-                {/* <ModalHeader title={'Filter'} /> */}
+                <ModalHeader title={'Filter'} />
                 <View style={styles.headerContents}>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={styles.categoryBtn}
                         onPress={() => navigation.navigate('Categories', { screen: 'Filter' })} >
                         <View style={styles.flex}>
-                            <TextDefault bold H5>
+                            <TextDefault bold H5>\
                             {'Categories'}
-                        </TextDefault>
-                        <TextDefault style={alignment.MTxSmall} >
-                            {searchCategory}
-                        </TextDefault>
-                        </View>
-                    <Entypo name="chevron-small-right" size={scale(20)} color={colors.fontMainColor} />
-                    </TouchableOpacity>
-                <View style={styles.subContainer}>
-                    <TextDefault H5 bold style={styles.width100}>
-                        {'Price'}
-                    </TextDefault>
-                    <View style={styles.subContainerRow}>
-                        <View style={[styles.priceFrom, styles.boxContainer]}>
-                            <TextDefault numberOfLines={1} style={styles.limitPrice}>
-                                {'Rs: '}{priceSliderValue[0]}
+                            </TextDefault>
+                            <TextDefault style={alignment.MTxSmall} >
+                                {searchCategory}
                             </TextDefault>
                         </View>
-                        <TextDefault light>{'to'}</TextDefault>
-                        <View style={[styles.priceFrom, styles.boxContainer]}>
-                            <TextDefault style={styles.limitPrice}>
-                                {'Rs: '}{priceSliderValue[1]}
-                            </TextDefault>
-                        </View>
-                    </View>
-                    <MultiSlider
-                        sliderLength={scale(310)}
-                        trackStyle={styles.trackStyle}
-                        markerStyle={styles.markerStyle}
-                        selectedStyle={styles.trackLine}
-                        values={[priceSliderValue[0], priceSliderValue[1]]}
-                        onValuesChange={priceSliderChange}
-                        min={0}
-                        max={50000}
-                        step={100}
-                        allowOverlap
-                        snapped
-                    />
-                </View>
-                <View style={styles.subContainer}>
-                    <TextDefault H5 bold style={styles.width100}>
-                        {'Condition'}
-                    </TextDefault>
-                    <View style={styles.subContainerRow}>
-                        {CONDITIONS.map((item, index) => (
-                            <TouchableOpacity key={item.value}
-                                style={[styles.conditionBox, styles.boxContainer, item.value === condition ? styles.selected : styles.notSelected]}
-                                onPress={() => setCondition(item.value)}>
-                                <TextDefault style={item.value === condition ? styles.selectedText : styles.unSelectedText}>
-                                    {item.title}
+                        <Entypo name="chevron-small-right" size={scale(20)} color={colors.fontMainColor} />
+                    </TouchableOpacity> */}
+                    <View style={styles.subContainer}>
+                        <TextDefault H5 bold style={styles.width100}>
+                            {'Price'}
+                        </TextDefault>
+                        <View style={styles.subContainerRow}>
+                            <View style={[styles.priceFrom, styles.boxContainer]}>
+                                <TextDefault numberOfLines={1} style={styles.limitPrice}>
+                                    {'Rs: '}{priceSliderValue[0]}
                                 </TextDefault>
-                            </TouchableOpacity>
-                        ))
+                            </View>
+                            <TextDefault light>{'to'}</TextDefault>
+                            <View style={[styles.priceFrom, styles.boxContainer]}>
+                                <TextDefault style={styles.limitPrice}>
+                                    {'Rs: '}{priceSliderValue[1]}
+                                </TextDefault>
+                            </View>
+                        </View>
+                        <MultiSlider
+                            sliderLength={scale(310)}
+                            trackStyle={styles.trackStyle}
+                            markerStyle={styles.markerStyle}
+                            selectedStyle={styles.trackLine}
+                            values={[priceSliderValue[0], priceSliderValue[1]]}
+                            onValuesChange={priceSliderChange}
+                            min={0}
+                            max={50000}
+                            step={100}
+                            allowOverlap
+                            snapped
+                        />
+                    </View>
+                    <View style={styles.subContainer}>
+                        <TextDefault H5 bold style={styles.width100}>
+                            {'Condition'}
+                        </TextDefault>
+                        <View style={styles.subContainerRow}>
+                            {CONDITIONS.map((item, index) => (
+                                <TouchableOpacity key={item.value}
+                                    style={[styles.conditionBox, styles.boxContainer, item.value === condition ? styles.selected : styles.notSelected]}
+                                    onPress={() => setCondition(item.value)}>
+                                    <TextDefault style={item.value === condition ? styles.selectedText : styles.unSelectedText}>
+                                        {item.title}
+                                    </TextDefault>
+                                </TouchableOpacity>
+                            ))
 
-                        }
+                            }
+                        </View>
+                    </View>
+                    <View style={styles.subContainer}>
+                        <TextDefault H5 bold style={styles.width100}>
+                            {'Sort'}
+                        </TextDefault>
+                        <ScrollView
+                            contentContainerStyle={styles.scrollviewContent}
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            {SORT.map((item, index) => (
+                                <TouchableOpacity key={item.value}
+                                    style={[styles.sortBox, styles.boxContainer, item.value === sort ? styles.selected : styles.notSelected]}
+                                    onPress={() => setSort(item.value)}>
+                                    <TextDefault style={item.value === sort ? styles.selectedText : styles.unSelectedText}>
+                                        {item.title}
+                                    </TextDefault>
+                                </TouchableOpacity>
+                            ))
+                            }
+                        </ScrollView>
                     </View>
                 </View>
-                <View style={styles.subContainer}>
-                    <TextDefault H5 bold style={styles.width100}>
-                        {'Sort'}
+            
+            </View>
+            {/* Button */}
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={styles.button}
+                    onPress={props.toggleModal}
+                >
+                    <TextDefault textColor={colors.buttonText} uppercase bold>
+                        {'Apply'}
                     </TextDefault>
-                    <ScrollView
-                        contentContainerStyle={styles.scrollviewContent}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        {SORT.map((item, index) => (
-                            <TouchableOpacity key={item.value}
-                                style={[styles.sortBox, styles.boxContainer, item.value === sort ? styles.selected : styles.notSelected]}
-                                onPress={() => setSort(item.value)}>
-                                <TextDefault style={item.value === sort ? styles.selectedText : styles.unSelectedText}>
-                                    {item.title}
-                                </TextDefault>
-                            </TouchableOpacity>
-                        ))
-                        }
-                    </ScrollView>
-                </View>
+                </TouchableOpacity>
             </View>
-            </View>
-            {/* Button */ }
-    <View style={styles.buttonContainer}>
-        <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.button}
-            onPress={() => navigation.goBack()}
-        >
-            <TextDefault textColor={colors.buttonText} uppercase bold>
-                {'Apply'}
-            </TextDefault>
-        </TouchableOpacity>
-    </View>
-        </SafeAreaView >
+        </Modal >
+        // {/* </SafeAreaView > */ }
     )
 }
 export default React.memo(FilterModal)

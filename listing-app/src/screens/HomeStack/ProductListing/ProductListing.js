@@ -2,7 +2,8 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useLayoutEffect, useState, useEffect } from 'react'
 import { FlatList, TouchableOpacity, View } from 'react-native'
-import { FilterModal, TextDefault, Spinner } from '../../../components'
+import { TextDefault, Spinner } from '../../../components'
+import FilterModal from '../FilterModal/FilterModal'
 import SearchHeader from '../../../components/Header/SearchHeader/SearchHeader'
 import { alignment, colors, scale } from '../../../utilities'
 import ProductCard from './ProductCard/ProductCard'
@@ -19,20 +20,20 @@ function ProductListing() {
     const searchCategory = route.params?.search ?? null
     const subCategory = route.params?.subCategory ?? null
     const [modalVisible, setModalVisible] = useState(false);
-    const [ fetchProducts, {called,data,loading, error}] = useLazyQuery(PRODUCTS, { variables: { subCategory: subCategory } })
-    useLayoutEffect(() => {
-        navigation.setOptions(
-            navigationOption({ searchCategory: searchCategory })
-        )
-    }, [navigation])
+    const [fetchProducts, { called, data, loading, error }] = useLazyQuery(PRODUCTS, { variables: { subCategory: subCategory } })
+    // useLayoutEffect(() => {
+    //     navigation.setOptions(
+    //         navigationOption({ searchCategory: searchCategory })
+    //     )
+    // }, [navigation])
 
-    useEffect(()=>{
+    useEffect(() => {
         let isProduct = true
-        if(!subCategory) return
-        ;(async ()=>{
-            isProduct && (await fetchProducts())
-        })()
-    },[subCategory])
+        if (!subCategory) return
+            ; (async () => {
+                isProduct && (await fetchProducts())
+            })()
+    }, [subCategory])
 
     function toggleModal() {
         setModalVisible(prev => !prev)
@@ -41,11 +42,11 @@ function ProductListing() {
     function headerView() {
         return (
             <View style={styles.headingRow}>
-                {!loading && called &&<TextDefault >
-                    { `${data.itemsByCategory.length} ads` }
+                {!loading && called && <TextDefault >
+                    {`${data.itemsByCategory.length} ads`}
                 </TextDefault>}
                 <TouchableOpacity style={styles.filterBtn}
-                    onPress={() => navigation.navigate('FilterModal', { visible: modalVisible, searchCategory: searchCategory })}>
+                    onPress={toggleModal}>
                     <MaterialIcons name='tune' size={scale(20)} color={colors.buttonbackground} />
                     <TextDefault style={styles.fontText} right>
                         {'Filter'}
@@ -54,13 +55,13 @@ function ProductListing() {
             </View>
         )
     }
-    if(error){
-    return <TextDefault>{JSON.stringify(error)}</TextDefault>
+    if (error) {
+        return <TextDefault>{JSON.stringify(error)}</TextDefault>
     }
-    if(loading){
+    if (loading) {
         return <Spinner spinnerColor={colors.spinnerColor1} backColor={'transparent'} />
     }
-    function emptyView(){
+    function emptyView() {
         return (
             <View style={{ alignContent: "center", alignItems: "center" }}>
                 <TextDefault>
@@ -70,22 +71,24 @@ function ProductListing() {
         )
     }
     return (
-        <View style={[styles.flex, styles.mainContainer]}>
-            <FlatList
-                data={ data?.itemsByCategory || []}
-                style={styles.flex}
-                contentContainerStyle={{ flexGrow: 1, ...alignment.PBlarge }}
-                ListEmptyComponent={!loading && called  && emptyView}
-                ListHeaderComponent={headerView}
-                ItemSeparatorComponent={() => <View style={styles.spacer} />}
-                showsVerticalScrollIndicator={false}
-                keyExtractor={item => item._id}
-                renderItem={({ item }) => (
-                    <ProductCard  {...item} />
-                )}
-            />
-            {/* <FilterModal visible={modalVisible} onModalToggle={toggleModal} searchCategory={searchCategory} /> */}
-        </View>
+        <>
+            <View style={[styles.flex, styles.mainContainer]}>
+                <FlatList
+                    data={data?.itemsByCategory || []}
+                    style={styles.flex}
+                    contentContainerStyle={{ flexGrow: 1, ...alignment.PBlarge }}
+                    ListEmptyComponent={!loading && called && emptyView}
+                    ListHeaderComponent={headerView}
+                    ItemSeparatorComponent={() => <View style={styles.spacer} />}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={item => item._id}
+                    renderItem={({ item }) => (
+                        <ProductCard  {...item} />
+                    )}
+                />
+            </View>
+            <FilterModal visible={modalVisible} onModalToggle={toggleModal} searchCategory={searchCategory} />
+        </>
     )
 }
 export default React.memo(ProductListing)

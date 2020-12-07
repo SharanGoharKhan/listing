@@ -574,7 +574,7 @@ export const profile = `
   }`
 
 
-  const updateItemStatus = `mutation UpdateItemStatus($id: String!, $status: String!){
+ export const updateItemStatus = `mutation UpdateItemStatus($id: String!, $status: String!){
     updateItemStatus(id:$id,status:$status){
       _id
     itemId

@@ -55,7 +55,6 @@ function SellingForm() {
     }, [])
 
     async function didFocus() {
-        console.log('edit', editProduct.zone)
         setTitle(editProduct.title)
         setDescription(editProduct.description)
         setLocation({value:editProduct.zone._id, label: editProduct.zone.title})

@@ -19,7 +19,7 @@ module.exports = {
         },
     },
     Query: {
-        allItems: async (_, args, {req,res}) => {
+        allItems: async (_, args, { req, res }) => {
             console.log("allItems")
             try {
 
@@ -36,6 +36,7 @@ module.exports = {
                 if (args.zone) {
                     items = await Item.find({
                         zone: args.zone,
+                        status: { $eq: 'ACTIVE' },
                         isActive: true
                     })
                 }
@@ -53,6 +54,7 @@ module.exports = {
                     if (!zones.length) return []
                     items = await Item.find({
                         zone: { $in: [zones.map(z => z.id)] },
+                        status: { $eq: 'ACTIVE' },
                         isActive: true
                     })
                 }
@@ -69,25 +71,34 @@ module.exports = {
             console.log("itemsByCategory")
             try {
                 let items = []
-                if (args.lat && args.long) {
-                    items = await Item.find({
-                        "address.location": {
-                            $near: {
-                                $maxDistance: 5000,
-                                $geometry: {
-                                    type: "Point",
-                                    coordinates: [args.long, args.lat]
-                                }
-                            }
-                        },
-                        subCategory: args.subCategory,
-                        isActive: true
-
-                    })
-                } else if (args.subCategory) {
-                    items = await Item.find({ isActive: true, subCategory: { $in: args.subCategory } })
+                let filters = {}
+                let sort = {}
+                if (args.subCategory) {
+                    filters.status = { $eq: 'ACTIVE' }
+                    filters.isActive = true
+                    if (args.min || args.max) {
+                        filters.price = { $gte: args.min, $lte: args.max }
+                    }
+                    if (args.condition) {
+                        filters.condition = { $eq: args.condition }
+                    }
+                    switch (args.sort) {
+                        case 'latest':
+                            sort.createdAt = -1 
+                            break;
+                        case 'priceLow':
+                            sort.price = 1
+                            break;
+                        case 'priceHigh':
+                            sort.price = -1 
+                            break;
+                        default:
+                            sort.createdAt = -1 
+                            break
+                    }
+                    items = await Item.find({ subCategory: { $in: args.subCategory }, ...filters }).sort({ ...sort })
                 } else {
-                    items = await Item.find({ isActive: true })
+                    items = await Item.find({ isActive: true, status: { $eq: 'ACTIVE' } })
                 }
 
                 return items.map(transformItem)
@@ -99,7 +110,8 @@ module.exports = {
             console.log("itemsByUser")
             try {
                 let filters = {
-                    user: context.req.userId
+                    user: context.req.userId,
+                    status: { $ne: 'DELETE' }
                 }
 
                 const items = await Item.find({
@@ -225,7 +237,7 @@ module.exports = {
                                         channelId: 'default',
                                         data: {
                                             _id: result._id,
-                                            order: result.itemId,
+                                            item: result.itemId,
                                             status: result.status
                                         }
                                     })
