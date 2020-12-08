@@ -26,8 +26,8 @@ export const subCategories = `query SubCategoriesById($id: String!){
   }
 }`
 
-export const itemsBySubCategory = `query ItemsByCategory($subCategory: [String!]){
-  itemsByCategory(subCategory:$subCategory){
+export const itemsBySubCategory = `query ItemsByCategory($subCategory: [String!], $min: Float, $max: Float, $condition: String, $sort: String){
+  itemsByCategory(subCategory:$subCategory,min:$min, max:$max, condition:$condition, sort: $sort){
     _id
     itemId
     title

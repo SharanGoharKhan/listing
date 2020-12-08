@@ -76,7 +76,7 @@ function tabIcon(route) {
             } else if (route.name === 'Sell') {
                 focused ? icon = <AntDesign name='pluscircle' size={scale(22)} color={color} /> :
                     icon = <SimpleLineIcons name='plus' size={scale(22)} color={color} />
-            } else if (route.name === 'Add') {
+            } else if (route.name === 'Ads') {
                 focused ? icon = <AntDesign name='heart' size={scale(21)} color={color} /> :
                     icon = <SimpleLineIcons name='heart' size={scale(21)} color={color} />
             } else if (route.name === 'Account') {

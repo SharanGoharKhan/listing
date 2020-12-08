@@ -80,6 +80,15 @@ const styles = StyleSheet.create({
         flex: 1,
         ...alignment.PLxSmall,
         ...alignment.PRxSmall
-    }
+    },
+    emptyContainer: {
+        backgroundColor: colors.containerBox,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    emptyImage: {
+        width: scale(150),
+        height: scale(150)
+    },
 })
 export default styles

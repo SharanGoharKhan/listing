@@ -128,7 +128,19 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: scale(5)
-    }
+    },
+    closeBtn: {
+        flex: 1,
+        flexDirection: "row",
+    },
+    title:{
+        flex:3,
+        height:50
+    },
+    backBtn: {
+        flex:2,
+        height:50,
+    },
 })
 
 export default styles

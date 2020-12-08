@@ -1,9 +1,11 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
+import { Entypo } from '@expo/vector-icons';
 import { View, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Keyboard, Platform, AsyncStorage } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { EmptyButton, TextDefault, Spinner, TextError } from '../../../components'
+import ZoneModal from '../../../components/Modal/ZoneModal/ZoneModal'
 import { alignment, colors, scale } from '../../../utilities'
 import { zones, editAd } from '../../../apollo/server'
 import { gql, useQuery } from '@apollo/client'
@@ -45,6 +47,7 @@ function SellingForm() {
     const [id, setId] = useState('')
     const [price, setPrice] = useState('')
     const [image, setImage] = useState('')
+    const [modalVisible, setModalVisible] = useState(false);
     const [subCategory, setSubCategory] = useState(route?.params?.subCategory ?? null)
     const { error, loading, data } = useQuery(GET_ZONES)
 
@@ -57,7 +60,7 @@ function SellingForm() {
     async function didFocus() {
         setTitle(editProduct.title)
         setDescription(editProduct.description)
-        setLocation({value:editProduct.zone._id, label: editProduct.zone.title})
+        setLocation({ value: editProduct.zone._id, label: editProduct.zone.title })
         setCondition(editProduct.condition)
         setSubCategory(editProduct.subCategory._id)
         setId(editProduct._id)
@@ -88,6 +91,10 @@ function SellingForm() {
     }
     function _keyboardDidHide() {
         marginSetter(false)
+    }
+
+    function toggleModal() {
+        setModalVisible(prev => !prev)
     }
 
 
@@ -228,24 +235,13 @@ function SellingForm() {
                                 <TextDefault textColor={locationError ? colors.google : locationColor} H5 bold style={styles.width100}>
                                     {'Location *'}
                                 </TextDefault>
-                                <DropDownPicker
-                                    style={[styles.textContainer, { borderColor: locationColor }]}
-                                    items={data?.zones.map(z => {
-                                        return { value: z._id, label: z.title }
-                                    })}
-                                    // selectedValue={location}
-                                    onChangeItem={(itemValue, itemIndex) => {
-                                        setLocation(itemValue)
-                                        setLocationError(null)
-                                        setLocationColor(colors.selectedText)
-                                    }}
-                                    defaultValue={location.value}
-                                    defaultIndex={0}
-                                    dropDownStyle={styles.locationOptionContainer}
-                                    onBlur={() => setLocationColor(colors.fontMainColor)}
-                                    itemStyle={styles.locationItemStyle}
-                                    containerStyle={{ marginBottom: 50 * data?.zones.length }}
-                                />
+                                <TouchableOpacity style={styles.inputConainer} onPress={toggleModal}>
+                                    <TextDefault
+                                        style={styles.flex}
+                                    >
+                                        {!!location ? location.label : 'Select Location'}</TextDefault>
+                                    <Entypo name="chevron-down" size={scale(15)} color={colors.fontMainColor} />
+                                </TouchableOpacity>
                                 {locationError &&
                                     <TextDefault textColor={colors.google} style={styles.width100}>
                                         {locationError}
@@ -265,6 +261,7 @@ function SellingForm() {
                         </View>
                     </View>
                 </ScrollView>
+                <ZoneModal visible={modalVisible} setZone={setLocation} location={location} onModalToggle={toggleModal} />
             </KeyboardAvoidingView >
         </SafeAreaView >
     )

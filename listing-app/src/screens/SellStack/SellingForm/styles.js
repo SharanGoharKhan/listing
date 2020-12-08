@@ -105,6 +105,15 @@ const styles = StyleSheet.create({
         ...alignment.PLsmall,
         ...alignment.PRsmall
     },
+    inputConainer: {
+        flexDirection: "row",
+        alignItems:'center',
+        backgroundColor: colors.themeBackground,
+        borderWidth: StyleSheet.hairlineWidth * 2,
+        borderRadius: scale(5),
+        ...alignment.Psmall,
+        ...alignment.MTsmall
+    },
     buttonView: {
         width: "90%",
         alignSelf: "center",

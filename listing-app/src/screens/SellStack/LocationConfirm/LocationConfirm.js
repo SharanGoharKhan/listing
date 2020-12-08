@@ -48,6 +48,7 @@ function LocationConfirm() {
     const { profile } = useContext(UserContext)
     const [formData, setFormData] = useState(null)
     const [mutation, setMutation] = useState(CREATE_AD)
+    const [locLoading, setLocLoading] = useState(true)
     const [region, setRegion] = useState({
         latitude: LATITUDE,
         latitudeDelta: LATITUDE_DELTA,
@@ -61,9 +62,10 @@ function LocationConfirm() {
     })
 
     function onCompleted(data) {
+        console.log(onCompleted)
         setLoader(false)
         const item = data.createItem?? data.editItem
-        AsyncStorage.setItem('formData', null)
+        AsyncStorage.removeItem('formData')
         navigation.navigate('AdPosting', { item: item })
     }
 
@@ -114,7 +116,7 @@ function LocationConfirm() {
                 method: 'POST'
             })
             const imageData = await result.json()
-            console.log('imageData', imageData)
+            // console.log('imageData', imageData)
             return imageData.secure_url
         } catch (e) {
             console.log(e)
@@ -137,6 +139,7 @@ function LocationConfirm() {
                 longitudeDelta: LONGITUDE_DELTA
             }
             setRegion(loc)
+            setLocLoading(false)
             regionChange(loc)
         }
         else {
@@ -230,6 +233,7 @@ function LocationConfirm() {
                             <View style={styles.upperContainer}>
                                 <View style={styles.addressContainer}>
                                     <OutlinedTextField
+                                        clearButtonMode="always"
                                         error={delivery_address_error}
                                         ref={addressRef}
                                         value={delivery_address}
@@ -259,6 +263,7 @@ function LocationConfirm() {
             {/* </View> */}
 
             <View style={styles.buttonView}>
+                {!delivery_address?<EmptyButton loading={locLoading} disabled={!locLoading} title={formData?.editStatus? 'Update Ad' : 'Save Ad'} />:
                 <EmptyButton
                     loading={loader}
                     title={formData?.editStatus? 'Update Ad' : 'Save Ad'}
@@ -291,7 +296,7 @@ function LocationConfirm() {
                                 }
                             })
                         }
-                    }} />
+                    }} />}
             </View>
 
             {/* </View> */}

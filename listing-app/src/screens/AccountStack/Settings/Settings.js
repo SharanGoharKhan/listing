@@ -30,7 +30,7 @@ function Settings() {
                 </View>
                 <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer}
+            {/* <TouchableOpacity style={styles.smallContainer}
                 onPress={() => navigation.navigate('Privacy')}>
                 <View style={[styles.flex]}>
                     <TextDefault bold H5 style={alignment.PLlarge}>
@@ -42,6 +42,7 @@ function Settings() {
                 </View>
                 <Entypo name="chevron-small-right" size={scale(30)} color={colors.buttonbackground} />
             </TouchableOpacity>
+            */}
             <TouchableOpacity style={styles.smallContainer}
                 onPress={() => {
                     logout()
@@ -51,7 +52,7 @@ function Settings() {
                     {'Logout'}
                 </TextDefault>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer}
+            {/* <TouchableOpacity style={styles.smallContainer}
                 onPress={() => {
                     logout()
                     navigation.dispatch(StackActions.popToTop())
@@ -60,13 +61,13 @@ function Settings() {
                 <TextDefault bold H5 style={[alignment.PLlarge, styles.flex]}>
                     {'Logout from all devices'}
                 </TextDefault>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.smallContainer}
+            </TouchableOpacity> */}
+            {/* <TouchableOpacity style={styles.smallContainer}
                 onPress={onModalToggle}>
                 <TextDefault bold H5 style={[alignment.PLlarge, styles.flex]}>
                     {'Deactivate account and delete my data'}
                 </TextDefault>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <DeactivateModal
                 modalVisible={modalVisible}

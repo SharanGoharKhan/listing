@@ -178,7 +178,7 @@ function BottomTabs() {
             <Tabs.Screen name='Sell' component={isLoggedIn ? SellTabs : AccountScreens.Registration} options={{
                 tabBarVisible: false
             }} />
-            <Tabs.Screen name='Add' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
+            <Tabs.Screen name='Ads' component={isLoggedIn ? AddTabs : AccountScreens.Registration} options={{ tabBarVisible: isLoggedIn ? true : false }} />
             <Tabs.Screen name='Account' component={AccountTabs} />
             {/* <Tabs.Screen name='ProductDescription' component={ProdcutMap} options={{ tabBarButton: () => null, tabBarVisible: false }} /> */}
         </Tabs.Navigator >

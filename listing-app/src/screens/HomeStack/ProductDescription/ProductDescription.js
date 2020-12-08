@@ -46,9 +46,9 @@ function ProductDescription(props) {
     const configuration = useContext(ConfigurationContext)
     const [mutate, { loading: loadingMutation }] = useMutation(ADD_TO_FAVOURITES)
     const region = {
-        latitude: location ? Number(location[0]) : 0,
+        latitude: location ? Number(location[1]) : 0,
         latitudeDelta: LATITUDE_DELTA,
-        longitude: location ? Number(location[1]) : 0,
+        longitude: location ? Number(location[0]) : 0,
         longitudeDelta: LONGITUDE_DELTA
     }
     console.log('product')

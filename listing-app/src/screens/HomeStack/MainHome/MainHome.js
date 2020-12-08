@@ -191,7 +191,7 @@ function MainHome() {
           numColumns={2}
           refreshControl={
             <RefreshControl
-              colors={colors.spinnerColor1}
+              colors={[colors.spinnerColor1]}
               refreshing={networkStatus === 4}
               onRefresh={() => {
                 if (networkStatus === 7) {

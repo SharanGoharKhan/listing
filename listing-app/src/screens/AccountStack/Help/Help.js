@@ -112,7 +112,7 @@ function Help() {
                         {'Version'}
                     </TextDefault>
                     <TextDefault light style={[alignment.PLlarge, alignment.MTxSmall]}>
-                        {'11.46.0 (435)'}
+                        {'1.0.0'}
                     </TextDefault>
                 </View>
             </View>
