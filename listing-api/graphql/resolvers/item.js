@@ -171,15 +171,16 @@ module.exports = {
                     subCategory: args.item.subCategory,
                     zone: args.item.zone,
                     images: args.item.images,
-                    user: "5f9043a329ff207f691504c7",
+                    user: req.userId,
                     price: args.item.price,
                     address: address
                 })
                 const result = await item.save()
-                const transformItems = transformItem(result)
+                const transformItems = await transformItem(result)
                 publishToDashboard(transformItems, 'new')
                 return transformItems
             } catch (error) {
+                console.log('error',error)
                 throw error
             }
         },
