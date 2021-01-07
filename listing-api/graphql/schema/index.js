@@ -105,6 +105,29 @@ type Configuration {
     coordinates: [[[Float!]]]
   }
 
+  type DashboardData {
+    total_orders: Int!
+    total_users: Int!
+    total_sales: Float!
+  }
+
+  type Sales_Values {
+    day: String!
+    amount: Float!
+  }
+
+  type DashboardSales {
+    orders: [Sales_Values!]
+  }
+  type DashboardOrders {
+    orders: [Orders_Values!]
+  }
+
+  type Orders_Values {
+    day: String!
+    count: Int!
+  }
+
   type Zone {
     _id: String!
     title: String!
@@ -190,6 +213,18 @@ type Configuration {
     users(page: Int): [User!]
     user(id: String!): User!
     userCount: Int!
+    getDashboardTotal(
+      starting_date: String
+      ending_date: String
+    ): DashboardData!
+    getDashboardSales(
+      starting_date: String
+      ending_date: String
+    ): DashboardSales!
+    getDashboardOrders(
+      starting_date: String
+      ending_date: String
+    ): DashboardOrders!
     categories: [Category!]!
     subCategories: [SubCategory!]!
     subCategoriesById(id: String!): [SubCategory!]!
@@ -233,6 +268,10 @@ type Configuration {
     pushToken(token: String): User!
     changePassword(oldPassword: String!, newPassword: String!): Boolean!
     checkVerificationCode(email: String!, verificationCode: String!): AuthData!
+    sendNotificationUser(
+      notificationTitle: String
+      notificationBody: String!
+    ): String!
     saveOrderConfiguration(
       configurationInput: OrderConfigurationInput!
     ): Configuration!

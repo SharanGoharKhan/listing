@@ -30,7 +30,7 @@ function EditProfile() {
     const [mutate, { loading }] = useMutation(UPDATE_USER, { onError, onCompleted })
 
     function onCompleted(data) {
-        FlashMessage({message:'Profile Updated!'})
+        FlashMessage({ message: 'Profile Updated!' })
     }
 
     function onError(error) {
@@ -53,7 +53,10 @@ function EditProfile() {
         navigation.setOptions({
             title: null,
             headerLeft: () => <LeftButton icon='close' iconColor={colors.headerText} />,
-            headerRight: () => <RightButton iconColor={colors.headerText} icon='text' title={loading ? <Spinner spinnerColor={colors.spinnerColor1} backColor={'transparent'} /> : 'Save'} onPress={() => {
+            headerRight: () => (loading ? <View {...alignment.PRlarge}>
+                <Spinner  size="small" spinnerColor={colors.spinnerColor1} backColor={'transparent'} />
+                </View> : 
+            <RightButton iconColor={colors.headerText} icon='text' title={'Save'} onPress={() => {
                 if (validation) {
                     mutate({
                         variables: {
@@ -69,9 +72,9 @@ function EditProfile() {
                     })
                 }
             }}
-            />
+            />)
         })
-    }, [navigation, phoneData,loading])
+    }, [navigation, phoneData, loading])
 
     useEffect(() => {
         if (!(phoneData.number.length <= 13 && phoneData.number.length >= 9))

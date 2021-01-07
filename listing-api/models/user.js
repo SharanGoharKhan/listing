@@ -68,6 +68,10 @@ const userSchema = new Schema(
       type: [],
       default: []
     },
+    isOfferNotification:{
+      type: Boolean,
+      default: false
+    },
     followers: [
       {
         type: Schema.Types.ObjectId,

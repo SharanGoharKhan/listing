@@ -135,9 +135,10 @@ function RightButton(props) {
   if (props.icon === 'share') {
     return (
       <HeaderBackButton
+        onPress={props.onPress}
         labelVisible={false}
         backImage={() =>
-          BackButton({ iconColor: props.iconColor, icon: 'share' })
+          BackButton({ iconColor: props.iconColor, icon: 'share'})
         }
       />
     )
@@ -151,9 +152,12 @@ function RightButton(props) {
             visible={password}
             onRequestClose={() => setPassword(false)}
           >
-            <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => setPassword(false)} >
+            <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => {
+              props.share()
+              setPassword(false)
+            }} >
               <BorderlessButton
-                onPress={props.onPress}
+                onPress={props.share}
                 borderless={false}
                 style={[styles.shareBtn, { top: inset.top }]}
               >

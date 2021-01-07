@@ -49,15 +49,23 @@ export const deleteSubCategory = `
               }
             }`
 
-export const getDashboardTotal = `query GetDashboardTotal($startingDate: String, $endingDate: String){
-  getDashboardTotal(starting_date: $startingDate, ending_date: $endingDate){
+export const getDashboardTotal = `query GetDashboardTotal($starting_date: String, $ending_date: String){
+  getDashboardTotal(starting_date: $starting_date, ending_date: $ending_date){
     total_orders
     total_users
     total_sales
-    total_ratings
-    avg_ratings
+  } 
+}`
+
+export const getDashboardSales = `query GetDashboardSales($startingDate: String, $endingDate: String){
+  getDashboardSales(starting_date: $startingDate, ending_date: $endingDate){
+    orders{
+      day
+      amount
+    }
   }
 }`
+
 export const getDashboardUser = `query UserCount{
   userCount
 }`

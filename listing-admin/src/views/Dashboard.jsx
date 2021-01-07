@@ -18,12 +18,20 @@ import {
 
 import Header from 'components/Headers/Header.jsx'
 import {
-  getDashboardUser,
+  getDashboardTotal,
+  getDashboardSales,
+  getDashboardOrders
 } from '../apollo/server'
 import { gql, useQuery } from '@apollo/client'
 
-const GET_DASHBOARD_USERS = gql`
-  ${getDashboardUser}
+const GET_DASHBOARD_TOTAL = gql`
+  ${getDashboardTotal}
+`
+const GET_DASHBOARD_SALES = gql`
+  ${getDashboardSales}
+`
+const GET_DASHBOARD_ORDERS = gql`
+  ${getDashboardOrders}
 `
 
 const dataLine = {
@@ -71,28 +79,39 @@ const Dashboard = props => {
   )
 
   const errorTotal = null
-  const errorOrder = null 
+  const errorOrder = null
   const errorSales = null
   const loadingTotal = true
   const loadingSales = true
   const loadingOrder = true
-  const dataToal = null
   const dataSales = null
   const dataOrder = null
 
   const {
-    data: dataUser,
-    loading: loadingUser,
-    error: errorUser
-  } = useQuery(GET_DASHBOARD_USERS)
+    data,
+    loading,
+    error
+  } = useQuery(GET_DASHBOARD_TOTAL, {
+    variables: {
+      starting_date: startingDate.toString(),
+      ending_date: endingDate.toString()
+    }
+  })
 
+  if (data) {
+    console.log('data:', data)
+  }
 
+  if (error) {
+    console.log('errror dashboard: ', error)
+  }
+  // return <></>
   return (
     <>
       <Header />
       {/* Page content */}
       <Container className="mt--7" fluid>
-        {errorTotal ? null : (
+        {error ? null : (
           <Row>
             <Col className="mb-lg-5 mb-sm-3" xl="6">
               <Card className="card-stats mb-4 mb-lg-0">
@@ -103,9 +122,9 @@ const Dashboard = props => {
                         {'Active Items'}
                       </CardTitle>
                       <span className="h2 font-weight-bold mb-0">
-                        {loadingTotal
+                        {loading
                           ? '...'
-                          : dataToal.getDashboardTotal.total_orders}
+                          : data.getDashboardTotal.total_orders}
                       </span>
                     </div>
                     <Col className="col-auto">
@@ -126,9 +145,9 @@ const Dashboard = props => {
                         {'Total Users'}
                       </CardTitle>
                       <span className="h2 font-weight-bold mb-0">
-                        {loadingUser
+                        {loading
                           ? '...'
-                          : dataUser.userCount}
+                          : data.getDashboardTotal.total_users}
                       </span>
                     </div>
                     <Col className="col-auto">
@@ -149,9 +168,9 @@ const Dashboard = props => {
                         {'Sold Items'}
                       </CardTitle>
                       <span className="h2 font-weight-bold mb-0">
-                        {loadingTotal
+                        {loading
                           ? '...'
-                          : dataToal.getDashboardTotal.total_sales}
+                          : data.getDashboardTotal.total_sales}
                       </span>
                     </div>
                     <Col className="col-auto">
@@ -163,7 +182,7 @@ const Dashboard = props => {
                 </CardBody>
               </Card>
             </Col>
-            <Col className="mb-lg-5 mb-sm-3" xl="6">
+            {/* <Col className="mb-lg-5 mb-sm-3" xl="6">
               <Card className="card-stats mb-4 mb-lg-0">
                 <CardBody>
                   <Row>
@@ -189,7 +208,7 @@ const Dashboard = props => {
                   </Row>
                 </CardBody>
               </Card>
-            </Col>
+            </Col> */}
           </Row>
         )}
 
@@ -254,86 +273,89 @@ const Dashboard = props => {
           </Col>
         </Row>
         <Row>
-          {errorSales ? null : (
-            <Col className="mb-5 mb-xl-0" xl="8">
-              <Card className="bg-gradient-default shadow">
-                <CardHeader className="bg-transparent">
-                  <Row className="align-items-center">
-                    <div className="col">
-                      <h6 className="text-uppercase text-light ls-1 mb-1">
-                        {'Overview'}
-                      </h6>
-                      <h2 className="text-white mb-0">Sales value</h2>
-                    </div>
-                  </Row>
-                </CardHeader>
-                <CardBody>
-                  {/* Chart */}
-                  <div className="chart">
-                    <Line
-                      data={{
-                        labels: loadingSales
-                          ? []
-                          : dataSales.getDashboardSales.orders.map(d => d.day),
-                        datasets: [
-                          {
-                            ...dataLine.datasets,
-                            data: loadingSales
-                              ? []
-                              : dataSales.getDashboardSales.orders.map(
-                                d => d.amount
-                              )
-                          }
-                        ]
-                      }}
-                    />
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
+          {error ? null : (
+            // <Col className="mb-5 mb-xl-0" xl="8">
+            //   <Card className="bg-gradient-default shadow">
+            //     <CardHeader className="bg-transparent">
+            //       <Row className="align-items-center">
+            //         <div className="col">
+            //           <h6 className="text-uppercase text-light ls-1 mb-1">
+            //             {'Overview'}
+            //           </h6>
+            //           <h2 className="text-white mb-0">Sales value</h2>
+            //         </div>
+            //       </Row>
+            //     </CardHeader>
+            //     <CardBody>
+            //       {/* Chart */}
+            //       <div className="chart">
+            //         <Line
+            //           data={{
+            //             labels: loadingSales
+            //               ? []
+            //               : dataSales.getDashboardSales.orders.map(d => d.day),
+            //             datasets: [
+            //               {
+            //                 ...dataLine.datasets,
+            //                 data: loadingSales
+            //                   ? []
+            //                   : dataSales.getDashboardSales.orders.map(
+            //                     d => d.amount
+            //                   )
+            //               }
+            //             ]
+            //           }}
+            //         />
+            //       </div>
+            //     </CardBody>
+            //   </Card>
+            // </Col>
+            <></>
           )}
-          {errorOrder ? null : (
-            <Col xl="4">
-              <Card className="shadow">
-                <CardHeader className="bg-transparent">
-                  <Row className="align-items-center">
-                    <div className="col">
-                      <h6 className="text-uppercase text-muted ls-1 mb-1">
-                        {'Performance'}
-                      </h6>
-                      <h2 className="mb-0">Total orders</h2>
-                    </div>
-                  </Row>
-                </CardHeader>
-                <CardBody>
-                  {/* Chart */}
-                  <div className="chart">
-                    <Bar
-                      data={{
-                        labels: loadingOrder
-                          ? []
-                          : dataOrder.getDashboardOrders.orders.map(d => d.day),
-                        datasets: [
-                          {
-                            ...dataBar.datasets,
-                            data: loadingOrder
-                              ? []
-                              : dataOrder.getDashboardOrders.orders.map(
-                                d => d.count
-                              )
-                          }
-                        ]
-                      }}
-                      width={100}
-                      height={50}
-                      options={{
-                        maintainAspectRatio: false
-                      }}
-                    />
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
+          {error ? null : (
+
+            // <Col xl="4">
+            //   <Card className="shadow">
+            //     <CardHeader className="bg-transparent">
+            //       <Row className="align-items-center">
+            //         <div className="col">
+            //           <h6 className="text-uppercase text-muted ls-1 mb-1">
+            //             {'Performance'}
+            //           </h6>
+            //           <h2 className="mb-0">Total orders</h2>
+            //         </div>
+            //       </Row>
+            //     </CardHeader>
+            //     <CardBody>
+            //       {/* Chart */}
+            //       <div className="chart">
+            //         <Bar
+            //           data={{
+            //             labels: loadingOrder
+            //               ? []
+            //               : dataOrder.getDashboardOrders.orders.map(d => d.day),
+            //             datasets: [
+            //               {
+            //                 ...dataBar.datasets,
+            //                 data: loadingOrder
+            //                   ? []
+            //                   : dataOrder.getDashboardOrders.orders.map(
+            //                     d => d.count
+            //                   )
+            //               }
+            //             ]
+            //           }}
+            //           width={100}
+            //           height={50}
+            //           options={{
+            //             maintainAspectRatio: false
+            //           }}
+            //         />
+            //       </div>
+            //     </CardBody>
+            //   </Card>
+            // </Col>
+            <></>
           )}
         </Row>
       </Container>

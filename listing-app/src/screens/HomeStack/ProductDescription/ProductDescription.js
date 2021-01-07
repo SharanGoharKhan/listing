@@ -78,10 +78,10 @@ function ProductDescription(props) {
     function toggleModal() {
         setReportModal(prev => !prev)
     }
+    
     async function share() {
         console.log('share')
         try {
-            alert("share")
             const result = await Share.share({
                 title: 'App link',
                 message:
@@ -306,12 +306,8 @@ function ProductDescription(props) {
 
                 {/* Header */}
                 <View style={styles.headerView}>
-                    <TouchableOpacity activeOpacity={0.7}>
                         {LeftButton({ iconColor: colors.white, icon: 'back' })}
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.7} onPress={share} >
-                        {RightButton({ iconColor: colors.white, icon: 'share' })}
-                    </TouchableOpacity>
+                        {RightButton({ iconColor: colors.white, icon: 'share',onPress:()=>{share()} })}
                 </View>
             </ScrollView>
             {/* Footer */}
