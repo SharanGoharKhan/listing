@@ -227,6 +227,27 @@ module.exports = {
                 if (!req.userId || (req.userId != result.user)) {
                     User.findById(result.user)
                         .then(user => {
+                            if (!user.notifications) user.notifications = []
+                            user.notifications.unshift({
+                                _id: result.id,
+                                order: result.itemId,
+                                status: result.status,
+                                message: `Your item#${result.itemId} status has been changed to ${result.status}`
+                              })
+                              if (user.notifications.length > 10) {
+                                user.notifications = user.notifications.slice(0, 10)
+                              }
+                              user.markModified('notifications')
+                              user
+                                .save()
+                                .then(updatedUser => {
+                                  console.log('user updated with notifications')
+                                })
+                                .catch(() => {
+                                  console.log(
+                                    'An error occured while updating user notifications'
+                                  )
+                                })
                             if (user.notificationToken) {
                                 const messages = []
                                 if (Expo.isExpoPushToken(user.notificationToken)) {
