@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useContext, useState } from 'react'
 import { View, Image, Platform } from 'react-native'
 import * as Permissions from 'expo-permissions'
-import { Notifications } from 'expo'
+import * as Notifications from 'expo-notifications';
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useMutation, gql } from '@apollo/client'
 import * as AppAuth from 'expo-app-auth'
@@ -109,7 +109,7 @@ function Registration() {
                 Permissions.NOTIFICATIONS
             )
             if (existingStatus === 'granted') {
-                notificationToken = await Notifications.getExpoPushTokenAsync()
+                notificationToken = (await Notifications.getExpoPushTokenAsync()).data
             }
             mutate({ variables: { ...user, notificationToken } })
         } catch (e) {

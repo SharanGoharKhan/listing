@@ -13,13 +13,15 @@ const UserContext = React.createContext({})
 export const UserProvider = props => {
   const client = useApolloClient()
   const [token, setToken] = useState('')
+  const [refetchNeeded, setRefetchNeeded] = useState(false)
   const [
     fetchProfile,
     {
       called: calledProfile,
       loading: loadingProfile,
       error: errorProfile,
-      data: dataProfile
+      data: dataProfile,
+      refetch
     }
   ] = useLazyQuery(PROFILE, {
     fetchPolicy: 'network-only',
@@ -50,6 +52,13 @@ export const UserProvider = props => {
       isSubscribed = false
     }
   }, [token])
+
+  useEffect(() => {
+    if (refetchNeeded) {
+        setRefetchNeeded(false);
+        refetch();
+    }
+}, [refetchNeeded]);
 
 
   function onCompleted({ profile }) {
@@ -85,7 +94,8 @@ export const UserProvider = props => {
         profile:
           dataProfile && dataProfile.profile ? dataProfile.profile : null,
         setTokenAsync,
-        logout
+        logout,
+        setRefetchNeeded
       }}>
       {props.children}
     </UserContext.Provider>

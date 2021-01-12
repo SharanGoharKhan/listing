@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
+import { FontAwesome } from '@expo/vector-icons'
 import { View, FlatList, Image } from 'react-native'
-import { TextDefault } from '../../../components'
-import { alignment, colors } from '../../../utilities'
+import { TextDefault, Spinner } from '../../../components'
+import { alignment, colors, scale } from '../../../utilities'
 import styles from './styles'
+import UserContext from '../../../context/user'
+import moment from 'moment'
 
 function Notifications() {
-
+    const { isLoggedIn, profile, setRefetchNeeded, loadingProfile  } = useContext(UserContext)
+    useEffect(()=>{
+        setRefetchNeeded(true)
+    },[])
     function emptyView() {
         return (
             <View style={[styles.flex, styles.emptyContainer]}>
@@ -23,15 +29,31 @@ function Notifications() {
         )
     }
 
+    function getDate(date) {
+        const formatDate = moment(+date).format('DD/MM/YY hh:mm:ss')
+        return formatDate
+    }
+
     return (
         <View style={[styles.flex, styles.mainContainer]}>
+            {loadingProfile? <Spinner />:
             <FlatList
+                data={isLoggedIn ? profile?.notifications : []}
                 style={[styles.flex, styles.flatList]}
                 contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.containerBox }}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item._id}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={emptyView}
-            />
+                renderItem={({ item, index }) => (
+                    <View key={item._id} style={styles.notificationRow}>
+                        <TextDefault light H5 style={styles.fontText}>
+                            <FontAwesome name="bell" size={scale(18)} color={colors.black} />
+                            {'  '}{item.message}
+                        </TextDefault>
+                        <TextDefault style={{paddingRight:10}} thin right>{getDate(item.date)}</TextDefault>
+                    </View>
+                )}
+            />}
         </View>
     )
 }

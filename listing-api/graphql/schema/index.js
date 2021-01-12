@@ -35,7 +35,18 @@ type User {
     countryCode: String
     callingCode: String
     description: String
+    notifications: [UserNotifications]
+    isOfferNotification: Boolean
 }
+
+type UserNotifications {
+  _id: String
+  order: String
+  status: String
+  message: String
+  date: String
+}
+
 type Configuration {
   _id: String!
   itemPrefix: String
@@ -288,6 +299,9 @@ type Configuration {
     createZone(zone: ZoneInput!): Zone!
     editZone(zone: ZoneInput!): Zone!
     deleteZone(id: String!): Zone!
+    updateNotificationStatus(
+      offerNotification: Boolean!
+    ): User!
   }
   type Subscription {
     subscribeCreateAd: SubscriptionCreateAd!

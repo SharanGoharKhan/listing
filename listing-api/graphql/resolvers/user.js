@@ -198,6 +198,20 @@ module.exports = {
       } catch (error) {
         throw error
       }
-    }
+    },
+    updateNotificationStatus: async(_, args, { req, res }) => {
+      console.log('updateNotificationStatus')
+      try {
+        const user = await User.findById(req.userId)
+        if (!user) {
+          throw new Error('User not found')
+        }
+        user.isOfferNotification = args.offerNotification
+        user.save()
+        return transformUser(user)
+      } catch (e) {
+        return false
+      }
+    },
   }
 }

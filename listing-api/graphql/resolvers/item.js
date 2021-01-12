@@ -5,6 +5,8 @@ const Address = require('../../models/address')
 const User = require('../../models/user')
 const Configuration = require('../../models/configuration')
 const Zone = require('../../models/zone')
+const uuid = require('uuid')
+
 const { transformItem, populateItems, transformUser } = require('./merge')
 const { sendNotificationMobile } = require('../../helpers/utilities')
 const { pubsub,
@@ -229,10 +231,11 @@ module.exports = {
                         .then(user => {
                             if (!user.notifications) user.notifications = []
                             user.notifications.unshift({
-                                _id: result.id,
+                                _id: uuid.v4(),
                                 order: result.itemId,
                                 status: result.status,
-                                message: `Your item#${result.itemId} status has been changed to ${result.status}`
+                                message: `Your item#${result.itemId} status has been changed to ${result.status}`,
+                                date: result.updatedAt
                               })
                               if (user.notifications.length > 10) {
                                 user.notifications = user.notifications.slice(0, 10)

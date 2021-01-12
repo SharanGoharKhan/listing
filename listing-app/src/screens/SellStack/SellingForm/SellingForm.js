@@ -118,7 +118,6 @@ function SellingForm() {
             result = false
         }
         if (location === '') {
-            console.log('test location', location)
             setLocationError('This is mandatory. Please complete the required field.')
             result = false
         }

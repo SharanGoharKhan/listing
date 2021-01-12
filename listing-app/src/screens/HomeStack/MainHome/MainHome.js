@@ -61,7 +61,6 @@ function MainHome() {
     if (locationObj) {
       const location = { title: locationObj.label, ...locationObj, zone: null }
       setFilters(location)
-      console.log("location:", location)
     }
   }
 

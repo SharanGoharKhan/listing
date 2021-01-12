@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { BackHandler, AsyncStorage } from 'react-native'
 import FlashMessage from 'react-native-flash-message';
 import * as Permissions from 'expo-permissions'
-import { Notifications } from 'expo'
+import * as Notifications from 'expo-notifications';
 import { ApolloProvider } from '@apollo/client'
 import { UserProvider } from './src/context/user';
 import { ConfigurationProvider } from './src/context/configuration'
@@ -23,6 +23,15 @@ export default function App() {
   const [client, setupClient] = useState(null)
   const [fontLoaded, setFontLoaded] = useState(false)
 
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false
+    })
+  })
+  
   useEffect(() => {
     ; (async () => {
       try {
@@ -102,11 +111,11 @@ export default function App() {
     }
 
     if (Platform.OS === 'android') {
-      Notifications.createChannelAndroidAsync('default', {
+      Notifications.setNotificationChannelAsync('default', {
         name: 'default',
-        sound: true,
-        priority: 'max',
-        vibrate: [0, 250, 250, 250]
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C'
       })
     }
   }

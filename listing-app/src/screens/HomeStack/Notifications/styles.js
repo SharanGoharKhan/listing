@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { colors, scale } from '../../../utilities'
+import { colors, scale, alignment } from '../../../utilities'
 
 const styles = StyleSheet.create({
     flex: {
@@ -22,6 +22,17 @@ const styles = StyleSheet.create({
     emptyImage: {
         width: scale(150),
         height: scale(150)
+    },
+    notificationRow: {
+        height: scale(45),
+        justifyContent: "center",
+        borderBottomColor: colors.fontThirdColor,
+        borderBottomWidth: 1 
+    },
+    fontText: {
+        width: "100%",
+        ...alignment.PLmedium,
+        ...alignment.PRmedium
     },
 })
 

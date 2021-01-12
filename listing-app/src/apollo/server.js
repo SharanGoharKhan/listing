@@ -280,6 +280,14 @@ export const profile = `
         callingCode
         googleEmail
         createdAt
+        isOfferNotification
+        notifications{
+          _id
+          order
+          message
+          status
+          date
+        }
         followers{
           _id
           name
@@ -628,3 +636,19 @@ export const profile = `
     createdAt
     }
   }`
+
+  export const updateNotificationStatus = `
+    mutation UpdateNotificationStatus($offerNotification:Boolean!){
+      updateNotificationStatus(offerNotification:$offerNotification){
+        _id
+        notificationToken
+        isOfferNotification
+      }
+    }`
+
+    export const pushToken = `mutation PushToken($token:String!){
+      pushToken(token:$token){
+        _id
+        notificationToken
+      }
+    }`

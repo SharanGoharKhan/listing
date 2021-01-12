@@ -31,7 +31,6 @@ function LocationModal(props) {
         const locationObj = JSON.parse(locationStr)
         if (locationObj) {
             const location = { title: locationObj.label, ...locationObj, zone: null }
-            console.log(location)
             props.setFilters(location)
             props.onModalToggle()
 

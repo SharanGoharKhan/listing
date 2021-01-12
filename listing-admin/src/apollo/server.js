@@ -286,3 +286,8 @@ export const updateItemStatus = `mutation UpdateItemStatus($id:String!,$status:S
     status
   }
 }`
+
+export const sendNotificationUser = `mutation SendNotificationUser($notificationTitle:String, $notificationBody: String!){
+  sendNotificationUser(notificationTitle:$notificationTitle,notificationBody:$notificationBody)
+}
+`

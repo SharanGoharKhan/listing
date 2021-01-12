@@ -29,7 +29,7 @@
     },
     "notification": {
       "iosDisplayInForeground": true,
-      "color":"#002f34",
+      "color":"#a89732",
       "icon": "./assets/icon.png",
       "androidMode": "default",
        "androidCollapsedTitle": "Listing"
@@ -38,6 +38,7 @@
       "versionCode": 1,
       "package": "com.enatega.vendor",
       "googleServicesFile": "./google-services.json",
+      "useNextNotificationsApi": true,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBt9S6e7ig5EkNiSXw3sCyX7kgo1gzPxl4"

@@ -7,6 +7,7 @@ import ResetPassword from './views/ForgotPassword'
 import Dashboard from './views/Dashboard'
 import SubCategory from './views/SubCategory'
 import Zones from './views/Zone'
+import Notification from './views/Notification'
 
 var routes = [
   {
@@ -62,6 +63,14 @@ var routes = [
     name: 'Zone',
     icon: 'ni ni-square-pin',
     component: Zones,
+    layout: '/admin',
+    appearInSidebar: true
+  },
+  {
+    path: '/notifications',
+    name: 'Notifications',
+    icon: 'ni ni-bell-55',
+    component: Notification,
     layout: '/admin',
     appearInSidebar: true
   },
