@@ -46,11 +46,11 @@ function Notifications() {
                 ListEmptyComponent={emptyView}
                 renderItem={({ item, index }) => (
                     <View key={item._id} style={styles.notificationRow}>
-                        <TextDefault light H5 style={styles.fontText}>
-                            <FontAwesome name="bell" size={scale(18)} color={colors.black} />
+                        <TextDefault light style={styles.fontText}>
+                            <FontAwesome name="bell" size={scale(12)} color={colors.black} />
                             {'  '}{item.message}
                         </TextDefault>
-                        <TextDefault style={{paddingRight:10}} thin right>{getDate(item.date)}</TextDefault>
+                        <TextDefault style={{paddingRight:10,fontSize:12}} thin right>{getDate(item.date)}</TextDefault>
                     </View>
                 )}
             />}

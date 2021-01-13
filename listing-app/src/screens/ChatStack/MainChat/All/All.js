@@ -41,7 +41,7 @@ function ALL() {
     function emptyView() {
         return (
             <View style={[styles.flex, styles.emptyContainer]}>
-                <Image
+                {/* <Image
                     style={styles.emptyImage}
                     source={require('../../../../assets/images/emptyView/email.png')}
                 />
@@ -54,7 +54,10 @@ function ALL() {
                 <EmptyButton
                     title='Explore the latest ads'
                     onPress={() => navigation.navigate('Main')}
-                />
+                /> */}
+                <TextDefault H2 center bold style={alignment.MTlarge}>
+                    {"Chat feature will be available upon request! "}
+                </TextDefault>
             </View>
         )
     }
@@ -84,7 +87,7 @@ function ALL() {
         <View style={[styles.flex, styles.mainContainer]}>
             {/* {emptyView()} */}
             <FlatList
-                data={MESSAGES}
+                data={[]}
                 style={styles.flex}
                 contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.themeBackground }}
                 ListHeaderComponent={MESSAGES.length > 0 && header}

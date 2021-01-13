@@ -8,7 +8,7 @@ function Selling() {
     function emptyView() {
         return (
             <View style={[styles.flex, styles.emptyContainer]}>
-                <Image
+                {/* <Image
                     style={styles.emptyImage}
                     source={require('../../../../assets/images/emptyView/email.png')}
                 />
@@ -21,7 +21,10 @@ function Selling() {
 
                 <EmptyButton
                     title='Start selling'
-                />
+                /> */}
+                <TextDefault H2 center bold style={alignment.MTlarge}>
+                    {"Chat feature will be available upon request!"}
+                </TextDefault>
             </View>
         )
     }

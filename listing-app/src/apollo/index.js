@@ -35,6 +35,13 @@ const cache = new InMemoryCache({
           merge: false
         }
       }
+    },
+    nearByItems:{
+      fields: {
+        status: {
+          merge: false
+        }
+      }
     }
   }
 })

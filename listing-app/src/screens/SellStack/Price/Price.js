@@ -30,8 +30,8 @@ function Price() {
     async function didFocus() {
         const formStr = await AsyncStorage.getItem('formData')
         const formObj = JSON.parse(formStr)
-        setPrice(formObj.price)
         setFormData(formObj)
+        setPrice(formObj.price)
     }
 
     useEffect(() => {

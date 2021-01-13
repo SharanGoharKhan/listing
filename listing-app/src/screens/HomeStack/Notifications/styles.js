@@ -24,15 +24,16 @@ const styles = StyleSheet.create({
         height: scale(150)
     },
     notificationRow: {
-        height: scale(45),
+        height: scale(50),
         justifyContent: "center",
         borderBottomColor: colors.fontThirdColor,
         borderBottomWidth: 1 
     },
     fontText: {
         width: "100%",
-        ...alignment.PLmedium,
-        ...alignment.PRmedium
+        ...alignment.PLsmall,
+        ...alignment.PRsmall,
+        ...alignment.PTsmall
     },
 })
 

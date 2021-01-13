@@ -119,7 +119,7 @@ module.exports = {
                 const items = await Item.find({
                     ...filters,
                     isActive: true
-                })
+                }).sort([['createdAt', -1]])
                 return items.map(transformItem)
             } catch (error) {
                 throw error

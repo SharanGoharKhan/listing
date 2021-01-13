@@ -12,7 +12,6 @@ import { UserProvider } from './src/context/user';
 import { ConfigurationProvider } from './src/context/configuration'
 import AppContainer from './src/routes';
 import { colors } from './src/utilities';
-import { AppLoading } from 'expo';
 import setupApolloClient from './src/apollo/index'
 import { LocationContext } from './src/context/Location'
 import { exitAlert } from './src/utilities/androidBackButton'
@@ -23,6 +22,7 @@ export default function App() {
   const [client, setupClient] = useState(null)
   const [fontLoaded, setFontLoaded] = useState(false)
 
+  
 
   Notifications.setNotificationHandler({
     handleNotification: async () => ({

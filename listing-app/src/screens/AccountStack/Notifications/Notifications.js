@@ -1,14 +1,15 @@
-import { useNavigation } from '@react-navigation/native'
 import React, { useState, useContext, useEffect } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { Switch, View, Linking, AppState } from 'react-native'
+import * as Permissions from 'expo-permissions'
+import * as Notifications from 'expo-notifications'
+import { useMutation, gql } from '@apollo/client'
+import * as Device from 'expo-device'
+
 import { TextDefault, FlashMessage, Spinner } from '../../../components'
 import { alignment, colors } from '../../../utilities'
 import styles from './styles'
 import UserContext from '../../../context/user'
-import * as Permissions from 'expo-permissions'
-import * as Notifications from 'expo-notifications';
-import { useMutation, gql } from '@apollo/client'
-import * as Device from 'expo-device'
 
 import {
     pushToken,
@@ -27,10 +28,9 @@ const PROFILE = gql`
   ${profile}
 `
 
-function NotificationScreen() {
+function Notification() {
     const navigation = useNavigation()
     const { profile } = useContext(UserContext)
-    const [isEnabled, setIsEnabled] = useState(true);
     const [offerNotification, offerNotificationSetter] = useState(profile.isOfferNotification)
     const [appState, setAppState] = useState(AppState.currentState)
     const toggleSwitch = () => offerNotificationSetter(prev => !prev);
@@ -53,7 +53,6 @@ function NotificationScreen() {
     useEffect(() => {
         checkPermission()
     }, [navigation])
-
     const _handleAppStateChange = async nextAppState => {
         if (nextAppState === 'active') {
             let token = null
@@ -128,7 +127,8 @@ function NotificationScreen() {
                 <TextDefault bold H5 style={[alignment.PLlarge, styles.flex]}>
                     {'Special communications & offers'}
                 </TextDefault>
-                {loading? <View style={{alignSelf:'flex-end'}}><Spinner backColor={'transparent'} spinnerColor={colors.buttonbackground}  size={'small'}/></View>:<Switch
+                {loading? <View style={{alignSelf:'flex-end'}}><Spinner backColor={'transparent'} spinnerColor={colors.buttonbackground}  size={'small'}/></View>:
+                <Switch
                     trackColor={{ false: colors.headerbackground, true: colors.buttonbackground }}
                     thumbColor={colors.containerBox}
                     ios_backgroundColor={colors.headerbackground}
@@ -154,4 +154,4 @@ function NotificationScreen() {
         </View>
     )
 }
-export default React.memo(NotificationScreen)
+export default React.memo(Notification)

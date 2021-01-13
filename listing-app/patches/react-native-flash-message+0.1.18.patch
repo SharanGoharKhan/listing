@@ -1,0 +1,26 @@
+diff --git a/node_modules/react-native-flash-message/src/FlashMessageWrapper.js b/node_modules/react-native-flash-message/src/FlashMessageWrapper.js
+index b492067..9436f8a 100644
+--- a/node_modules/react-native-flash-message/src/FlashMessageWrapper.js
++++ b/node_modules/react-native-flash-message/src/FlashMessageWrapper.js
+@@ -2,7 +2,7 @@ import React, { Component } from "react";
+ import { Dimensions, Platform, StyleSheet } from "react-native";
+ import { isIphoneX, getStatusBarHeight } from "react-native-iphone-x-helper";
+ import PropTypes from "prop-types";
+-
++import Constants from 'expo-constants'
+ /**
+  * DETECTION AND DIMENSIONS CODE FROM:
+  * https://github.com/react-community/react-native-safe-area-view
+@@ -48,11 +48,7 @@ const statusBarHeight = (isLandscape = false) => {
+    * we do.
+    */
+   if (isAndroid) {
+-    if (global.Expo) {
+-      return global.Expo.Constants.statusBarHeight + 6;
+-    } else {
+-      return 6;
+-    }
++      return Constants.statusBarHeight + 6;
+   }
+ 
+   if (isIPhoneX) {

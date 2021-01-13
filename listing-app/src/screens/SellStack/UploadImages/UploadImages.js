@@ -28,8 +28,8 @@ function UploadImages() {
     async function didFocus() {
         const formStr = await AsyncStorage.getItem('formData')
         const formObj = JSON.parse(formStr)
-        setImage(formObj.image??nul)
         setFormData(formObj)
+        setImage(formObj.image??nul)
     }
 
     async function PickImage() {

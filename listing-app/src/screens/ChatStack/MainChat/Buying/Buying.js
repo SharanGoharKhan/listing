@@ -10,7 +10,7 @@ function Buying() {
     function emptyView() {
         return (
             <View style={[styles.flex, styles.emptyContainer]}>
-                <Image
+                {/* <Image
                     style={styles.emptyImage}
                     source={require('../../../../assets/images/emptyView/email.png')}
                 />
@@ -23,7 +23,11 @@ function Buying() {
                 <EmptyButton
                     title='Explore'
                     onPress={() => navigation.navigate('Main')}
-                />
+                /> */}
+                <TextDefault H2 center bold style={alignment.MTlarge}>
+                    {"Chat feature will be available upon request!"}
+                </TextDefault>
+                 
             </View>
         )
     }
