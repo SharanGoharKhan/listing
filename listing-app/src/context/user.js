@@ -62,10 +62,10 @@ export const UserProvider = props => {
 
 
   function onCompleted({ profile }) {
-    console.log('onCompleted')
+    //console.log('onCompleted')
   }
   function onError(error) {
-    console.log('error context', JSON.stringify(error))
+    //console.log('error context', JSON.stringify(error))
   }
 
   const setTokenAsync = async token => {
@@ -79,7 +79,7 @@ export const UserProvider = props => {
       setToken(null)
       await client.resetStore()
     } catch (error) {
-      console.log('error on logout', error)
+      //console.log('error on logout', error)
     }
   }
 

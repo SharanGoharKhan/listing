@@ -19,7 +19,7 @@ export const ConfigurationProvider = props => {
       : data.configuration
 
   if (error) {
-    console.log('configuration error: ', error)
+    //console.log('configuration error: ', error)
   }
   return (
     <ConfigurationContext.Provider value={configuration}>

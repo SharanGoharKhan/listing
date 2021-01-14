@@ -1,5 +1,6 @@
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
+import Image from 'react-native-image-progress';
 import Swiper from 'react-native-swiper'
 import styles from './style'
 

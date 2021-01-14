@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
 import { useQuery, gql } from '@apollo/client'
-import { Image, View, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import { View, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import Image from 'react-native-image-progress';
 import { AddFilter, EmptyButton, TextDefault, Spinner } from '../../../../components';
 import { alignment, colors, scale } from '../../../../utilities';
 import styles from './styles';

@@ -1,7 +1,8 @@
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState, useContext } from 'react'
-import { Image, Platform, View } from 'react-native'
+import { Platform, View } from 'react-native'
+import Image from 'react-native-image-progress';
 import { useMutation, gql } from '@apollo/client'
 import { BaseButton, BorderlessButton, RectButton } from 'react-native-gesture-handler'
 import { FlashMessage, TextDefault, Spinner } from '../../../../components'
@@ -17,6 +18,7 @@ function Card(props) {
     const navigation = useNavigation()
     const [deleteBox, setDeletebox] = useState(false)
     const [opacity, setopacity] = useState(1)
+    const [imageLoading, setImageLoading] = useState(false)
     const configuration = useContext(ConfigurationContext)
     const [
         mutate,

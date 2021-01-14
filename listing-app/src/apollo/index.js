@@ -72,7 +72,7 @@ const request = async operation => {
 const requestLink = new ApolloLink(
   (operation, forward) =>
     new Observable(observer => {
-      // console.log(observer)
+      // //console.log(observer)
       let handle
       Promise.resolve(operation)
         .then(oper => request(oper))

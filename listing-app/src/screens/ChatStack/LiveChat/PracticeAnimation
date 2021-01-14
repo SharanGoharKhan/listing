@@ -26,7 +26,7 @@ const {
 } = Animated;
 
 function runTiming(clock, value, dest) {
-    // console.log('v: ', value)
+    // //console.log('v: ', value)
     const state = {
         finished: new Value(0),
         position: value,
@@ -78,7 +78,7 @@ function LiveChat() {
     // useEffect(() => {
     //     setInterval(() => {
     //         for (let index = 0; index < 5000; index++) {
-    //             console.log(index)
+    //             //console.log(index)
     //         }
     //     }, 1000);
 

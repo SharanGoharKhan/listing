@@ -1,7 +1,8 @@
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState, useContext } from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
+import Image from 'react-native-image-progress';
 import { TextDefault } from '../../../../components'
 import { colors, scale } from '../../../../utilities'
 import ConfigurationContext from '../../../../context/configuration'

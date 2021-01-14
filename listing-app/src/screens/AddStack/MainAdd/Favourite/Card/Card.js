@@ -2,7 +2,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useState, useEffect } from 'react';
 import { useMutation, gql } from '@apollo/client'
-import { Image, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
+import Image from 'react-native-image-progress';
 import { TextDefault, Spinner } from '../../../../../components';
 import { colors, scale } from '../../../../../utilities';
 import ConfigurationContext from '../../../../../context/configuration'

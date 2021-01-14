@@ -3,6 +3,7 @@ import { Image, TouchableOpacity, View, AsyncStorage } from 'react-native'
 import styles from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import * as Permissions from 'expo-permissions'
 import { EmptyButton, FlashMessage, TextDefault } from '../../../components'
 import { colors, scale } from '../../../utilities'
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -54,17 +55,17 @@ function UploadImages() {
             return
         }
 
-        const { status: checkStatus } = await ImagePicker.getCameraPermissionsAsync()
+        const { status: checkStatus } = await Permissions.getAsync(Permissions.CAMERA)
         if (checkStatus !== 'granted') {
-            const { status: CameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+            const { status: CameraStatus } = await Permissions.askAsync(Permissions.CAMERA);
             if (CameraStatus !== 'granted') {
                 alert('Sorry, we need camera permission to make this work!')
                 return
             }
         }
-        const { status: checkStatusRoll } = await ImagePicker.getCameraRollPermissionsAsync()
+        const { status: checkStatusRoll } = await Permissions.getAsync(Permissions.MEDIA_LIBRARY)
         if (checkStatusRoll !== 'granted') {
-            const { status: CameraRollStatus } = await ImagePicker.requestCameraRollPermissionsAsync()
+            const { status: CameraRollStatus } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY)
             if (CameraRollStatus !== 'granted') {
                 alert('Sorry, we need camera roll permission to make this work!')
                 return

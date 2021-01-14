@@ -13,7 +13,7 @@ function Following() {
     
     const navigation = useNavigation()
     const { profile } = useContext(UserContext)
-    console.log('following',profile.following)
+    //console.log('following',profile.following)
 
     async function share() {
         try {

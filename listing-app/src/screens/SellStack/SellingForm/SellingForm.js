@@ -253,7 +253,7 @@ function SellingForm() {
                                 title='Next'
                                 onPress={async () => {
                                     if (validate() && subCategory) {
-                                        console.log('selling form', {id, location, description, title, condition, subCategory, editStatus, price})
+                                        //console.log('selling form', {id, location, description, title, condition, subCategory, editStatus, price})
                                         await AsyncStorage.setItem('formData', JSON.stringify({ id, location, description, title, condition, subCategory, editStatus, price, image }))
                                         navigation.navigate('UploadImage')
                                     }

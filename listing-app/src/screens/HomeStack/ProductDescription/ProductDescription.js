@@ -3,7 +3,8 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import * as Device from 'expo-device'
 import { useMutation, gql } from '@apollo/client'
 import React, { useContext, useLayoutEffect, useState, useEffect } from 'react'
-import { Image, Linking, Platform, ScrollView, Share, TouchableOpacity, View } from 'react-native'
+import { Linking, Platform, ScrollView, Share, TouchableOpacity, View } from 'react-native'
+import Image from 'react-native-image-progress';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler'
 import MapView, { Circle, PROVIDER_DEFAULT, PROVIDER_GOOGLE, } from 'react-native-maps'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -51,7 +52,7 @@ function ProductDescription(props) {
         longitude: location ? Number(location[0]) : 0,
         longitudeDelta: LONGITUDE_DELTA
     }
-    console.log('product')
+    //console.log('product')
     if (product === null) {
         navigation.goBack()
         return null
@@ -80,14 +81,14 @@ function ProductDescription(props) {
     }
     
     async function share() {
-        console.log('share')
+        //console.log('share')
         try {
             const result = await Share.share({
                 title: 'App link',
                 message:
                     'Install this app and enjoy your friend community',
             });
-            console.log("Share Action", result.action, Share.sharedAction)
+            //console.log("Share Action", result.action, Share.sharedAction)
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
                     // shared with activity type of result.activityType

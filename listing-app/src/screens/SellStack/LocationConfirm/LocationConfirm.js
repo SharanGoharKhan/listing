@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute, CommonActions } from '@react-navigation/native'
 import React, { useEffect, useState, useRef, useContext } from 'react'
 import { View, KeyboardAvoidingView, ScrollView, AsyncStorage } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -61,27 +61,52 @@ function LocationConfirm() {
         onError
     })
 
-    function onCompleted(data) {
-        console.log(onCompleted)
+    function onCompleted({ createItem, editItem }) {
         setLoader(false)
-        const item = data.createItem?? data.editItem
+        const item = createItem || editItem
         AsyncStorage.removeItem('formData')
-        navigation.navigate('AdPosting', { item: item })
+
+        if (editItem) {
+            navigation.dispatch(state => {
+                return CommonActions.reset({
+                    state: {
+                        ...state,
+                        routeNames: ['Ads']
+                    },
+                    routes: [{ name: 'MainAds' }],
+                    index: 0,
+                });
+            });
+        }
+        if (createItem) {
+            navigation.dispatch(state => {
+                console.log(state.routeNames)
+                return CommonActions.reset({
+                    state: {
+                        ...state,
+                        routeNames: ['Sell']
+                    },
+                    routes: [{ name: 'Sell' }],
+                    index: 0,
+                });
+            });
+        }
+        navigation.navigate('Home', { screen: 'AdPosting', params: { item: item } })
     }
 
     function onError(error) {
-        console.log(error)
+        //console.log(error)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         didFocus()
-    },[])
+    }, [])
 
     async function didFocus() {
         const formStr = await AsyncStorage.getItem('formData')
         const formObj = JSON.parse(formStr)
-        console.log('formObj',formObj)
-        setMutation(formObj.editStatus?EDIT_AD:CREATE_AD)
+        //console.log('formObj', formObj)
+        setMutation(formObj.editStatus ? EDIT_AD : CREATE_AD)
         setFormData(formObj)
     }
 
@@ -116,10 +141,10 @@ function LocationConfirm() {
                 method: 'POST'
             })
             const imageData = await result.json()
-            // console.log('imageData', imageData)
+            // //console.log('imageData', imageData)
             return imageData.secure_url
         } catch (e) {
-            console.log(e)
+            //console.log(e)
         }
     }
 
@@ -164,7 +189,7 @@ function LocationConfirm() {
                 }
             })
             .catch(error => {
-                console.log(error)
+                //console.log(error)
             })
     }
 
@@ -263,40 +288,40 @@ function LocationConfirm() {
             {/* </View> */}
 
             <View style={styles.buttonView}>
-                {!delivery_address?<EmptyButton loading={locLoading} disabled={!locLoading} title={formData?.editStatus? 'Update Ad' : 'Save Ad'} />:
-                <EmptyButton
-                    loading={loader}
-                    title={formData?.editStatus? 'Update Ad' : 'Save Ad'}
-                    onPress={async () => {
-                        setLoader(true)
-                        let imageUrl = formData.image
-                        if(formData.newImage){
-                            imageUrl = await uploadImageToCloudinary(formData.image)
-                        }
-                        const address = {
-                            latitude: region.latitude.toString(),
-                            longitude: region.longitude.toString(),
-                            address: delivery_address
-                        }
-                        if (!!formData) {
-                            mutate({
-                                variables: {
-                                    item: {
-                                        _id: formData.id,
-                                        zone: formData.location.value,
-                                        user: profile._id,
-                                        address: address,
-                                        images: [imageUrl],
-                                        title: formData.title,
-                                        description: formData.description,
-                                        condition: formData.condition,
-                                        subCategory: formData.subCategory,
-                                        price: Number(formData.price)
+                {!delivery_address ? <EmptyButton loading={locLoading} disabled={!locLoading} title={formData?.editStatus ? 'Update Ad' : 'Save Ad'} /> :
+                    <EmptyButton
+                        loading={loader}
+                        title={formData?.editStatus ? 'Update Ad' : 'Save Ad'}
+                        onPress={async () => {
+                            setLoader(true)
+                            let imageUrl = formData.image
+                            if (formData.newImage) {
+                                imageUrl = await uploadImageToCloudinary(formData.image)
+                            }
+                            const address = {
+                                latitude: region.latitude.toString(),
+                                longitude: region.longitude.toString(),
+                                address: delivery_address
+                            }
+                            if (!!formData) {
+                                mutate({
+                                    variables: {
+                                        item: {
+                                            _id: formData.id,
+                                            zone: formData.location.value,
+                                            user: profile._id,
+                                            address: address,
+                                            images: [imageUrl],
+                                            title: formData.title,
+                                            description: formData.description,
+                                            condition: formData.condition,
+                                            subCategory: formData.subCategory,
+                                            price: Number(formData.price)
+                                        }
                                     }
-                                }
-                            })
-                        }
-                    }} />}
+                                })
+                            }
+                        }} />}
             </View>
 
             {/* </View> */}

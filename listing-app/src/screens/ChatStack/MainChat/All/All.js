@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
-import { Image, View, TouchableOpacity, FlatList } from 'react-native';
+import { View, TouchableOpacity, FlatList } from 'react-native';
+import Image from 'react-native-image-progress';
 import { EmptyButton, TextDefault } from '../../../../components';
 import { alignment, colors, scale } from '../../../../utilities';
 import styles from './styles';

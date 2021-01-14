@@ -1,7 +1,8 @@
 import { gql, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import React, { useLayoutEffect, useState, useEffect } from 'react';
-import { FlatList, Image, TouchableOpacity, View, AsyncStorage, RefreshControl } from 'react-native';
+import { FlatList, TouchableOpacity, View, AsyncStorage, RefreshControl } from 'react-native';
+import Image from 'react-native-image-progress';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { categories, nearByItems } from '../../../apollo/server';
 import { LocationModal, MainHeader, Spinner, TextDefault, TextError } from '../../../components';

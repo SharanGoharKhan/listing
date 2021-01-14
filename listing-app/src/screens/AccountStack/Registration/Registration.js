@@ -41,19 +41,19 @@ function Registration() {
             await setTokenAsync(data.login.token)
             navigation.goBack()
         } catch (e) {
-            console.log(e)
+            //console.log(e)
         } finally {
             setLoading(false)
         }
     }
-    console.log("profile",profile)
+    //console.log("profile",profile)
     function onError(error) {
         try {
-            console.log('graphql', error.message)
+            //console.log('graphql', error.message)
             FlashMessage({ message: error.message, type: 'warning', position: 'top' })
             setLoginButton(null)
         } catch (e) {
-            console.log(e)
+            //console.log(e)
         } finally {
             setLoading(false)
         }
@@ -67,14 +67,14 @@ function Registration() {
                 permissions: ['public_profile', 'email']
             }
         )
-        console.log('Token: ', token)
+        //console.log('Token: ', token)
         if (type === 'success') {
             // Get the user's name using Facebook's Graph API
             const response = await fetch(
                 `https://graph.facebook.com/me?access_token=${token}&fields=email,name`
             )
             const user = await response.json()
-            console.log(token, user)
+            //console.log(token, user)
             return user
         }
     }
@@ -113,7 +113,7 @@ function Registration() {
             }
             mutate({ variables: { ...user, notificationToken } })
         } catch (e) {
-            console.log(e)
+            //console.log(e)
         } finally {
         }
     }

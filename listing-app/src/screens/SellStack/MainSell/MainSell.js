@@ -1,6 +1,7 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useLayoutEffect } from 'react';
-import { FlatList, TouchableOpacity, View, Image } from 'react-native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
+import Image from 'react-native-image-progress';
 import { FlashMessage, LeftButton, TextDefault, Spinner, TextError } from '../../../components';
 import { useQuery, gql } from '@apollo/client'
 import { colors } from '../../../utilities';

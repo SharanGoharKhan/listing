@@ -11,14 +11,14 @@ function Profile() {
     const { profile } = useContext(UserContext)
     
     async function share() {
-        console.log('share')
+        //console.log('share')
         try {
             const result = await Share.share({
                 title: 'App link',
                 message:
                     'Install this app and enjoy your friend community',
             });
-            console.log("Share Action", result.action, Share.sharedAction)
+            //console.log("Share Action", result.action, Share.sharedAction)
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
                     // shared with activity type of result.activityType

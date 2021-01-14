@@ -1,7 +1,8 @@
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useLayoutEffect } from 'react';
-import { FlatList, Image, TouchableOpacity, View } from 'react-native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
+import Image from 'react-native-image-progress';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextDefault } from '../../../components';
 import { alignment, colors, scale } from '../../../utilities';

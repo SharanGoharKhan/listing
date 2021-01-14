@@ -34,7 +34,7 @@ function EditProfile() {
     }
 
     function onError(error) {
-        console.log('edit profile error', JSON.stringify(error))
+        //console.log('edit profile error', JSON.stringify(error))
     }
 
     const PHONE_DATA = {
@@ -93,7 +93,7 @@ function EditProfile() {
             setPhoneError('Phone Number must be between 9-13')
             result = false
         }
-        console.log('Res: ', result)
+        //console.log('Res: ', result)
         return result
     }
 

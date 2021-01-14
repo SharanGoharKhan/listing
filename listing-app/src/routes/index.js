@@ -70,6 +70,7 @@ function HomeTabs() {
     return (
         <HomeStack.Navigator initialRouteName='Main' headerMode='screen' screenOptions={StackOptions()}>
             <HomeStack.Screen name='Main' component={HomeScreens.MainHome} />
+            <HomeStack.Screen name='AdPosting' component={SellScreens.AdPosting} />
             <HomeStack.Screen name='Categories' component={HomeScreens.Categories} />
             <HomeStack.Screen name='SubCategories' component={HomeScreens.SubCategories} />
             <HomeStack.Screen name='ProductListing' component={HomeScreens.ProductListing} />
@@ -99,15 +100,14 @@ function ChatTabs() {
 
 function SellTabs() {
     return (
-        <SellStack.Navigator initialRouteName='Home' screenOptions={StackOptions()}>
-            <SellStack.Screen name='Home' component={SellScreens.MainSell} />
+        <SellStack.Navigator initialRouteName='Sell' screenOptions={StackOptions()}>
+            <SellStack.Screen name='Sell' component={SellScreens.MainSell} />
             <SellStack.Screen name='Categories' component={SellScreens.Categories} options={{ title: 'Choose a category' }} />
             <SellStack.Screen name='SubCategories' component={SellScreens.SubCategories} />
             <SellStack.Screen name='SellingForm' component={SellScreens.SellingFrom} options={{ title: 'Include some details' }} />
             <SellStack.Screen name='UploadImage' component={SellScreens.UploadImage} />
             <SellStack.Screen name='Price' component={SellScreens.Price} />
             <SellStack.Screen name='LocationConfirm' component={SellScreens.LocationConfirm} />
-            <SellStack.Screen name='AdPosting' component={SellScreens.AdPosting} />
             <SellStack.Screen name='FullMap' component={HomeScreens.FullMap} />
             <SellStack.Screen name='ProductDescription' component={ProdcutMap} options={{headerShown:false}}  />
         </SellStack.Navigator>
@@ -158,7 +158,7 @@ function AccountTabs() {
     )
 }
 function ProdcutMap() {
-    console.log('ProdcutMap')
+    //console.log('ProdcutMap')
     return (
         <ProductStack.Navigator initialRouteName='ProductDescription' screenOptions={StackOptions()}>
             <ProductStack.Screen name='ProductDescription' component={HomeScreens.ProductDescription} />

@@ -2,7 +2,8 @@ import { FontAwesome, SimpleLineIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect, useContext } from 'react';
 import { useMutation, gql } from '@apollo/client'
-import { Image, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
+import Image from 'react-native-image-progress';
 import { addToFavourites } from '../../../../apollo/server'
 import { TextDefault, Spinner } from '../../../../components';
 import { colors, scale } from '../../../../utilities';

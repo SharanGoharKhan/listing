@@ -1,14 +1,13 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import React, { useLayoutEffect, useState, useContext } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import {
-    Image, Switch, Text, TextInput, View, KeyboardAvoidingView, Keyboard, TouchableOpacity,
-    PixelRatio, StyleSheet
+    Image, Switch, TextInput, View, KeyboardAvoidingView, Keyboard, TouchableOpacity
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CountryPicker from 'react-native-country-picker-modal';
-import { EmptyButton, FlashMessage, ModalHeader, TextDefault } from '../../../components'
+import { EmptyButton, FlashMessage, TextDefault } from '../../../components'
 import UserContext from '../../../context/user';
-import { alignment, colors, scale, textStyles, fontStyles } from '../../../utilities'
+import { alignment, colors,  textStyles } from '../../../utilities'
 import styles from './styles'
 
 
