@@ -2,8 +2,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
-import Image from 'react-native-image-progress';
+import { FlatList, TouchableOpacity, View, Image } from 'react-native';
 import { categories } from '../../../apollo/server';
 import { Spinner, TextDefault, TextError } from '../../../components';
 import { alignment, colors, scale } from '../../../utilities';
@@ -26,6 +25,7 @@ function Categories() {
                 <Image
                     style={styles.emptyImage}
                     source={require('../../../assets/images/emptyView/noData.png')}
+                    defaultSource={require('../../../assets/images/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png')}
                 />
                 <TextDefault H5 center bold style={alignment.MTlarge}>
                     {'No category found.'}
@@ -58,6 +58,7 @@ function Categories() {
                                 <Image
                                     style={styles.imgResponsive}
                                     source={{ uri: item.image }}
+                                    defaultSource={require('../../../assets/images/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png')}
                                 />
                             </View>
                             <TextDefault H5 style={styles.fontText}>

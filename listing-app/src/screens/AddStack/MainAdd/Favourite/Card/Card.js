@@ -2,8 +2,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useState, useEffect } from 'react';
 import { useMutation, gql } from '@apollo/client'
-import { TouchableOpacity, View } from 'react-native';
-import Image from 'react-native-image-progress';
+import { TouchableOpacity, View, Image } from 'react-native';
 import { TextDefault, Spinner } from '../../../../../components';
 import { colors, scale } from '../../../../../utilities';
 import ConfigurationContext from '../../../../../context/configuration'
@@ -42,6 +41,7 @@ function Card(props) {
                     source={{ uri: props.images[0] }}
                     resizeMode="cover"
                     style={styles.imgResponsive}
+                    defaultSource={require('../../../../../assets/images/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png')}
                 />
                 <View activeOpacity={0}
                     style={styles.heartContainer}>

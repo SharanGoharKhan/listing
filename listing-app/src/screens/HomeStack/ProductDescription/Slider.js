@@ -1,6 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
-import Image from 'react-native-image-progress';
+import { View, Image } from 'react-native'
 import Swiper from 'react-native-swiper'
 import styles from './style'
 
@@ -13,6 +12,7 @@ function Slider(props) {
                         style={styles.image}
                         source={{uri:item}}
                         resizeMode='cover'
+                        defaultSource={require('../../../assets/images/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png')}
                     />
                 </View>
             ))}

@@ -1,8 +1,7 @@
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState, useContext } from 'react'
-import { Platform, View } from 'react-native'
-import Image from 'react-native-image-progress';
+import { Platform, View, Image } from 'react-native'
 import { useMutation, gql } from '@apollo/client'
 import { BaseButton, BorderlessButton, RectButton } from 'react-native-gesture-handler'
 import { FlashMessage, TextDefault, Spinner } from '../../../../components'
@@ -111,6 +110,7 @@ function Card(props) {
                         <Image
                             source={{ uri: props.images[0] }}
                             style={styles.imgResponsive}
+                            defaultSource={require('../../../../assets/images/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png')}
                         />
                         <View style={[styles.flex, styles.descriptionContainer]}>
                             <View>

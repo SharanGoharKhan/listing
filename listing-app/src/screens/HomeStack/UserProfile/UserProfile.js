@@ -1,7 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useLayoutEffect, useContext } from 'react'
-import { View } from 'react-native'
-import Image from 'react-native-image-progress';
+import { View, Image } from 'react-native'
 import { useMutation, gql, useQuery } from '@apollo/client'
 import { followUser, getUser } from '../../../apollo/server'
 import { EmptyButton, RightButton, TextDefault, Spinner, TextError } from '../../../components'

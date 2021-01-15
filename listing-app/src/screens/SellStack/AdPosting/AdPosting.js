@@ -1,8 +1,7 @@
 import { SimpleLineIcons } from '@expo/vector-icons'
 import { StackActions, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect } from 'react'
-import { View, BackHandler } from 'react-native'
-import Image from 'react-native-image-progress';
+import { View, BackHandler, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { DisconnectButton, TextDefault } from '../../../components'
 import { alignment, colors, scale } from '../../../utilities'

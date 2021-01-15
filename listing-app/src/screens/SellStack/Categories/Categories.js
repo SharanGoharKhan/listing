@@ -1,8 +1,7 @@
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useLayoutEffect } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
-import Image from 'react-native-image-progress';
+import { FlatList, TouchableOpacity, View, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextDefault } from '../../../components';
 import { alignment, colors, scale } from '../../../utilities';
@@ -59,6 +58,7 @@ function Categories() {
                                     <Image
                                         style={styles.imgResponsive}
                                         source={item.image}
+                                        defaultSource={require('../../../assets/images/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png')}
                                     />
                                 </View>
                                 <TextDefault H5 style={styles.fontText}>

@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
-import { View, TouchableOpacity, FlatList } from 'react-native';
-import Image from 'react-native-image-progress';
+import { View, TouchableOpacity, FlatList, Image } from 'react-native';
 import { EmptyButton, TextDefault } from '../../../../components';
 import { alignment, colors, scale } from '../../../../utilities';
 import styles from './styles';
@@ -105,10 +104,12 @@ function ALL() {
                             <Image
                                 style={styles.image}
                                 source={item.addPic}
+                                defaultSource={require('../../../../assets/images/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png')}
                             />
                             <Image
                                 style={styles.profileImg}
                                 source={item.imaga}
+                                defaultSource={require('../../../../assets/images/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png')}
                             />
                         </View>
                         <View style={styles.infoContainer}>

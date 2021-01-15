@@ -143,7 +143,7 @@ function EditProfile() {
                                     <Image
                                         style={styles.imgResponsive}
                                         source={image ? { uri: image } : require('../../../assets/images/avatar.png')}
-
+                                        defaultSource={require('../../../assets/images/avatar.png')}
                                         resizeMode='cover'
                                     />
                                     <View style={{ position: 'absolute', bottom: 0, backgroundColor: 'rgba(30, 59, 250, 0.6)', width: "100%", height: scale(22), justifyContent: "center", alignItems: "center" }}>

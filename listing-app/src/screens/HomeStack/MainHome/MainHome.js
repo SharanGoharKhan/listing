@@ -1,8 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import React, { useLayoutEffect, useState, useEffect } from 'react';
-import { FlatList, TouchableOpacity, View, AsyncStorage, RefreshControl } from 'react-native';
-import Image from 'react-native-image-progress';
+import { FlatList, TouchableOpacity, View, AsyncStorage, RefreshControl, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { categories, nearByItems } from '../../../apollo/server';
 import { LocationModal, MainHeader, Spinner, TextDefault, TextError } from '../../../components';
@@ -155,6 +154,7 @@ function MainHome() {
                       <Image
                         style={styles.imgResponsive}
                         source={{ uri: item.image }}
+                        defaultSource={require('../../../assets/images/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png')}
                       />
                     </View>
                     <TextDefault numberOfLines={1} uppercase small light>

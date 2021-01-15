@@ -1,7 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useLayoutEffect } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
-import Image from 'react-native-image-progress';
+import { FlatList, TouchableOpacity, View, Image } from 'react-native';
 import { FlashMessage, LeftButton, TextDefault, Spinner, TextError } from '../../../components';
 import { useQuery, gql } from '@apollo/client'
 import { colors } from '../../../utilities';
@@ -39,6 +38,7 @@ function MainSell() {
                                 style={styles.imgResponsive}
                                 source={{uri:item.image}}
                                 resizeMode='cover'
+                                defaultSource={require('../../../assets/images/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png')}
                             />
                         </View>
                         <TextDefault light center>
