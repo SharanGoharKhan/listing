@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import { useMutation, gql } from '@apollo/client'
 import { validateFunc } from '../../constraints/constraints'
 
@@ -16,6 +16,7 @@ import {
     Col
 } from 'reactstrap'
 import { GoogleMap, Polygon } from '@react-google-maps/api'
+import { transformCoordinates, transformPath } from '../../utils/transform'
 
 // core components
 import { createZone, editZone, getZones } from '../../apollo/server'
@@ -35,9 +36,7 @@ const Zone = (props) => {
     const [description, setDescription] = useState(
         props.zone ? props.zone.description : ''
     )
-    const [polygon, setPolygon] = useState(
-        props.zone ? transformPolygon(props.zone.location.coordinates[0]) : []
-    )
+    const [path, setPath] = useState(props.zone ? transformCoordinates(props.zone.location.coordinates) : [])
     const [mutate, { loading }] = useMutation(mutation, {
         onCompleted,
         onError,
@@ -52,10 +51,11 @@ const Zone = (props) => {
             ? setCenter(props.zone.location.coordinates[0])
             : { lat: 33.684422, lng: 73.047882 }
     )
-    const polygonRef = useRef()
+    const polygonRef = useRef(null)
+    const listenersRef = useRef([]);
 
     const onClick = e => {
-        setPolygon([...polygon, { lat: e.latLng.lat(), lng: e.latLng.lng() }])
+        setPath([...path, { lat: e.latLng.lat(), lng: e.latLng.lng() }])
         console.log(e.latLng.lat(), e.latLng.lng())
     }
 
@@ -67,24 +67,49 @@ const Zone = (props) => {
         // this.setState({ [field + 'Error']: !validateFunc({ [field]: this.state[field] }, field) })
     }
 
-    function transformPolygon(coordinate) {
-        return coordinate.slice(0, coordinate.length - 1).map(item => {
-            return { lat: item[1], lng: item[0] }
-        })
-    }
+    // Call setPath with new edited path
+    const onEdit = useCallback(() => {
+        if (polygonRef.current) {
+            const nextPath = polygonRef.current
+                .getPath()
+                .getArray()
+                .map(latLng => {
+                    return { lat: latLng.lat(), lng: latLng.lng() };
+                });
+            setPath(nextPath);
+        }
+    }, [setPath]);
+
+    // Bind refs to current Polygon and listeners
+    const onLoadPolygon = useCallback(
+        polygon => {
+            polygonRef.current = polygon;
+            const path = polygon.getPath();
+            listenersRef.current.push(
+                path.addListener("set_at", onEdit),
+                path.addListener("insert_at", onEdit),
+                path.addListener("remove_at", onEdit)
+            );
+        },
+        [onEdit]
+    );
+
+    // Clean up refs
+    const onUnmount = useCallback(() => {
+        listenersRef.current.forEach(lis => lis.remove());
+        polygonRef.current = null;
+    }, []);
 
     const onSave = () => {
         var paths = polygonRef.current.state.polygon.getPaths()
         if (paths.i.length === 0) return
         const polygonBounds = paths.i[0].i
-        console.log('polygon', polygonBounds)
         var bounds = []
         for (var i = 0; i < polygonBounds.length; i++) {
             var point = [polygonBounds[i].lng(), polygonBounds[i].lat()]
             bounds.push(point)
         }
         bounds.push(bounds[0])
-        console.log('polygon array', bounds)
         return [bounds]
     }
 
@@ -95,16 +120,8 @@ const Zone = (props) => {
             'description'
         )
         let zoneErrors = true
-        var paths = polygonRef.current.state.polygon.getPaths()
-        if (paths.i.length === 0) {
-            zoneErrors = false
-            alert('Set Zone on Map')
-            setErrors('Set Zone on Map')
-            return false
-        }
-        console.log('paths length', paths.i[0].i.length)
 
-        if (paths.i[0].i.length < 3) {
+        if (path.length < 3) {
             zoneErrors = false
             setErrors('Please set 3 point to make zone')
         }
@@ -118,7 +135,7 @@ const Zone = (props) => {
         setDescription('')
         setTitleError(null)
         setDescriptionError(null)
-        setPolygon([])
+        setPath([])
     }
     const onCompleted = data => {
         if (!props.zone) clearFields()
@@ -240,10 +257,14 @@ const Zone = (props) => {
                                         center={center}
                                         onClick={onClick}>
                                         <Polygon
-                                            ref={polygonRef}
                                             draggable
                                             editable
-                                            paths={polygon}
+                                            paths={path}
+                                            onMouseUp={onEdit}
+                                            // Event used when dragging the whole Polygon
+                                            onDragEnd={onEdit}
+                                            // onLoad={onLoadPolygon}
+                                            onUnmount={onUnmount}
                                         />
                                     </GoogleMap>
                                 </Row>
@@ -257,9 +278,9 @@ const Zone = (props) => {
                                             onClick={async e => {
                                                 e.preventDefault()
                                                 if (onSubmitValidaiton()) {
-                                                    const coordinates = onSave()
-                                                    const t = transformPolygon(coordinates[0])
-                                                    setPolygon(t)
+                                                    // const coordinates = onSave()
+                                                    // const t = transformPolygon(path)
+                                                    // setPath(t)
                                                     // console.log(coordinates)
                                                     mutate({
                                                         variables: {
@@ -267,7 +288,7 @@ const Zone = (props) => {
                                                                 _id: props.zone ? props.zone._id : '',
                                                                 title,
                                                                 description,
-                                                                coordinates
+                                                                coordinates: transformPath(path)
                                                             }
                                                         }
                                                     })

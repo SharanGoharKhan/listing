@@ -76,10 +76,6 @@ function Zone(props) {
     }
   ]
 
-  if(!loading && !error){
-    console.log(data.zones)
-  }
-
   return (
     <>
       <Header />

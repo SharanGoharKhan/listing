@@ -80,7 +80,6 @@ function LocationConfirm() {
         }
         if (createItem) {
             navigation.dispatch(state => {
-                console.log(state.routeNames)
                 return CommonActions.reset({
                     state: {
                         ...state,

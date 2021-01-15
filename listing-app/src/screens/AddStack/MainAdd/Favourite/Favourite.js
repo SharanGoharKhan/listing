@@ -52,9 +52,10 @@ function Favourite() {
                 errorProfile ? <TextError text={errorProfile.message} textColor={colors.fontThirdColor} style={textStyles.Light} /> :
                     <FlatList
                         data={profile.likes || []}
+                        // || 
                         style={styles.flex}
                         contentContainerStyle={{ flexGrow: 1 }}
-                        keyExtractor={item => item.id}
+                        keyExtractor={item => item._id}
                         ListEmptyComponent={emptyView}
                         numColumns={2}
                         renderItem={({ item }) => (

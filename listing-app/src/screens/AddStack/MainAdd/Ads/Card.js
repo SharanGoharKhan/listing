@@ -137,7 +137,7 @@ function Card(props) {
                     </View>
                     <View style={styles.statusContainer}>
                         <View style={[styles.statusBox, props.status === 'DEACTIVATED' ? styles.deactivateStatus : props.status === 'ACTIVE' ? styles.activeStatus : props.status === 'SOLD' ? styles.soldStatus : styles.pendingStatus]}>
-                            <TextDefault textColor={(props.status === 'PENDING' || props.status === 'SOLD') ? colors.white : colors.fontMainColor} uppercase small bolder>
+                            <TextDefault textColor={(props.status === 'PENDING' || props.status === 'SOLD' || props.status === 'DEACTIVATED') ? colors.white : colors.fontMainColor} uppercase small bolder>
                                 {props.status}
                             </TextDefault>
                         </View>

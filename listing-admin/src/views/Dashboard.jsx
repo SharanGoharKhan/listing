@@ -98,13 +98,6 @@ const Dashboard = props => {
     }
   })
 
-  if (data) {
-    console.log('data:', data)
-  }
-
-  if (error) {
-    console.log('errror dashboard: ', error)
-  }
   // return <></>
   return (
     <>
