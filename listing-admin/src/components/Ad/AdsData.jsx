@@ -31,32 +31,33 @@ const AdsData = props => {
     return orderBy(rows, handleField, direction)
   }
 
-  const handleSort = (column, sortDirection) =>
+  const handleSort = (column, sortDirection) => {
     console.log(column.selector, sortDirection)
+  }
 
   const columns = [
     {
       name: 'Ad ID',
       sortable: true,
-      selector: 'orderId',
-      cell: row => (
-        <span className="mb-0 text-sm">{row.itemId}</span>
-      )
+      selector: 'itemId',
+      cell: row => <span className="mb-0 text-sm">{row.itemId}</span>
     },
     {
       name: 'Image',
       center: true,
       grow: 0,
-      cell: row => <>{
-        <img src={row.images[0]} className='img-fluid img-thumbnail' />
-      }</>
+      cell: row => (
+        <>{<img src={row.images[0]} className="img-fluid img-thumbnail" />}</>
+      )
     },
     {
       name: 'User',
       sortable: true,
       selector: 'user.name',
       cell: row => (
-        <>{`${row.user.name}\n${row.user.email}\n${row.user.showPhone ? row.user.phone : ''}`}</>
+        <>{`${row.user.name}\n${row.user.email}\n${
+          row.user.showPhone ? row.user.phone : ''
+        }`}</>
       )
     },
     {
@@ -76,9 +77,7 @@ const AdsData = props => {
     },
     {
       name: 'Address',
-      cell: row => (
-        <>{transformToNewline(row.address.address, 3)}</>
-      )
+      cell: row => <>{transformToNewline(row.address.address, 3)}</>
     }
   ]
 

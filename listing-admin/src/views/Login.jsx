@@ -60,7 +60,7 @@ const Login = props => {
               <small>{'Sign in credentials'}</small>
             </div>
             <div className="text-center">
-              <Link to="/auth/reset">{'Forget Password?'}</Link>
+              <Link to="/auth/reset">{'Forgot Password?'}</Link>
             </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
