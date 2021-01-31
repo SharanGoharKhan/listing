@@ -1,14 +1,15 @@
+import { gql, useQuery } from '@apollo/client';
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
-import { FlatList, Modal, TextInput, TouchableOpacity, View, KeyboardAvoidingView, AsyncStorage } from 'react-native';
-import { useQuery, gql } from '@apollo/client'
+import { FlatList, KeyboardAvoidingView, Modal, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { zones } from '../../../apollo/server';
 import { alignment, colors, scale } from '../../../utilities';
 import ModalHeader from '../../Header/ModalHeader/ModalHeader';
+import Spinner from '../../Spinner/Spinner';
 import { TextDefault } from '../../Text';
 import styles from './styles';
-import { zones } from '../../../apollo/server'
-import Spinner from '../../Spinner/Spinner';
 
 const GET_ZONES = gql`${zones}`
 

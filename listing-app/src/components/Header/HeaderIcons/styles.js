@@ -1,46 +1,46 @@
-import { Dimensions, StyleSheet } from 'react-native'
-import { alignment, colors, scale } from '../../../utilities'
-const { width, height } = Dimensions.get('window')
+import { Dimensions, StyleSheet } from "react-native";
+import { alignment, colors, scale } from "../../../utilities";
+const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   leftIconPadding: {
-    ...alignment.PLmedium,
-    ...alignment.PRlarge
+    ...alignment.PLxSmall,
+    ...alignment.PRxSmall,
   },
   rightIconPadding: {
     ...alignment.PLmedium,
-    ...alignment.PRsmall
+    ...alignment.PRsmall,
   },
   textIcon: {
     ...alignment.PLmedium,
-    ...alignment.PRsmall
+    ...alignment.PRsmall,
   },
   rightOuter: {
     height: "90%",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   rightContainer: {
-    height: '95%',
+    height: "95%",
     width: scale(140),
-    justifyContent: 'center',
+    justifyContent: "center",
     backgroundColor: colors.containerBox,
     ...alignment.MRsmall,
-    ...alignment.PLsmall
+    ...alignment.PLsmall,
   },
   shareBtn: {
     width: width * 0.5,
     backgroundColor: colors.containerBox,
-    position: 'absolute',
+    position: "absolute",
     right: scale(5),
-    ...alignment.Psmall
+    ...alignment.Psmall,
   },
   rightContainer: {
-    position: 'relative',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    ...alignment.PLxSmall
-  }
-})
+    position: "relative",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    ...alignment.PLxSmall,
+  },
+});
 
-export default styles
+export default styles;
