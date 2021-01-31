@@ -30,7 +30,6 @@ function LocationModal(props) {
   async function storageLocation() {
     const locationStr = await AsyncStorage.getItem("location");
     const locationObj = JSON.parse(locationStr);
-    console.log(locationObj);
     if (locationObj) {
       const location = { title: locationObj.label, ...locationObj, zone: null };
       props.setFilters(location);

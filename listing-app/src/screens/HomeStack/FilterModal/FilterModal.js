@@ -58,7 +58,7 @@ function FilterModal(props) {
               }}
               style={styles.backBtn}
             >
-              <Ionicons name="ios-arrow-back" size={scale(23)} color={colors.headerText} />
+              <Ionicons name="ios-arrow-back" size={scale(30)} color={colors.headerText} />
             </TouchableOpacity>
             <TextDefault H3 bold center style={styles.title}>
               {"Filter"}

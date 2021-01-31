@@ -62,7 +62,8 @@ export default function App() {
   useEffect(() => {
     if (!location) return;
     (async () => {
-      AsyncStorage.setItem("location", JSON.stringify(location));
+      let locationObj = JSON.stringify({ ...location, label: "Current Location" });
+      AsyncStorage.setItem("location", locationObj);
     })();
   }, [location]);
 

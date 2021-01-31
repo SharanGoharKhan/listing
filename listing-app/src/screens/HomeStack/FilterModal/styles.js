@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   headerContents: {
     flex: 1,
-    width: "90%",
+    width: "95%",
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
   },
   backBtn: {
     width: scale(40),
+    justifyContent: "center",
   },
 });
 

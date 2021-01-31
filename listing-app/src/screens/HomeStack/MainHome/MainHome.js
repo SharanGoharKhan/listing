@@ -3,7 +3,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { FlatList, Image, RefreshControl, TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { categories, nearByItems } from "../../../apollo/server";
 import { LocationModal, MainHeader, Spinner, TextDefault, TextError } from "../../../components";
 import SearchModal from "../../../components/Modal/SearchModal/SearchModal";
@@ -20,7 +19,6 @@ const GET_ITEMS = gql`
 const COLORS = ["#ffd54d", "#6df8f3", "#ff7a7a", "#d5b09f", "#eccbcb"];
 
 function MainHome() {
-  const inset = useSafeAreaInsets();
   const navigation = useNavigation();
   const [filters, setFilters] = useState({ title: "Current" });
   const [search, setSearch] = useState("");
@@ -35,10 +33,6 @@ function MainHome() {
     },
     fetchPolicy: "network-only",
   });
-
-  function onCompleted(data) {}
-
-  function onError(err) {}
 
   useLayoutEffect(() => {
     navigation.setOptions({
