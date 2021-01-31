@@ -1,16 +1,16 @@
-import { AsyncStorage } from 'react-native'
 import {
   ApolloClient,
   ApolloLink,
-  split,
+
   concat,
-  Observable,
-  createHttpLink
-} from '@apollo/client'
-import { getMainDefinition } from '@apollo/client/utilities'
-import { InMemoryCache } from '@apollo/client/cache'
-import { WebSocketLink } from '@apollo/client/link/ws'
-import getEnvVars from '../../environment'
+
+  createHttpLink, Observable, split
+} from '@apollo/client';
+import { InMemoryCache } from '@apollo/client/cache';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import getEnvVars from '../../environment';
 
 const { GRAPHQL_URL, WS_GRAPHQL_URL } = getEnvVars()
 

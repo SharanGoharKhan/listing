@@ -1,38 +1,38 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const PaymentTypeSchema = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     isActive: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   { timestamps: true }
-)
+);
 
 const userSchema = new Schema(
   {
     name: {
       type: String,
-      default: ''
+      default: "",
     },
     email: {
       type: String,
-      default: ''
+      default: "",
     },
     phone: {
       type: String,
-      default: ''
+      default: "",
     },
     password: {
       type: String,
-      default: ''
+      default: "",
     },
     facebookId: { type: String },
     appleId: { type: String },
@@ -40,59 +40,60 @@ const userSchema = new Schema(
     confirmationCode: { type: String },
     showEmail: {
       type: Boolean,
-      default: true
+      default: true,
     },
     showPhone: {
       type: Boolean,
-      default: true
+      default: true,
     },
-    countryCode:{
+    countryCode: {
       type: String,
-      default: 'PK'
+      default: "PK",
     },
-    callingCode:{
+    callingCode: {
       type: String,
-      default: '92'
+      default: "92",
     },
     description: {
-      type: String
+      type: String,
+      default: "",
     },
     isActive: {
       type: Boolean,
-      default: true
+      default: true,
     },
     notificationToken: {
-      type: String
+      type: String,
     },
     notifications: {
       type: [],
-      default: []
+      default: [],
     },
-    isOfferNotification:{
+    isOfferNotification: {
       type: Boolean,
-      default: false
+      default: false,
     },
     followers: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'User'
-      }
+        ref: "User",
+      },
     ],
     following: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'User'
-      }
+        ref: "User",
+      },
     ],
     likes: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Item'
-      }
-    ]
+        ref: "Item",
+      },
+    ],
   },
   { timestamps: true }
-)
+);
 
-module.exports = mongoose.model('PaymentType', PaymentTypeSchema)
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model("PaymentType", PaymentTypeSchema);
+module.exports = mongoose.model("User", userSchema);

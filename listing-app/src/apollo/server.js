@@ -274,6 +274,7 @@ export const profile = `
         name
         phone
         email
+        description
         notificationToken
         showPhone
         countryCode
@@ -357,6 +358,7 @@ export const profile = `
       name
       phone
       email
+      description
       notificationToken
       showPhone
       countryCode
