@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react';
-import { FlatList, TouchableOpacity, View, Image } from 'react-native';
+import { FlatList, Image, TouchableOpacity, View } from 'react-native';
 import { categories } from '../../../apollo/server';
 import { Spinner, TextDefault, TextError } from '../../../components';
 import { alignment, colors, scale } from '../../../utilities';

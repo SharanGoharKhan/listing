@@ -1,15 +1,15 @@
-import { useNavigation, useRoute } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import { gql, useQuery } from '@apollo/client';
 import { Entypo } from '@expo/vector-icons';
-import { View, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Keyboard, Platform, AsyncStorage } from 'react-native'
-import DropDownPicker from 'react-native-dropdown-picker';
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { EmptyButton, TextDefault, Spinner, TextError } from '../../../components'
-import ZoneModal from '../../../components/Modal/ZoneModal/ZoneModal'
-import { alignment, colors, scale } from '../../../utilities'
-import { zones, editAd } from '../../../apollo/server'
-import { gql, useQuery } from '@apollo/client'
-import styles from './styles'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { zones } from '../../../apollo/server';
+import { EmptyButton, Spinner, TextDefault, TextError } from '../../../components';
+import ZoneModal from '../../../components/Modal/ZoneModal/ZoneModal';
+import { alignment, colors, scale } from '../../../utilities';
+import styles from './styles';
 const GET_ZONES = gql`${zones}`
 const CONDITIONS = [
     {

@@ -1,11 +1,12 @@
-import { useNavigation, useRoute } from '@react-navigation/native'
-import React, { useEffect, useState, useContext } from 'react'
-import { Keyboard, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Platform, AsyncStorage } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import ConfigurationContext from '../../../context/configuration'
-import { EmptyButton, TextDefault } from '../../../components'
-import { alignment, colors, scale, textStyles } from '../../../utilities'
-import styles from './styles'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Keyboard, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { EmptyButton, TextDefault } from '../../../components';
+import ConfigurationContext from '../../../context/configuration';
+import { colors, scale, textStyles } from '../../../utilities';
+import styles from './styles';
 
 function Price() {
     const navigation = useNavigation()

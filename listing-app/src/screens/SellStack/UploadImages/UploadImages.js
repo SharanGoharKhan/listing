@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { Image, TouchableOpacity, View, AsyncStorage } from 'react-native'
-import styles from './styles'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import * as Permissions from 'expo-permissions'
-import { EmptyButton, FlashMessage, TextDefault } from '../../../components'
-import { colors, scale } from '../../../utilities'
 import { SimpleLineIcons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Device from 'expo-device';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import React, { useEffect, useState } from 'react';
+import { Image, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { EmptyButton, FlashMessage, TextDefault } from '../../../components';
+import { colors, scale } from '../../../utilities';
+import styles from './styles';
 
 function UploadImages() {
     const navigation = useNavigation()

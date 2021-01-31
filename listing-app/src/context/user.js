@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types'
-import React, { useState, useEffect } from 'react'
-import { AsyncStorage } from 'react-native'
-import { useLazyQuery, useApolloClient, gql } from '@apollo/client'
-import { profile } from '../apollo/server'
+import { gql, useApolloClient, useLazyQuery } from '@apollo/client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { profile } from '../apollo/server';
 
 const PROFILE = gql`
   ${profile}
