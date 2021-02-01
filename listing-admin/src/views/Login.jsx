@@ -59,9 +59,6 @@ const Login = props => {
             <div className="text-muted text-center mt-2 mb-3">
               <small>{'Sign in credentials'}</small>
             </div>
-            <div className="text-center">
-              <Link to="/auth/reset">{'Forgot Password?'}</Link>
-            </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
             <Form role="form">

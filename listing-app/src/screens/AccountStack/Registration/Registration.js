@@ -21,7 +21,7 @@ const LOGIN = gql`
 
 const { IOS_CLIENT_ID_GOOGLE, ANDROID_CLIENT_ID_GOOGLE } = getEnvVars();
 
-const icon = require("../../../assets/icon.png");
+const icon = require("../../../assets/Icon.png");
 
 function Registration() {
   const navigation = useNavigation();
