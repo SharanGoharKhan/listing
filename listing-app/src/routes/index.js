@@ -73,7 +73,7 @@ function HomeTabs() {
             <HomeStack.Screen name='AdPosting' component={SellScreens.AdPosting} />
             <HomeStack.Screen name='Categories' component={HomeScreens.Categories} />
             <HomeStack.Screen name='SubCategories' component={HomeScreens.SubCategories} />
-            <HomeStack.Screen name='ProductListing' component={HomeScreens.ProductListing} />
+            <HomeStack.Screen name='ProductListing' component={HomeScreens.ProductListing} options={{ title: 'Product Listing' }}/>
             <HomeStack.Screen name='Notifications' component={HomeScreens.Notifications} />
             <HomeStack.Screen name='UserProfile' component={HomeScreens.UserProfile} />
             <HomeStack.Screen name='ProductDescription' component={ProdcutMap} options={{headerShown:false}} />
