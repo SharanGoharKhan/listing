@@ -51,28 +51,28 @@ app.use(isAuth)
 
 app.get('/', function(req, res) {
   res.sendFile(
-    path.join(__dirname + '/static/food-delivery-landingPage/index.html')
+    path.join(__dirname + '/static/listing-landingPage/index.html')
   )
 })
 app.get('/privacy-policy', function(req, res) {
   res.sendFile(
     path.join(
-      __dirname + '/static/food-delivery-landingPage/privacy-policy.html'
+      __dirname + '/static/listing-landingPage/privacy-policy.html'
     )
   )
 })
 app.get('/chat', function(req, res) {
   res.sendFile(
     path.join(
-      __dirname + '/static/food-delivery-landingPage/food-delivery-chat.html'
+      __dirname + '/static/listing-landingPage/food-delivery-chat.html'
     )
   )
 })
 
 app.use('/dashboard', express.static(path.join(__dirname, '/build')))
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname + '/build/index.html'))
-// })
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/build/index.html'))
+})
 
 const server = new ApolloServer({
   typeDefs,
