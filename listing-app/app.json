@@ -2,9 +2,9 @@
   "expo": {
     "name": "listing-app",
     "slug": "listing-app",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon-ios.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -29,21 +29,28 @@
     },
     "notification": {
       "iosDisplayInForeground": true,
-      "color":"#a89732",
+      "color": "#a89732",
       "icon": "./assets/icon.png",
       "androidMode": "default",
-       "androidCollapsedTitle": "Listing"
+      "androidCollapsedTitle": "Listing"
     },
     "android": {
-      "versionCode": 1,
-      "package": "com.enatega.vendor",
+      "versionCode": 2,
+      "package": "com.listing.app",
       "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBt9S6e7ig5EkNiSXw3sCyX7kgo1gzPxl4"
         }
-      }
+      },
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
